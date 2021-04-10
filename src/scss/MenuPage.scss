@@ -1,0 +1,139 @@
+.menu-page {
+    width: 70%;
+    background: $slate;
+    height: 1200px;
+    overflow-y: scroll;
+    @include up($tablet) {
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: $charcoal;
+            border-radius: 10px;
+        }
+    }
+    @include down($tablet) {
+        width: 90%;
+    }
+    @include down($mini) {
+        width: 100%;
+    }
+
+    .hero {
+        @include up($mini) {
+            margin-bottom: 16px;
+        }
+    }
+
+    @include down($mini) {
+        .menu {
+            margin-top: -5px;
+        } 
+    }
+
+    .category-card {
+        @include up($mini) {
+            padding-left: 8px;
+            margin-bottom: 32px;
+        }
+        @include down($mini) {
+            &.collapsed-card {
+                border-bottom: 1px solid #C8C8C8;
+            }
+        }
+        .category-name-container {
+            margin-bottom: 8px;
+            background: none;
+            width: 100%;
+            border: none;
+            outline: none;
+            @include down($mini) {
+                margin-bottom: 0;
+                padding: 12px 16px 12px 8px;
+                background: $charcoal;
+            }
+            .category-name {
+                @include down($mini) {
+                    color: $pearl;
+                    letter-spacing: 1.25px;
+                }
+            }
+            .category-chevron-arrow {
+                height: 10px;
+                width: 15px;
+                @include up($mini) {
+                    display: none;
+                }
+
+                &.inverted {
+                    transform: rotate(180deg);
+                    animation: rotate 0.25s ease-in-out;
+                }
+                &.right-side-up {
+                    transform: rotate(360deg);
+                    animation: back 0.25s ease-in-out;
+                }
+                @keyframes rotate {
+                    0% {
+                        transform: rotate(0deg);
+                    }
+                    100% {
+                        transform: rotate(180deg);
+                    }
+                }
+                @keyframes back {
+                    0% {
+                        transform: rotate(180deg);
+                    }
+                    100% {
+                        transform: rotate(360deg);
+                    }
+                }
+            }
+        }
+        .category-img-and-menu {
+            @include up($mini) {
+                height: 300px;
+            }
+            .category-highlighted-img {
+                @include up($mini) {
+                    margin-bottom: 4px;
+                    width: 49%;
+                }
+            }
+            .menu-item-card {
+                position: relative;
+                width: 49%;
+                text-align: left;
+                padding: 15px 8px;
+                background: $pearl;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                margin-bottom: 3px;
+                @include down($mini) {
+                    width: 100%;
+                    margin-bottom: 1px;
+                    &:last-of-type {
+                        margin-bottom: 0;
+                    }
+                }
+                .menu-item-description {
+                    padding-right: 50px;
+                }
+                .item-chevron-arrow {
+                    height: 18px;
+                    width: 12px;
+                    position: absolute;
+                    right: 20px;
+                    top: 50%;
+                    transform: translate(0, -50%);
+                    @include down($mini) {
+                        height: 15px;
+                        width: 10px;
+                    }
+                }
+            }
+        }
+    }
+}

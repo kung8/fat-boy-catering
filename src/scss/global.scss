@@ -1,0 +1,82 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    line-height: 1.3;
+    font-family: Roboto;
+    letter-spacing: 1.5px;
+    color: $hitam;
+}
+
+h1, h2, h3, h4, h5 {
+    color: $hitam;
+}
+
+h1 {
+    font-size: 32px;
+    @include down($tablet) {
+        font-size: 28px;
+    }
+    @include down($mini) {
+        font-size: 24px;
+    }
+}
+
+h2 {
+    font-size: 28px;
+    @include down($tablet) {
+        font-size: 24px;
+    }
+    @include down($mini) {
+        font-size: 20px;
+    }
+}
+
+h3 {
+    font-size: 24px;
+    @include down($tablet) {
+        font-size: 20px;
+    }
+    @include down($mini) {
+        font-size: 18px;
+    }
+}
+
+h4 {
+    font-size: 20px;
+    @include down($tablet) {
+        font-size: 18px;
+    }
+    @include down($mini) {
+        font-size: 16px;
+    }
+}
+
+h5 {
+    font-size: 18px;
+    @include down($tablet) {
+        font-size: 16px;
+    }
+    @include down($mini) {
+        font-size: 14px;
+    }
+}
+
+span, p {
+    color: $charcoal;
+    font-size: 16px;
+    display: inline-block; 
+    @include down($tablet) {
+        font-size: 14px;
+    }
+    @include down($mini) {
+        font-size: 12px;
+    }
+    @include down($mobile) {
+        font-size: 10px;
+    }
+}
+
+img {
+    width: 100%;
+}

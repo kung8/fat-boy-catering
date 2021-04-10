@@ -1,0 +1,27 @@
+@import './scss/_variables';
+@import './scss/_breakpoint';
+@import './scss/global';
+@import './scss/layout';
+@import './scss/Navigation';
+@import './scss/MenuPage';
+@import './scss/StatusPage';
+@import './scss/Footer';
+
+.main {
+    width: 100vw;
+    height: 100vh;
+    background: $burnt;
+    overflow-y: scroll;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    &::-webkit-scrollbar-thumb {
+        display: none;
+    }
+    @include down($mini) {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}

@@ -1,0 +1,21 @@
+.footer {
+    width: 70%;
+    background: $slate;
+    @include down($tablet) {
+        width: 90%;
+    }
+    @include down($mini) {
+        width: 100%;
+    }
+
+    .trademark-container {
+        padding: 16px;
+        @include down($mini) {
+            text-align: center;
+            padding: 16px;
+        }
+        h5, span {
+            margin-bottom: 4px;
+        }
+    }
+}
