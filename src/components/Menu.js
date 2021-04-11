@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Footer from './Footer';
 import axios from 'axios';
 
 export default function Menu(props) {
@@ -29,7 +30,7 @@ export default function Menu(props) {
     }
 
     const getMenuPageData = async () => {
-        const { data } = await axios.get('/api/page/menu');
+        const { data } = await axios.get('/api/menu');
         const { hero, menu } = data;
         updateHero(hero);
         await updateMenu(menu);
@@ -57,6 +58,10 @@ export default function Menu(props) {
         }
     }
 
+    const routeToMenuItem = (id) => {
+        props.history.push('/' + id);
+    }
+
     const mapMenu = () => {
         return (
             <div className="menu">
@@ -75,7 +80,7 @@ export default function Menu(props) {
                                 {menuItems.map(item => {
                                     const { id, name, description } = item;
                                     return (
-                                        <button key={id} className="menu-item-card">
+                                        <button key={id} className="menu-item-card" onClick={() => routeToMenuItem(id)}>
                                             <h4>{name}</h4>
                                             {description && <p className="menu-item-description">{description}</p>}
                                             <svg className="item-chevron-arrow" viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.684322 0.261289L0.22601 0.790717C0.0753511 0.974183 0 1.18846 0 1.43306C0 1.6827 0.0753511 1.89443 0.22601 2.0686L3.19558 5.49998L0.226096 8.93133C0.0754366 9.10547 8.5718e-05 9.31725 8.5718e-05 9.56679C8.5718e-05 9.81151 0.0754366 10.0257 0.226096 10.2092L0.684408 10.7317C0.839112 10.9106 1.0245 11 1.24041 11C1.46035 11 1.64364 10.9105 1.79025 10.7317L5.76785 6.13547C5.92257 5.96595 6 5.75424 6 5.5C6 5.25053 5.9226 5.03633 5.76785 4.85761L1.79025 0.261313C1.63951 0.0871458 1.45624 0 1.24041 0C1.02853 -2.47955e-05 0.843242 0.087121 0.684322 0.261289Z" fill="black" /></svg>
@@ -94,6 +99,7 @@ export default function Menu(props) {
         <div className="menu-page" onScroll={() => checkHeight('.hero')}>
             <img src={hero} alt="hero" className="hero" />
             {mapMenu()}
+            <Footer/>
         </div>
     )
 }

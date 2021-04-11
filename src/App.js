@@ -1,7 +1,6 @@
 import './App.scss';
 import routes from './routes';
 import Navigation from './components/Navigation';
-import Footer from './components/Footer';
 import { useState } from 'react';
 
 function App() {
@@ -18,7 +17,6 @@ function App() {
     <div className="main col align-ctr">
       <Navigation isTransparent={isTransparent} />
       {routes({ checkHeight })}
-      <Footer />
     </div>
   )
 }

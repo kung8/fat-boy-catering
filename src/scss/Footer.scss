@@ -1,13 +1,4 @@
 .footer {
-    width: 70%;
-    background: $slate;
-    @include down($tablet) {
-        width: 90%;
-    }
-    @include down($mini) {
-        width: 100%;
-    }
-
     .trademark-container {
         padding: 16px;
         @include down($mini) {
