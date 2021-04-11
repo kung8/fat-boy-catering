@@ -17,23 +17,16 @@ export default function Menu(props) {
         handleScreenResize();
     }, [screenSize]);
 
-    const handleScreenResize = () => {
-        window.addEventListener('resize', async () => {
-            await getScreenWidth(screenSize);
-            initializeCollapse();
-        })
-    }
-
-    const getScreenWidth = async () => {
-        let width = window.screen.width;
-        await updateScreenSize(width);
-    }
-
     const getMenuPageData = async () => {
         const { data } = await axios.get('/api/menu');
         const { hero, menu } = data;
         updateHero(hero);
         await updateMenu(menu);
+    }
+
+    const getScreenWidth = async () => {
+        let width = window.screen.width;
+        await updateScreenSize(width);
     }
 
     const initializeCollapse = async () => {
@@ -44,6 +37,13 @@ export default function Menu(props) {
             newIsCollapsedArr[num] = bool;
         }
         await updateIsCollapsedArr(newIsCollapsedArr);
+    }
+
+    const handleScreenResize = () => {
+        window.addEventListener('resize', async () => {
+            await getScreenWidth();
+            await initializeCollapse();
+        });
     }
 
     const handleCollapse = async (index, bool) => {
@@ -99,7 +99,7 @@ export default function Menu(props) {
         <div className="menu-page" onScroll={() => checkHeight('.hero')}>
             <img src={hero} alt="hero" className="hero" />
             {mapMenu()}
-            <Footer/>
+            <Footer />
         </div>
     )
 }
