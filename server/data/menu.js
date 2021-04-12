@@ -9,22 +9,26 @@ module.exports = {
                 {
                     id: 0,
                     name: 'Personal Cheese Pizza',
-                    description: 'Fresh Basil? Jalapenos?'
+                    description: 'Fresh Basil? Jalapenos?',
+                    enabled: true
                 },
                 {
                     id: 1,
                     name: 'Personal Pepperoni Pizza',
-                    description: 'Fresh Basil? Jalapenos?'
+                    description: 'Fresh Basil? Jalapenos?',
+                    enabled: true
                 },
                 {
                     id: 2,
                     name: 'Personal Sausage Pizza',
-                    description: 'Fresh Basil? Jalapenos?'
+                    description: 'Fresh Basil? Jalapenos?',
+                    enabled: true
                 },
                 {
                     id: 3,
                     name: 'Skinny Pizza',
-                    description: 'Same as regular pizza but on a low carb tortilla. Request your toppings in the notes.'
+                    description: 'Same as regular pizza but on a low carb tortilla. Request your toppings in the notes.',
+                    enabled: true
                 }, 
             ]
         },
@@ -36,27 +40,32 @@ module.exports = {
                 {
                     id: 0,
                     name: 'PB&J',
-                    description: ''
+                    description: '',
+                    enabled: true
                 }, 
                 {
                     id: 1,
                     name: 'Grilled Cheese',
-                    description: ''
+                    description: '',
+                    enabled: true
                 }, 
                 {
                     id: 2,
                     name: 'Build Custom Sandwich',
-                    description: ''
+                    description: '',
+                    enabled: true
                 }, 
                 {
                     id: 3,
                     name: 'The Big Al',
-                    description: 'Ham, turkey, roast beef, pastrami, bacon, cheddar, swiss, pepper jack, lettuce, tomato, and pickles.'
+                    description: 'Ham, turkey, roast beef, pastrami, bacon, cheddar, swiss, pepper jack, lettuce, tomato, and pickles.',
+                    enabled: true
                 }, 
                 {
                     id: 4,
                     name: 'Hamburger',
-                    description: ''
+                    description: '',
+                    enabled: true
                 }, 
             ]
         },
@@ -68,22 +77,26 @@ module.exports = {
                 {
                     id: 0,
                     name: 'Veggie Snack Box',
-                    description: ''
+                    description: '',
+                    enabled: true
                 },
                 {
                     id: 1,
                     name: 'Pita and Hummus',
-                    description: ''
+                    description: '',
+                    enabled: true
                 },
                 {
                     id: 2,
                     name: 'Apple and Cheese',
-                    description: ''
+                    description: '',
+                    enabled: true
                 },
                 {
                     id: 3,
                     name: 'Apple and Peanut Butter',
-                    description: ''
+                    description: '',
+                    enabled: true
                 },
             ]
         },

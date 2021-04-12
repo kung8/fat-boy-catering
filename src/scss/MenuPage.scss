@@ -93,9 +93,6 @@
             }
         }
         .category-img-and-menu {
-            @include up($mini) {
-                height: 360px;
-            }
             .category-highlighted-img {
                 @include up($mini) {
                     margin-bottom: 4px;
