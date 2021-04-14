@@ -20,9 +20,7 @@ module.exports = {
     getMenuItem: async (req, res) => {
         const db = req.app.get('db');
         const { id } = req.params;
-        console.log(id)
         const [item] = await db.menu_items.get_specific_item({ id });
-        console.log(item);
         res.send(item);
     },
 
