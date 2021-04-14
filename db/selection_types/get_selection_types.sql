@@ -1,0 +1,1 @@
+SELECT * FROM selection_types;

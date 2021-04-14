@@ -8,6 +8,7 @@ const express = require('express');
 
 const menuCtrl = require('./controllers/menuController');
 const adminCtrl = require('./controllers/menuController');
+const menu = require('./data/menu');
 
 const app = express();
 app.use(express.json());
@@ -24,6 +25,7 @@ massive(CONNECTION_STRING).then(db => {
         SocketCtrl.socketListeners(socket, db, io);
     });
 
+    app.put('/api/menu/:id', menuCtrl.updateMenuItemEnabled);
     app.get('/api/menu/:id', menuCtrl.getMenuItem);
     app.get('/api/menu', menuCtrl.getMenuPage);
 });

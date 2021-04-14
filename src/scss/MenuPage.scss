@@ -93,6 +93,7 @@
             }
         }
         .category-img-and-menu {
+            width: 100%;
             .category-highlighted-img {
                 @include up($mini) {
                     margin-bottom: 4px;

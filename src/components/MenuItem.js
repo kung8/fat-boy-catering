@@ -7,11 +7,14 @@ export default function MenuItem(props) {
 
     useEffect(() => {
         getMenuItemData();
+        // eslint-disable-next-line
     }, [])
 
-    const getMenuItemData = () => {
+    const getMenuItemData = async () => {
         let id = props.match.params.id;
-        let { data } = axios.get('/api/menu/' + id);
+        let { data } = await axios.get('/api/menu/' + id);
+        console.log(data);
+        updateMenuItem(data);
     }
 
     return (
