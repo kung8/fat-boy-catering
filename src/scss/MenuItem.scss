@@ -1,0 +1,108 @@
+.menu-item-page {
+    width: 70%;
+    background: $slate;
+    overflow-y: scroll;
+    @include down($tablet) {
+        width: 90%;
+    }
+    @include down($mini) {
+        width: 100%;
+    }
+    .placeholder {
+        height: 250px;
+        @include down($mobile) {
+            height: 200px;
+        }
+    }
+    .menu-item-name-container {
+        background: $pearl;
+        position: relative;
+        .item-chevron-arrow {
+            transform: rotate(180deg) translate(0, 50%);
+            height: 30px;
+            width: 14px;
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            @include down($mini) {
+                height: 24px;
+                width: 15px;
+            }
+        }
+        .menu-item-name {
+            padding: 20px;
+            padding-left: 60px;
+        }
+    }
+    .selection-notes-and-qty-container {
+        margin-top: 16px;
+        .selection-container {
+            padding-left: 24px;
+            margin-bottom: 24px;
+            .selection-name {
+                font-size: 28px;
+                margin-bottom: 8px;
+            }
+            .selector-list {
+                .ingredient-item {
+                    &.checkbox-type {
+                        input {
+                            display: none;
+                        }
+                        input {
+                            & + *::before {
+                                content: "";
+                                display: inline-block;
+                                vertical-align: middle;
+                                width: 24px;
+                                height: 24px;
+                                border: solid 1.5px $check;
+                                margin-right: 10px;
+                                box-sizing: border-box;
+                                background: $pearl;
+                                cursor: pointer;
+                            }
+                            &:checked + *::before {
+                                content: "✓";
+                                color: white;
+                                text-align: center;
+                                background: $ocean;
+                                border-color: $ocean;
+                            }
+                        }
+                        span {
+                            font-size: 20px;
+                            margin-bottom: 16px;
+                            color: $mantle;
+                            cursor: pointer;
+                        }
+                    }
+                    &.radio-type {
+                        margin-bottom: 16px;
+                        input {
+                            height: 24px;
+                            width: 24px;
+                            margin-right: 10px;
+                            border: 10px solid grey;
+                            cursor: pointer;
+                        }
+                        label {
+                            font-size: 20px;
+                            color: $mantle;
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .add-to-cart-button {
+        background: #FF9432;
+        color: $pearl;
+        border: none;
+        outline: none;
+        padding: 12px;
+        width: 100%;
+        font-size: 40px;
+    }
+}

@@ -21,7 +21,25 @@ module.exports = {
         const db = req.app.get('db');
         const { id } = req.params;
         const [item] = await db.menu_items.get_specific_item({ id });
-        res.send(item);
+
+        let range = [5, 10];
+
+        if (item.range === 1) {
+            range = [10, 15];
+        }
+
+        item.range = range;
+
+        let selections = await db.selections.get_selections_for_menu_item({ id });
+        let selectionsWithIngredients = await selections.map(async group => {
+            const ingredients = await db.ingredients.get_ingredients_for_selection({ id: group.id });
+            group.ingredients = ingredients;
+            return group;
+        });
+        Promise.all(selectionsWithIngredients).then(() => {
+            item.selections = selections;
+            res.send(item);
+        })
     },
 
     updateMenuItemEnabled: async (req, res, next) => {
