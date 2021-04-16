@@ -189,7 +189,7 @@ VALUES
         (3, 4, false, true),
 
         -- select cheese for grilled cheese --
-        (4, 5, false, true), 
+        (4, 5, true, true), 
         (4, 6, false, true), 
         (4, 7, false, true), 
 
@@ -227,13 +227,13 @@ VALUES
         (9, 3, false, true),
         (9, 4, false, true), 
         -- select meat for big al --
-        (10, 8, false, true),
-        (10, 9, false, true),
-        (10, 10, false, true),
+        (10, 8, true, true),
+        (10, 9, true, true),
+        (10, 10, true, true),
         (10, 11, false, true), 
-        (10, 12, false, true), 
+        (10, 12, true, true), 
         (10, 13, false, true), 
-        (10, 14, false, true), 
+        (10, 14, true, true), 
         -- select cheese for big al -- 
         (11, 5, false, true), 
         (11, 6, false, true), 
@@ -259,7 +259,7 @@ VALUES
         (13, 22, false, true),
 
         -- select cheese for cheeseburger -- 
-        (14, 5, false, true), 
+        (14, 5, true, true), 
         (14, 6, false, true), 
         (14, 7, false, true), 
         -- select toppings for cheeseburger -- 
@@ -279,7 +279,7 @@ VALUES
         (16, 22, false, true), 
 
         -- select dip for veggie snack box -- 
-        (17, 23, false, true),
+        (17, 23, true, true),
         (17, 24, false, true),
 
         -- select meat for meat & cheese rolls --
@@ -301,7 +301,7 @@ VALUES
         (20, 22, false, true),
 
         -- select tea for hot teas -- 
-        (21, 25, false, true),
+        (21, 25, true, true),
         (21, 26, false, true),
         (21, 27, false, true),
         (21, 28, false, true),
@@ -322,7 +322,7 @@ VALUES
         (23, 35, false, true),
 
         -- select size for espressso --
-        (24, 36, false, true), 
+        (24, 36, true, true), 
         (24, 37, false, true), 
         -- select condiments for espresso -- 
         (25, 31, false, true),

@@ -13,9 +13,7 @@ module.exports = {
 
         Promise.all(catWithMenuItems).then(menu => {
             res.send({ menu, hero });
-        })
-
-
+        });
     },
     getMenuItem: async (req, res) => {
         const db = req.app.get('db');
@@ -39,10 +37,10 @@ module.exports = {
         Promise.all(selectionsWithIngredients).then(() => {
             item.selections = selections;
             res.send(item);
-        })
+        });
     },
 
-    updateMenuItemEnabled: async (req, res, next) => {
+    updateMenuItemEnabled: async (req, res) => {
         const db = req.app.get('db');
         const { item } = req.body;
         const { id } = req.params;
