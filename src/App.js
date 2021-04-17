@@ -4,7 +4,7 @@ import Navigation from './components/Navigation';
 import { useState } from 'react';
 
 function App() {
-  const [isTransparent, updateIsTransparent] = useState(false);
+  const [isTransparent, updateIsTransparent] = useState(true);
   const [cartNum, updateCartNum] = useState(0);
 
   const checkHeight = (element) => {

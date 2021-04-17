@@ -126,8 +126,8 @@ export default function Menu(props) {
     }
 
     return (
-        <Loading loaded={isLoaded}>
-            <div className="menu-page" onScroll={() => checkHeight('.hero')}>
+        <Loading loaded={isLoaded} checkHeight={checkHeight} image='.hero'>
+            <div className="menu-page">
                 <img src={hero} alt="hero" className="hero" />
                 {mapMenu()}
                 <Footer />

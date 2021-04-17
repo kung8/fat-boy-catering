@@ -1,4 +1,14 @@
 .loading-page {
+    width: 70%;
+    overflow-y: scroll;
+    background: $slate;
+    overflow-x: hidden;
+    @include down($tablet) {
+        width: 90%;
+    }
+    @include down($mini) {
+        width: 100%;
+    }
     .loader {
         border: 16px solid #f3f3f3; /* Light grey */
         border-top: 16px solid #3498db; /* Blue */

@@ -1,9 +1,6 @@
 .menu-page {
-    width: 70%;
-    background: $slate;
-    height: 1200px;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    width: 100%;
+    
     @include up($tablet) {
         &::-webkit-scrollbar {
             width: 6px;
@@ -12,12 +9,6 @@
             background: $charcoal;
             border-radius: 10px;
         }
-    }
-    @include down($tablet) {
-        width: 90%;
-    }
-    @include down($mini) {
-        width: 100%;
     }
 
     .hero {

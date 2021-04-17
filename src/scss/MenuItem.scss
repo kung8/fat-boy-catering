@@ -1,13 +1,5 @@
 .menu-item-page {
-    width: 70%;
-    background: $slate;
-    overflow-y: scroll;
-    @include down($tablet) {
-        width: 90%;
-    }
-    @include down($mini) {
-        width: 100%;
-    }
+    width: 100%;
     .placeholder {
         height: 250px;
         @include down($mobile) {
