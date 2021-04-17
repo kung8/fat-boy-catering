@@ -11,6 +11,11 @@
         h1 {
             color: $hitam;
         }
+        .cart-container {
+            .cart-num {
+                opacity: 1;
+            }
+        }
     }
     @include down($tablet) {
         width: 90%;
