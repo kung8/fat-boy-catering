@@ -9,6 +9,7 @@ export default function MenuItem(props) {
     const [selected, updateSelected] = useState({});
     const [qty, updateQty] = useState(1);
     const [isLoaded, updateIsLoaded] = useState(false);
+    const [instructions, updateInstructions] = useState(null);
 
     useEffect(() => {
         if (Object.keys(menuItem).length === 0) {
@@ -34,11 +35,11 @@ export default function MenuItem(props) {
             selection.ingredients.forEach(item => {
                 if (item.preset) {
                     if (type === 2) {
-                        newArr.push(item.ingredient_id);
+                        newArr.push(item.name);
                     }
 
                     if (type === 1) {
-                        newArr = item.ingredient_id;
+                        newArr = item.name;
                     }
                 }
             })
@@ -48,17 +49,17 @@ export default function MenuItem(props) {
         updateSelected(selectionObj);
     }
 
-    const handleSelection = (index, id, radio) => {
+    const handleSelection = (index, name, radio) => {
         let selectedCopy = { ...selected };
         if (radio) {
-            selectedCopy[index] = id;
+            selectedCopy[index] = name;
         } else {
             let arr = selectedCopy[index];
-            if (arr.includes(id)) {
-                let pos = arr.findIndex(item => item === id);
+            if (arr.includes(name)) {
+                let pos = arr.findIndex(item => item === name);
                 arr.splice(pos, 1);
             } else {
-                arr.push(id);
+                arr.push(name);
             }
             selectedCopy[index] = arr;
         }
@@ -76,18 +77,18 @@ export default function MenuItem(props) {
                             const { ingredient_id: ingredientId, enabled, name: ingredientName } = item;
                             if (enabled) {
                                 if (selectionType === 1) {
-                                    const boolean = selected && selected[index] && selected[index] === ingredientId;
+                                    const boolean = selected && selected[index] && selected[index] === ingredientName;
                                     return (
                                         <div key={ingredientId} className={`ingredient-item radio-type align-ctr `}>
-                                            <input className={`${boolean && 'checked'}`} type="radio" name={id} id={ingredientId} checked={boolean} value={ingredientId} onChange={() => handleSelection(index, ingredientId, true)} />
+                                            <input className={`${boolean && 'checked'}`} type="radio" name={id} id={ingredientId} checked={boolean} value={ingredientId} onChange={() => handleSelection(index, ingredientName, true)} />
                                             <label htmlFor={ingredientId}>{ingredientName}</label>
                                         </div>
                                     )
                                 } else {
-                                    const boolean = selected && selected[index] && selected[index].includes(ingredientId);
+                                    const boolean = selected && selected[index] && selected[index].includes(ingredientName);
                                     return (
                                         <label key={ingredientId} className="ingredient-item checkbox-type align-ctr" htmlFor={ingredientId}>
-                                            <input checked={boolean} className={`${boolean && 'checked'}`} type="checkbox" name="checkbox" id={ingredientId} value={ingredientId} onChange={() => handleSelection(index, ingredientId)} />
+                                            <input checked={boolean} className={`${boolean && 'checked'}`} type="checkbox" name="checkbox" id={ingredientId} value={ingredientId} onChange={() => handleSelection(index, ingredientName)} />
                                             <span>{ingredientName}</span>
                                         </label>
                                     )
@@ -102,8 +103,8 @@ export default function MenuItem(props) {
     }
 
     return (
-        <div className="menu-item-page">
-            <Loading loaded={isLoaded}>
+        <Loading loaded={isLoaded}>
+            <div className="menu-item-page">
                 {
                     image ?
                         <img className="item-image" src={image} alt={name} /> :
@@ -118,7 +119,7 @@ export default function MenuItem(props) {
                 </div>
                 <div className="special-instructions-container">
                     <h2 className="special-instructions-text">Special Instructions</h2>
-                    <textarea className="special-instructions" placeholder="e.g. No peppers, alergies to peanuts, etc." name="" id="" cols="30" rows="10"></textarea>
+                    <textarea className="special-instructions" placeholder="e.g. No peppers, alergies to peanuts, etc." name="instructions" id="instructions" value={instructions} onChange={(e) => updateInstructions(e.target.value)}></textarea>
                 </div>
                 <div className="quantity-container">
                     <h2 className="quantity-text">Quantity</h2>
@@ -134,7 +135,7 @@ export default function MenuItem(props) {
                 </div>
                 <button className="add-to-cart-button">Add To Cart</button>
                 <Footer />
-            </Loading>
-        </div>
+            </div>
+        </Loading>
     )
 }
