@@ -4,7 +4,7 @@ import axios from 'axios';
 import Loading from './Loading';
 
 export default function Menu(props) {
-    const { checkHeight } = props;
+    const { checkHeight, updateCartNum } = props;
     const [hero, updateHero] = useState('');
     const [menu, updateMenu] = useState([]);
     const [isCollapsedArr, updateIsCollapsedArr] = useState([]);
@@ -13,12 +13,19 @@ export default function Menu(props) {
     const [isLoaded, updateIsLoaded] = useState(false);
 
     useEffect(() => {
+        getSessionStorage();
         getMenuPageData();
         getScreenWidth();
         initializeCollapse();
         handleScreenResize();
         // eslint-disable-next-line
     }, [screenSize]);
+
+    const getSessionStorage = async () => {
+        let cart = await sessionStorage.getItem('cart');
+        cart = Object.keys(JSON.parse(cart));
+        await updateCartNum(cart.length);
+    }
 
     const getMenuPageData = async () => {
         const { data } = await axios.get('/api/menu');

@@ -24,14 +24,30 @@
         color: $pearl;
         cursor: pointer;
     }
-    .cart {
-        cursor: pointer;
-        color: $pearl;
-        height: 26px;
-        width: 24px;
-        @include up($mini) {
-            height: 40px;
-            width: 32px;
+    .cart-container {
+        position: relative;
+        .cart {
+            cursor: pointer;
+            color: $pearl;
+            height: 26px;
+            width: 24px;
+            @include up($mini) {
+                height: 40px;
+                width: 32px;
+            }
+        }
+        .cart-num {
+            position: absolute;
+            top: 0;
+            right: 0;
+            transform: translate(30%, -30%);
+            font-size: 8px;
+            color: $pearl;
+            background: $salmon;
+            opacity: 65%;
+            border-radius: 100%;
+            padding: 4px;
+            text-align: center;
         }
     }
 }

@@ -4,19 +4,27 @@ import Footer from './Footer';
 import Loading from './Loading';
 
 export default function MenuItem(props) {
+    const { updateCartNum } = props;
     const [menuItem, updateMenuItem] = useState({});
     const { image, name, enabled, description, desc_enabled, id, range, selections } = menuItem;
     const [selected, updateSelected] = useState({});
     const [qty, updateQty] = useState(1);
     const [isLoaded, updateIsLoaded] = useState(false);
-    const [instructions, updateInstructions] = useState(null);
+    const [instructions, updateInstructions] = useState('');
 
     useEffect(() => {
+        getSessionStorage();
         if (Object.keys(menuItem).length === 0) {
             getMenuItemData();
         }
         // eslint-disable-next-line
     }, [])
+
+    const getSessionStorage = async () => {
+        let cart = await sessionStorage.getItem('cart');
+        cart = Object.keys(JSON.parse(cart));
+        await updateCartNum(cart.length);
+    }
 
     const getMenuItemData = async () => {
         let id = props.match.params.id;
@@ -64,6 +72,42 @@ export default function MenuItem(props) {
             selectedCopy[index] = arr;
         }
         updateSelected(selectedCopy);
+    }
+
+    const addToCart = async () => {
+        let cart = sessionStorage.getItem('cart');
+        cart = JSON.parse(cart);
+
+        if (!cart) {
+            cart = {};
+        }
+
+        let num = Object.keys(cart).length;
+
+        let item = {
+            selections: loopThroughSelection(),
+            qty,
+            instructions
+        }
+
+        cart[num] = item;
+        cart = JSON.stringify(cart);
+        sessionStorage.setItem('cart', cart);
+
+        props.history.push('/');
+    }
+
+    const loopThroughSelection = () => {
+        let selections = []
+        for (let key in selected) {
+            let data = selected[key];
+            if ((typeof data).toLowerCase() === 'string') {
+                selections = [...selections, data];
+            } else {
+                selections = [...selections, ...data];
+            }
+        }
+        return selections;
     }
 
     const displaySelections = () => {
@@ -133,7 +177,7 @@ export default function MenuItem(props) {
                         </button>
                     </div>
                 </div>
-                <button className="add-to-cart-button">Add To Cart</button>
+                <button className="add-to-cart-button" onClick={() => addToCart()}>Add To Cart</button>
                 <Footer />
             </div>
         </Loading>

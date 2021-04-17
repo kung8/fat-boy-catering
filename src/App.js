@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 function App() {
   const [isTransparent, updateIsTransparent] = useState(false);
+  const [cartNum, updateCartNum] = useState(0);
 
   const checkHeight = (element) => {
     let elementHeight = document.querySelector(element).getBoundingClientRect().bottom;
@@ -15,8 +16,8 @@ function App() {
 
   return (
     <div className="main col align-ctr">
-      <Navigation isTransparent={isTransparent} />
-      {routes({ checkHeight })}
+      <Navigation isTransparent={isTransparent} cartNum={cartNum} />
+      {routes({ checkHeight, updateCartNum })}
     </div>
   )
 }
