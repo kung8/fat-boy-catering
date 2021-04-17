@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Footer from './Footer';
 import axios from 'axios';
+import Loading from './Loading';
 
 export default function Menu(props) {
     const { checkHeight } = props;
@@ -9,6 +10,7 @@ export default function Menu(props) {
     const [isCollapsedArr, updateIsCollapsedArr] = useState([]);
     const mini = 700;
     const [screenSize, updateScreenSize] = useState(window.screen.width);
+    const [isLoaded, updateIsLoaded] = useState(false);
 
     useEffect(() => {
         getMenuPageData();
@@ -23,6 +25,7 @@ export default function Menu(props) {
         const { hero, menu } = data;
         updateHero(hero);
         await updateMenu(menu);
+        await updateIsLoaded(true);
     }
 
     const getScreenWidth = async () => {
@@ -116,10 +119,12 @@ export default function Menu(props) {
     }
 
     return (
-        <div className="menu-page" onScroll={() => checkHeight('.hero')}>
-            <img src={hero} alt="hero" className="hero" />
-            {mapMenu()}
-            <Footer />
-        </div>
+        <Loading loaded={isLoaded}>
+            <div className="menu-page" onScroll={() => checkHeight('.hero')}>
+                <img src={hero} alt="hero" className="hero" />
+                {mapMenu()}
+                <Footer />
+            </div>
+        </Loading>
     )
 }

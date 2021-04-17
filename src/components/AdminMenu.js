@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Footer from './Footer';
 import axios from 'axios';
+import Loading from './Loading';
 
 export default function AdminMenu(props) {
     const { checkHeight } = props;
@@ -9,6 +10,7 @@ export default function AdminMenu(props) {
     const [isCollapsedArr, updateIsCollapsedArr] = useState([]);
     const mini = 700;
     const [screenSize, updateScreenSize] = useState(window.screen.width);
+    const [isLoaded, updateIsLoaded] = useState(false);
 
     useEffect(() => {
         getMenuPageData();
@@ -23,6 +25,7 @@ export default function AdminMenu(props) {
         const { hero, menu } = data;
         updateHero(hero);
         await updateMenu(menu);
+        await updateIsLoaded(true);
     }
 
     const getScreenWidth = async () => {
@@ -125,11 +128,13 @@ export default function AdminMenu(props) {
     }
 
     return (
-        <div className="admin-menu-page menu-page col align-ctr" onScroll={() => checkHeight('.hero')}>
-            <img src={hero} alt="hero" className="hero" />
-            {mapMenu()}
-            <button className="add-category-group-button">+ Add Category Group</button>
-            <Footer />
-        </div>
+        <Loading loaded={isLoaded}>
+            <div className="admin-menu-page menu-page col align-ctr" onScroll={() => checkHeight('.hero')}>
+                <img src={hero} alt="hero" className="hero" />
+                {mapMenu()}
+                <button className="add-category-group-button">+ Add Category Group</button>
+                <Footer />
+            </div>
+        </Loading>
     )
 }
