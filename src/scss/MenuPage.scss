@@ -108,6 +108,11 @@
                         margin-bottom: 0;
                     }
                 }
+                .menu-item-name {
+                    @include down($mobile) {
+                        font-size: 14px;
+                    }
+                }
                 .menu-item-description {
                     padding-right: 50px;
                 }

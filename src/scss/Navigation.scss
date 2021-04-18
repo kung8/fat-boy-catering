@@ -43,7 +43,7 @@
         }
         .cart-num {
             position: absolute;
-            top: 0;
+            top: 5px;
             right: 0;
             transform: translate(30%, -30%);
             font-size: 8px;
@@ -51,8 +51,11 @@
             background: $salmon;
             opacity: 65%;
             border-radius: 100%;
-            padding: 4px;
+            padding: 3px 4px;
             text-align: center;
+            @include down($mini) {
+                top: 0;
+            }
         }
     }
 }

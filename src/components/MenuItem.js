@@ -22,8 +22,10 @@ export default function MenuItem(props) {
 
     const getSessionStorage = async () => {
         let cart = await sessionStorage.getItem('cart');
-        cart = Object.keys(JSON.parse(cart));
-        await updateCartNum(cart.length);
+        if (cart) {
+            cart = Object.keys(JSON.parse(cart));
+            await updateCartNum(cart.length);
+        }
     }
 
     const getMenuItemData = async () => {
