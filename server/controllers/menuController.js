@@ -15,6 +15,9 @@ module.exports = {
             res.send({ menu, hero });
         });
     },
+    getAdminMenuPage: async (req, res) => {
+        
+    },
     getMenuItem: async (req, res) => {
         const db = req.app.get('db');
         const { id } = req.params;

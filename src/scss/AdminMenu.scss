@@ -3,98 +3,101 @@
         margin-bottom: 6px;
         width: 100%;
         .category-card {
-            .menu-item-card {
-                -webkit-tap-highlight-color: transparent;
-                @include down($mini) {
-                    &:last-of-type {
-                        margin-bottom: 1px;
+            .menu-item-container {
+                width: 100%;
+                .menu-item-card {
+                    -webkit-tap-highlight-color: transparent;
+                    @include down($mini) {
+                        &:last-of-type {
+                            margin-bottom: 1px;
+                        }
                     }
-                }
-                .radio-toggle-button {
-                    width: 60px;
-                    height: 30px;
-                    margin-right: 10px;
-                    border-radius: 16px;
-                    min-width: 60px;
-                    background: $grass;
-                    @include down($mobile) {
-                        height: 25px;
-                        width: 25px;
-                        min-width: 50px;
-                    }
-                    &.reversed {
-                        background: $stone;
-                        flex-direction: row-reverse;
+                    .radio-toggle-button {
+                        width: 60px;
+                        height: 30px;
+                        margin-right: 10px;
+                        border-radius: 16px;
+                        min-width: 60px;
+                        background: $grass;
+                        @include down($mobile) {
+                            height: 25px;
+                            width: 25px;
+                            min-width: 50px;
+                        }
+                        &.reversed {
+                            background: $stone;
+                            flex-direction: row-reverse;
+                            .circle-button {
+                                margin-right: 0;
+                                margin-left: 2px;
+                            }
+                            .button-text {
+                                margin-left: 0;
+                                margin-right: 4px;
+                            }
+                        }
                         .circle-button {
-                            margin-right: 0;
-                            margin-left: 2px;
+                            height: 26px;
+                            width: 26px;
+                            background: $pearl;
+                            border-radius: 100%;
+                            min-width: 26px;
+                            margin-right: 2px;
+                            @include down($mobile) {
+                                width: 21px;
+                                height: 21px;
+                                min-width: 21px;
+                            }
                         }
                         .button-text {
-                            margin-left: 0;
-                            margin-right: 4px;
+                            color: $pearl;
+                            letter-spacing: 1.5px;
+                            margin-left: 10px;
+                            font-size: 12px;
+                            @include down($mobile) {
+                                font-size: 8px;
+                            }
                         }
                     }
-                    .circle-button {
-                        height: 26px;
-                        width: 26px;
-                        background: $pearl;
-                        border-radius: 100%;
-                        min-width: 26px;
-                        margin-right: 2px;
-                        @include down($mobile) {
-                            width: 21px;
-                            height: 21px;
-                            min-width: 21px;
+                    .menu-item-description {
+                        padding-right: 0;
+                        margin-top: 2px;
+                        @include down($mini) {
+                            width: 85%;
                         }
                     }
-                    .button-text {
-                        color: $pearl;
-                        letter-spacing: 1.5px;
-                        margin-left: 10px;
-                        font-size: 12px;
-                        @include down($mobile) {
-                            font-size: 8px;
+                    .category-chevron-arrow {
+                        position: absolute;
+                        right: 15px;
+                        height: 10px;
+                        width: 15px;
+                        @include up($mini) {
+                            display: none;
                         }
-                    }
-                }
-                .menu-item-description {
-                    padding-right: 0;
-                    margin-top: 2px;
-                    @include down($mini) {
-                        width: 85%;
-                    }
-                }
-                .category-chevron-arrow {
-                    position: absolute;
-                    right: 15px;
-                    height: 10px;
-                    width: 15px;
-                    @include up($mini) {
-                        display: none;
-                    }
-    
-                    &.inverted {
-                        transform: rotate(180deg);
-                        animation: rotate 0.25s ease-in-out;
-                    }
-                    &.right-side-up {
-                        transform: rotate(360deg);
-                        animation: back 0.25s ease-in-out;
-                    }
-                    @keyframes rotate {
-                        0% {
-                            transform: rotate(0deg);
-                        }
-                        100% {
+        
+                        &.inverted {
                             transform: rotate(180deg);
+                            animation: rotate 0.25s ease-in-out;
                         }
-                    }
-                    @keyframes back {
-                        0% {
-                            transform: rotate(180deg);
-                        }
-                        100% {
+                        &.right-side-up {
                             transform: rotate(360deg);
+                            animation: back 0.25s ease-in-out;
+                        }
+                        @keyframes rotate {
+                            0% {
+                                transform: rotate(0deg);
+                            }
+                            100% {
+                                transform: rotate(180deg);
+                            }
+                        }
+                        @keyframes back {
+                            0% {
+                                transform: rotate(180deg);
+                            }
+                            100% {
+                                transform: rotate(360deg);
+                            }
                         }
                     }
                 }

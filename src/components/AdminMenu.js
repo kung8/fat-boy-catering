@@ -23,8 +23,8 @@ export default function AdminMenu(props) {
         const { data } = await axios.get('/api/menu');
         const { hero, menu } = data;
         updateHero(hero);
-        await updateMenu(menu);
         await updateIsLoaded(true);
+        await updateMenu(menu);
         await initializeCollapse(menu);
     }
 
@@ -88,14 +88,11 @@ export default function AdminMenu(props) {
         let isCollapsedArrCopy = { ...isCollapsedArr };
         isCollapsedArrCopy[categoryIndex].menuItems[index] = bool;
         await updateIsCollapsedArr(isCollapsedArrCopy);
-        const itemNode = document.querySelector('.menu-item-selection-' + id);
 
         if (!bool) {
             document.getElementById('arrow-item-' + id).classList.add('right-side-up');
-            itemNode.classList.remove('none');
         } else {
             document.getElementById('arrow-item-' + id).classList.remove('right-side-up');
-            itemNode.classList.add('none');
         }
     }
 
@@ -140,7 +137,7 @@ export default function AdminMenu(props) {
 
     const displayMenuItem = (menuItems, index) => {
         return menuItems.map((item, itemIndex) => {
-            const { id, name, description, enabled, image } = item;
+            const { id, name, description, enabled, image, selections } = item;
             const collapsed = isCollapsedArr && isCollapsedArr[index] && isCollapsedArr[index].menuItems && isCollapsedArr[index].menuItems[itemIndex];
 
             return (
@@ -161,14 +158,18 @@ export default function AdminMenu(props) {
                             onClick={() => handleItemCollapse(index, itemIndex, !isCollapsedArr[index].menuItems[itemIndex], id, item)}
                             viewBox="0 0 11 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.7387 0.684322L10.2093 0.22601C10.0258 0.0753511 9.81154 0 9.56694 0C9.3173 0 9.10557 0.0753511 8.9314 0.22601L5.50002 3.19558L2.06867 0.226096C1.89453 0.0754366 1.68275 8.5718e-05 1.43321 8.5718e-05C1.18849 8.5718e-05 0.974257 0.0754366 0.790766 0.226096L0.268287 0.684408C0.0893961 0.839112 0 1.0245 0 1.24041C0 1.46035 0.089495 1.64364 0.268263 1.79025L4.86453 5.76785C5.03405 5.92257 5.24576 6 5.5 6C5.74947 6 5.96367 5.9226 6.14239 5.76785L10.7387 1.79025C10.9129 1.63951 11 1.45624 11 1.24041C11 1.02853 10.9129 0.843242 10.7387 0.684322Z" fill="black" /></svg>
                     </button>
-                    <div className={`menu-item-selection-${id} none`}>
+                    <div className={`menu-item-selection-${id} ${collapsed && 'none'}`}>
                         {
                             image ?
                                 <img id="item-image" className="item-image" src={image} alt={name} /> :
                                 <div id="item-image" className="placeholder"></div>
                         }
                         <div className="selections-container">
-                            {/* {displaySelections(selections)} */}
+                            {selections && selections.map(selection => {
+                                return (
+                                    <div>{selection.selection_name}</div>
+                                )
+                            })}
                         </div>
                     </div>
                 </div>

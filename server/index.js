@@ -24,7 +24,8 @@ massive(CONNECTION_STRING).then(db => {
     io.on('connection', socket => {
         SocketCtrl.socketListeners(socket, db, io);
     });
-
+    
+    app.get('/api/menu/admin', menuCtrl.getAdminMenuPage);
     app.put('/api/menu/:id', menuCtrl.updateMenuItemEnabled);
     app.get('/api/menu/:id', menuCtrl.getMenuItem);
     app.get('/api/menu', menuCtrl.getMenuPage);
