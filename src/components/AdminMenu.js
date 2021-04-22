@@ -20,7 +20,7 @@ export default function AdminMenu(props) {
     }, [screenSize]);
 
     const getMenuPageData = async () => {
-        const { data } = await axios.get('/api/menu');
+        const { data } = await axios.get('/api/menu/admin');
         const { hero, menu } = data;
         updateHero(hero);
         await updateIsLoaded(true);
@@ -137,7 +137,7 @@ export default function AdminMenu(props) {
 
     const displayMenuItem = (menuItems, index) => {
         return menuItems.map((item, itemIndex) => {
-            const { id, name, description, enabled, image, selections } = item;
+            const { id, name, description, enabled, image } = item;
             const collapsed = isCollapsedArr && isCollapsedArr[index] && isCollapsedArr[index].menuItems && isCollapsedArr[index].menuItems[itemIndex];
 
             return (
@@ -165,11 +165,11 @@ export default function AdminMenu(props) {
                                 <div id="item-image" className="placeholder"></div>
                         }
                         <div className="selections-container">
-                            {selections && selections.map(selection => {
+                            {/* {selections && selections.map(selection => {
                                 return (
                                     <div>{selection.selection_name}</div>
                                 )
-                            })}
+                            })} */}
                         </div>
                     </div>
                 </div>

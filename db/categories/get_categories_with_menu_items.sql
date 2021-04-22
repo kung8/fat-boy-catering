@@ -1,4 +1,7 @@
-SELECT c.id as category_id, c.name as category_name, c.image as category_image, mi.id as id, mi.name, enabled, description, desc_enabled, range_id, mi.image   
+SELECT c.id as category_id, c.name as category_name, c.image as category_image, mi.id as id, mi.name, mi.enabled, description, desc_enabled, range_id, mi.image, s.id as selection_id, s.name as selection_name, selection_type_id, si.enabled as ingredient_enabled, preset, i.id as ingredient_id, i.name as ingredient_name   
 FROM categories c
 JOIN menu_items mi ON mi.category_id = c.id
-ORDER BY c.id ASC, mi.id ASC;
+LEFT JOIN selections s ON s.menu_item_id = mi.id
+LEFT JOIN selections_ingredients si ON si.selection_id = s.id
+LEFT JOIN ingredients i ON si.ingredient_id = i.id
+ORDER BY c.id ASC, mi.id ASC, s.id ASC;
