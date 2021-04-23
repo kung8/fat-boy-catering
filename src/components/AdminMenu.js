@@ -8,6 +8,7 @@ export default function AdminMenu(props) {
     const [hero, updateHero] = useState('');
     const [menu, updateMenu] = useState([]);
     const [isCollapsedArr, updateIsCollapsedArr] = useState({});
+    const [selected, updateSelected] = useState({});
     const mini = 700;
     const [screenSize, updateScreenSize] = useState(window.screen.width);
     const [isLoaded, updateIsLoaded] = useState(false);
@@ -23,9 +24,10 @@ export default function AdminMenu(props) {
         const { data } = await axios.get('/api/menu/admin');
         const { hero, menu } = data;
         updateHero(hero);
-        await updateIsLoaded(true);
         await updateMenu(menu);
+        await updateIsLoaded(true);
         await initializeCollapse(menu);
+        await createSelection(menu);
     }
 
     const getScreenWidth = async () => {
@@ -48,6 +50,60 @@ export default function AdminMenu(props) {
         })
 
         await updateIsCollapsedArr(newIsCollapsedArr);
+    }
+
+    const createSelection = async (arr) => {
+        let catObj = {};
+        await arr.forEach((cat, index) => {
+            let itemSelection = {};
+            cat.menuItems.forEach((item, itemIndex) => {
+                if (item.selections) {
+                    let selectionObj = {};
+                    item.selections.forEach((sel, selIndex) => {
+                        let selectionType = sel.selectionType;
+                        sel.ingredients.forEach(ing => {
+                            if (ing.preset && selectionType === 'check') {
+                                if (selectionObj[selIndex]) {
+                                    selectionObj[selIndex].push(ing.name);
+                                } else {
+                                    selectionObj[selIndex] = [ing.name];
+                                }
+                            } else if (ing.preset && selectionType === 'radio') {
+                                selectionObj[selIndex] = ing.name;
+                            }
+                        });
+                    })
+                    itemSelection[itemIndex] = selectionObj;
+                } else {
+                    itemSelection[itemIndex] = {};
+                }
+            })
+            catObj[index] = itemSelection;
+        });
+
+        updateSelected(catObj);
+    }
+
+    const handleSelection = (index, itemIndex, selIndex, name, radio) => {
+        let selectedCopy = { ...selected };
+        if (!radio) {
+            let arr = selectedCopy[index][itemIndex][selIndex];
+            if (!selectedCopy[index][itemIndex][selIndex]) {
+                arr = [];
+            }
+
+            if (arr.includes(name)) {
+                let pos = arr.findIndex(item => item === name);
+                arr.splice(pos, 1);
+            } else {
+                arr.push(name);
+            }
+
+            selectedCopy[index][itemIndex][selIndex] = arr;
+        } else {
+            selectedCopy[index][itemIndex][selIndex] = name;
+        }
+        updateSelected(selectedCopy);
     }
 
     const handleScreenResize = () => {
@@ -137,11 +193,10 @@ export default function AdminMenu(props) {
 
     const displayMenuItem = (menuItems, index) => {
         return menuItems.map((item, itemIndex) => {
-            const { id, name, description, enabled, image } = item;
+            const { id, name, description, enabled, image, selections } = item;
             const collapsed = isCollapsedArr && isCollapsedArr[index] && isCollapsedArr[index].menuItems && isCollapsedArr[index].menuItems[itemIndex];
-
             return (
-                <div id={'menu-item-' + id} className="menu-item-container">
+                <div key={name + '-' + id} id={'menu-item-' + id} className="menu-item-container">
                     <button id={'menu-item-button-' + id} key={id} className="menu-item-card align-ctr">
                         <div
                             className={`radio-toggle-button align-ctr flex-btwn ${!enabled && 'reversed'}`}
@@ -149,7 +204,7 @@ export default function AdminMenu(props) {
                             <span className="button-text">{enabled ? 'ON' : 'OFF'}</span>
                             <div className="circle-button"></div>
                         </div>
-                        <div>
+                        <div className="menu-item-name-and-description">
                             <h4 className="menu-item-name">{name}</h4>
                             {description && <p className="menu-item-description">{description}</p>}
                         </div>
@@ -164,49 +219,54 @@ export default function AdminMenu(props) {
                                 <img id="item-image" className="item-image" src={image} alt={name} /> :
                                 <div id="item-image" className="placeholder"></div>
                         }
-                        <div className="selections-container">
-                            {/* {selections && selections.map(selection => {
-                                return (
-                                    <div>{selection.selection_name}</div>
-                                )
-                            })} */}
-                        </div>
-                    </div>
-                </div>
-            )
-        })
-    }
-
-    const displaySelections = async (selections) => {
-        return selections.map((obj, index) => {
-            const { id, name, ingredients, selection_type_id: selectionType } = obj;
-            return (
-                <div key={id} className="selection-container">
-                    <h3 className="selection-name">{name}</h3>
-                    <div className="selector-list">
-                        {ingredients.map(item => {
-                            const { ingredient_id: ingredientId, enabled, name: ingredientName } = item;
-                            if (enabled) {
-                                if (selectionType === 1) {
-                                    // const boolean = selected && selected[index] && selected[index] === ingredientName;
-                                    // return (
-                                    //     <div key={ingredientId} className={`ingredient-item radio-type align-ctr `}>
-                                    //         <input className={`${boolean && 'checked'}`} type="radio" name={id} id={ingredientId} checked={boolean} value={ingredientId} onChange={() => handleSelection(index, ingredientName, true)} />
-                                    //         <label htmlFor={ingredientId}>{ingredientName}</label>
-                                    //     </div>
-                                    // )
-                                } else {
-                                    // const boolean = selected && selected[index] && selected[index].includes(ingredientName);
-                                    // return (
-                                    //     <label key={ingredientId} className="ingredient-item checkbox-type align-ctr" htmlFor={ingredientId}>
-                                    //         <input checked={boolean} className={`${boolean && 'checked'}`} type="checkbox" name="checkbox" id={ingredientId} value={ingredientId} onChange={() => handleSelection(index, ingredientName)} />
-                                    //         <span>{ingredientName}</span>
-                                    //     </label>
-                                    // )
-                                }
-                            }
-                            return null;
-                        })}
+                        {
+                            selections &&
+                            <div className="selections-container">
+                                {selections.map((selection, selIndex) => {
+                                    return (
+                                        <div key={selection.id} className="selection-container">
+                                            <h3 className="selection-name">{selection.name}</h3>
+                                            <div className="selector-list">
+                                                {selection && selection.ingredients.map(item => {
+                                                    let boolean = selected && selected[index] && selected[index][itemIndex] && selected[index][itemIndex][selIndex] && selected[index][itemIndex][selIndex].includes(item.name);
+                                                    if (selection.selectionType === 'radio') {
+                                                        return (
+                                                            <div key={item.ingredient_id} className="ingredient-item radio-type align-ctr">
+                                                                <input
+                                                                    type="radio"
+                                                                    checked={boolean}
+                                                                    name={selection.id}
+                                                                    id={selection.id + '-' + item.ingredient_id}
+                                                                    // value={item.ingredient_id}
+                                                                    className={`${boolean && 'checked'}`}
+                                                                    onChange={() => handleSelection(index, itemIndex, selIndex, item.name, true)} />
+                                                                <label htmlFor={selection.id + '-' + item.ingredient_id}>{item.name}</label>
+                                                            </div>
+                                                        )
+                                                    } else if (selection.selectionType === 'check') {
+                                                        return (
+                                                            <label key={item.ingredient_id} htmlFor={item.ingredient_id} className="ingredient-item checkbox-type align-ctr">
+                                                                <input
+                                                                    id={item.ingredient_id}
+                                                                    type="checkbox"
+                                                                    name={selection.id}
+                                                                    // value={item.ingredient_id}
+                                                                    checked={boolean}
+                                                                    className={`${boolean && 'checked'}`}
+                                                                    onChange={() => handleSelection(index, itemIndex, selIndex, item.name)}
+                                                                />
+                                                                <span>{item.name}</span>
+                                                            </label>
+                                                        )
+                                                    }
+                                                    return null;
+                                                })}
+                                            </div>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        }
                     </div>
                 </div>
             )

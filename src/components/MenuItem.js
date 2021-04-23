@@ -6,7 +6,7 @@ import Loading from './Loading';
 export default function MenuItem(props) {
     const { checkHeight, updateCartNum } = props;
     const [menuItem, updateMenuItem] = useState({});
-    const { image, name, enabled, description, desc_enabled, id, range, selections } = menuItem;
+    const { image, name, selections } = menuItem;
     const [selected, updateSelected] = useState({});
     const [qty, updateQty] = useState(1);
     const [isLoaded, updateIsLoaded] = useState(false);
@@ -125,7 +125,7 @@ export default function MenuItem(props) {
                                 if (selectionType === 1) {
                                     const boolean = selected && selected[index] && selected[index] === ingredientName;
                                     return (
-                                        <div key={ingredientId} className={`ingredient-item radio-type align-ctr `}>
+                                        <div key={ingredientId} className="ingredient-item radio-type align-ctr">
                                             <input className={`${boolean && 'checked'}`} type="radio" name={id} id={ingredientId} checked={boolean} value={ingredientId} onChange={() => handleSelection(index, ingredientName, true)} />
                                             <label htmlFor={ingredientId}>{ingredientName}</label>
                                         </div>

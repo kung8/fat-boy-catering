@@ -4,4 +4,4 @@ JOIN menu_items mi ON mi.category_id = c.id
 LEFT JOIN selections s ON s.menu_item_id = mi.id
 LEFT JOIN selections_ingredients si ON si.selection_id = s.id
 LEFT JOIN ingredients i ON si.ingredient_id = i.id
-ORDER BY c.id ASC, mi.id ASC, s.id ASC;
+ORDER BY c.id ASC, mi.id ASC, s.id ASC, i.id ASC;
