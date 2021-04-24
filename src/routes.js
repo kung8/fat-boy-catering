@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Menu from './components/Menu';
-import AdminMenu from './components/AdminMenu';
+import AdminMenu from './components/AdminMenu/AdminMenu';
 import MenuItem from './components/MenuItem';
 
 // const path = '/craft-menu/';

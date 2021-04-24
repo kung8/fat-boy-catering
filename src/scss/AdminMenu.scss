@@ -4,17 +4,34 @@
         width: 100%;
         .category-card {
             .menu-item-container {
-                width: 100%;
+                width: 49%;
+                @include down($mini) {
+                    width: 100%;
+                }
                 .menu-item-card {
                     -webkit-tap-highlight-color: transparent;
+                    width: 100%;
                     @include down($mini) {
                         &:last-of-type {
                             margin-bottom: 1px;
                         }
                     }
+                    .toggle-and-menu-item-name-container {
+                        min-width: 90%;
+                    }
                     .menu-item-name-and-description {
-                        @include down($mobile) {
+                        @include down($mini) {
                             width: 75%;
+                        }
+                        input.menu-item-name {
+                            border: none;
+                            outline: none;
+                            width: 100%;
+                            font-family: Roboto;
+                            font-weight: 700;
+                            @include up($mobile) {
+                                font-size: 16px;
+                            }
                         }
                     }
                     .menu-item-description {
