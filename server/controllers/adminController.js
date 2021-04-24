@@ -28,7 +28,7 @@ module.exports = {
                 name,
                 enabled,
                 description,
-                desc_enabled,
+                desc_enabled: desc_enabled === 'true' ? true : false,
                 range,
                 image
             };
@@ -64,18 +64,19 @@ module.exports = {
                         currentMenuItem = currentCategory.menuItems[0];
                     }
                 }
-
-                if (currentMenuItem.selections) {
-                    let selectionIndex = finalMenu[catIndex].menuItems[menuItemIndex].selections.findIndex(element => element.id === selection_id);
-                    if (selectionIndex > -1) {
-                        currentMenuItem.selections[selectionIndex].ingredients.push(ingredient)
+                if (selection_id) {
+                    if (currentMenuItem.selections) {
+                        let selectionIndex = finalMenu[catIndex].menuItems[menuItemIndex].selections.findIndex(element => element.id === selection_id);
+                        if (selectionIndex > -1) {
+                            currentMenuItem.selections[selectionIndex].ingredients.push(ingredient)
+                        } else {
+                            selections.ingredients = [ingredient];
+                            currentMenuItem.selections.push(selections);
+                        }
                     } else {
                         selections.ingredients = [ingredient];
-                        currentMenuItem.selections.push(selections);
+                        currentMenuItem.selections = [selections];
                     }
-                } else {
-                    selections.ingredients = [ingredient];
-                    currentMenuItem.selections = [selections];
                 }
 
                 finalMenu[catIndex].menuItems[menuItemIndex] = currentMenuItem;

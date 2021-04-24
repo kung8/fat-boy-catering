@@ -12,53 +12,6 @@
                             margin-bottom: 1px;
                         }
                     }
-                    .radio-toggle-button {
-                        width: 60px;
-                        height: 30px;
-                        margin-right: 10px;
-                        border-radius: 16px;
-                        min-width: 60px;
-                        background: $grass;
-                        @include down($mobile) {
-                            height: 25px;
-                            width: 25px;
-                            min-width: 50px;
-                        }
-                        &.reversed {
-                            background: $stone;
-                            flex-direction: row-reverse;
-                            .circle-button {
-                                margin-right: 0;
-                                margin-left: 2px;
-                            }
-                            .button-text {
-                                margin-left: 0;
-                                margin-right: 4px;
-                            }
-                        }
-                        .circle-button {
-                            height: 26px;
-                            width: 26px;
-                            background: $pearl;
-                            border-radius: 100%;
-                            min-width: 26px;
-                            margin-right: 2px;
-                            @include down($mobile) {
-                                width: 21px;
-                                height: 21px;
-                                min-width: 21px;
-                            }
-                        }
-                        .button-text {
-                            color: $pearl;
-                            letter-spacing: 1.5px;
-                            margin-left: 10px;
-                            font-size: 12px;
-                            @include down($mobile) {
-                                font-size: 8px;
-                            }
-                        }
-                    }
                     .menu-item-name-and-description {
                         @include down($mobile) {
                             width: 75%;
@@ -106,84 +59,245 @@
                         }
                     }
                 }
-                .selections-container {
-                    margin-top: 16px;
-                    .selection-container {
-                        padding-left: 24px;
-                        margin-bottom: 24px;
-                        @include down($mini) {
-                            padding-left: 16px;
-                        }
-                        @include down($mobile) {
-                            margin-bottom: 8px;
-                        }
-                        .selection-name {
-                            font-size: 28px;
-                            margin-bottom: 8px;
+                .item-image {
+                    margin-bottom: 16px;
+                }
+                .description-container {
+                    width: calc(100vw - 32px);
+                    background: $grey;
+                    padding: 8px;
+                    border: $stone 1px solid;
+                    margin-bottom: 12px;
+                    .description-heading {
+                        margin-bottom: 6px;
+                        .description-text {
+                            font-weight: 400;
+                            font-size: 20px;
                             @include down($mobile) {
-                                font-size: 20px;
+                                font-size: 18px;
                             }
                         }
-                        .selector-list {
-                            .ingredient-item {
-                                &.checkbox-type {
-                                    input {
-                                        display: none;
-                                        outline: none;
-                                    }
-                                    input {
-                                        & + *::before {
-                                            content: "";
-                                            display: inline-block;
-                                            vertical-align: middle;
-                                            width: 24px;
-                                            height: 24px;
-                                            border: solid 1.5px $check;
-                                            margin-right: 10px;
-                                            box-sizing: border-box;
-                                            background: $pearl;
-                                            cursor: pointer;
-                                        }
-                                        &:checked + *::before {
-                                            content: "✓";
-                                            color: white;
-                                            text-align: center;
-                                            background: $ocean;
-                                            border-color: $ocean;
-                                        }
-                                    }
-                                    span {
-                                        font-size: 20px;
-                                        margin-bottom: 16px;
-                                        color: $mantle;
-                                        cursor: pointer;
-                                        @include down($mobile) {
-                                            font-size: 16px;
-                                        }
-                                    }
-                                }
-                                &.radio-type {
-                                    margin-bottom: 16px;
-                                    input {
-                                        height: 24px;
-                                        width: 24px;
-                                        margin-right: 10px;
-                                        border: 10px solid grey;
-                                        cursor: pointer;
-                                    }
-                                    label {
-                                        font-size: 20px;
-                                        color: $mantle;
-                                        cursor: pointer;
-                                        @include down($mobile) {
-                                            font-size: 16px;
-                                        }
-                                    }
+                    }
+                    .description-box {
+                        width: 100%;
+                        min-width: 100%;
+                        max-width: 100%;
+                        max-height: 40px;
+                        min-height: 40px;
+                        background: $grey;
+                        border: none;
+                        outline: none;
+                        font-size: 14px;
+                        line-height: 1.35;
+
+                        @include down($mobile) {
+                            min-height: 65px;
+                            max-height: 65px;
+                        }
+                    }
+                }
+                .radio-toggle-button {
+                    width: 60px;
+                    height: 30px;
+                    margin-right: 10px;
+                    border-radius: 16px;
+                    min-width: 60px;
+                    background: $grass;
+                    @include down($mobile) {
+                        height: 25px;
+                        width: 25px;
+                        min-width: 50px;
+                    }
+                    &.description-toggle-button {
+                        margin-right: 0;
+                        height: 25px;
+                        .circle-button {
+                            height: 21px;
+                            width: 21px;
+                            min-width: 21px;
+                        }
+                        &.reversed {
+                            .button-text {
+                                margin-right: 8px;
+                                @include down($mobile) {
+                                    margin-right: 5px;
                                 }
                             }
                         }
                     }
+                    &.radio-and-check-toggle-button {
+                        min-width: 75px;
+                        margin-right: 0;
+                        @include down($mobile) {
+                            min-width: 60px;
+                        }
+
+                        .button-text {
+                            margin-left: 10px;
+                        }
+                        &.reversed {
+                            .button-text {
+                                margin-left: 0;
+                                margin-right: 6px;
+                            }
+                        }
+                    }
+                    &.reversed {
+                        background: $stone;
+                        flex-direction: row-reverse;
+                        .circle-button {
+                            margin-right: 0;
+                            margin-left: 2px;
+                        }
+                        .button-text {
+                            margin-left: 0;
+                            margin-right: 4px;
+                        }
+                    }
+                    .circle-button {
+                        height: 26px;
+                        width: 26px;
+                        background: $pearl;
+                        border-radius: 100%;
+                        min-width: 26px;
+                        margin-right: 2px;
+                        @include down($mobile) {
+                            width: 21px;
+                            height: 21px;
+                            min-width: 21px;
+                        }
+                    }
+                    .button-text {
+                        color: $pearl;
+                        letter-spacing: 1.5px;
+                        margin-left: 10px;
+                        font-size: 12px;
+                        @include down($mobile) {
+                            font-size: 8px;
+                        }
+                    }
                 }
+                .selections-container {
+                    width: calc(100vw - 32px);
+                    margin-bottom: 12px;
+                    .selection-container {
+                        background: $grey;
+                        border: $stone 1px solid;
+                        padding: 6px;
+                        margin-bottom: 12px;
+                        .selection-heading {
+                            width: 100%;
+                            background: $silver;
+                            box-shadow: 0px 0px 2px 0px $stone inset;
+                            padding: 6px 8px;
+                            margin-bottom: 4px;
+                            .selection-name {
+                                font-weight: 400;
+                            }
+                        }
+                        .selector-list {
+                            .ingredient-item {
+                                padding: 6px 8px;
+                                background: $silver;
+                                margin-bottom: 4px;
+                                box-shadow: 0px 0px 2px 0px $stone inset;
+                                input {
+                                    display: none;
+                                }
+                            }
+                            .ingredient-name {
+                                font-size: 16px;
+                                color: #161616;
+                            }
+                        }
+                        .add-item-btn {
+                            width: 100%;
+                            padding: 2px;
+                            outline: none;
+                            border: none;
+                            background: transparent;
+                            margin-bottom: 2px;
+                        }
+                    }
+                }
+                // .selections-container {
+                //     margin-top: 16px;
+                //     .selection-container {
+                //         padding-left: 24px;
+                //         margin-bottom: 24px;
+                //         @include down($mini) {
+                //             padding-left: 16px;
+                //         }
+                //         @include down($mobile) {
+                //             margin-bottom: 8px;
+                //         }
+                //         .selection-name {
+                //             font-size: 28px;
+                //             margin-bottom: 8px;
+                //             @include down($mobile) {
+                //                 font-size: 20px;
+                //             }
+                //         }
+                //         .selector-list {
+                //             .ingredient-item {
+                //                 &.checkbox-type {
+                //                     input {
+                //                         display: none;
+                //                         outline: none;
+                //                     }
+                //                     input {
+                //                         & + *::before {
+                //                             content: "";
+                //                             display: inline-block;
+                //                             vertical-align: middle;
+                //                             width: 24px;
+                //                             height: 24px;
+                //                             border: solid 1.5px $check;
+                //                             margin-right: 10px;
+                //                             box-sizing: border-box;
+                //                             background: $pearl;
+                //                             cursor: pointer;
+                //                         }
+                //                         &:checked + *::before {
+                //                             content: "✓";
+                //                             color: white;
+                //                             text-align: center;
+                //                             background: $ocean;
+                //                             border-color: $ocean;
+                //                         }
+                //                     }
+                //                     span {
+                //                         font-size: 20px;
+                //                         margin-bottom: 16px;
+                //                         color: $mantle;
+                //                         cursor: pointer;
+                //                         @include down($mobile) {
+                //                             font-size: 16px;
+                //                         }
+                //                     }
+                //                 }
+                //                 &.radio-type {
+                //                     margin-bottom: 16px;
+                //                     input {
+                //                         height: 24px;
+                //                         width: 24px;
+                //                         margin-right: 10px;
+                //                         border: 10px solid grey;
+                //                         cursor: pointer;
+                //                     }
+                //                     label {
+                //                         font-size: 20px;
+                //                         color: $mantle;
+                //                         cursor: pointer;
+                //                         @include down($mobile) {
+                //                             font-size: 16px;
+                //                         }
+                //                     }
+                //                 }
+                //             }
+                //         }
+                //     }
+                // }
             }
             .add-item-button {
                 background: #FF9432;
