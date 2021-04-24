@@ -39,7 +39,7 @@ module.exports = {
                 ingredients: []
             };
             const ingredient = {
-                ingredient_id,
+                id: ingredient_id,
                 name: ingredient_name,
                 preset,
                 enabled: ingredient_enabled

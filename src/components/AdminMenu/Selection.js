@@ -12,6 +12,7 @@ export default function Selection(props) {
                 {id && ingredients.map(ingredient => {
                     return (
                         <Ingredient
+                            key={'ingredient-' + ingredient.id}
                             selection={selection}
                             ingredient={ingredient}
                         />

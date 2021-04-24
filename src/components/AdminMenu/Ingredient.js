@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 export default function Ingredient(props) {
     const { ingredient, selection } = props;
     const { selectionType } = selection;
-    const { ingredient_id: id, name, preset, enabled } = ingredient;
+    const { id, name, preset, enabled } = ingredient;
     const [selected, updateSelected] = useState(preset);
 
     const handleSelection = (name, radio) => {

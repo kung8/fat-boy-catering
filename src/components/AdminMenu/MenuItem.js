@@ -53,7 +53,7 @@ export default function MenuItem(props) {
                 {selections.map(selection => {
                     return (
                         <Selection
-                            key={'selection-' + selection.selection_id}
+                            key={'selection-' + selection.id}
                             selection={selection}
                         />
                     )
