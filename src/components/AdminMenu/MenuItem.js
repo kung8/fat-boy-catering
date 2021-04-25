@@ -4,8 +4,9 @@ import Selection from './Selection';
 
 export default function MenuItem(props) {
     const { item, catIndex, catCollapsed, menuItemToggleFromAdmin } = props;
-    const { id, name, description, desc_enabled, enabled, image, selections } = item;
+    const { id, name, description, enabled, image, selections } = item;
     const [collapsed, updateCollasped] = useState(true);
+    const [editedItem, updateEditedItem] = useState(item);
 
     useEffect(() => {
         updateCollapsedWithCatChange();
@@ -47,14 +48,23 @@ export default function MenuItem(props) {
         await menuItemToggleFromAdmin(data);
     }
 
+    const handleEdit = async (prop, value) => {
+        const copy = { ...editedItem };
+        copy[prop] = value;
+        await updateEditedItem(copy);
+    }
+
     const displaySelections = () => {
         return (
             <div className="selections-container">
-                {selections.map(selection => {
+                {selections.map((selection, index) => {
                     return (
                         <Selection
                             key={'selection-' + selection.id}
                             selection={selection}
+                            index={index}
+                            handleEdit={handleEdit}
+                            editedItem={editedItem}
                         />
                     )
                 })}
@@ -66,7 +76,6 @@ export default function MenuItem(props) {
         <div id={'menu-item-' + id} className="menu-item-container">
             <button id={'menu-item-button-' + id} key={id} className="menu-item-card align-ctr flex-btwn">
                 <div className="toggle-and-menu-item-name-container align-ctr">
-
                     <div
                         className={`radio-toggle-button align-ctr flex-btwn ${!enabled && 'reversed'}`}
                         onClick={() => handleMenuItemToggle(item)}>
@@ -81,7 +90,7 @@ export default function MenuItem(props) {
                             </div>
                             :
                             <div className="menu-item-name-and-description">
-                                <input type="text" className="menu-item-name" value={name} />
+                                <input type="text" className="menu-item-name" value={editedItem.name} onChange={(e) => handleEdit('name', e.target.value)} />
                             </div>
                     }
                 </div>
@@ -98,14 +107,14 @@ export default function MenuItem(props) {
                 <div className="description-container">
                     <div className="description-heading flex-btwn align-ctr">
                         <h4 className="description-text">Description</h4>
-                        <div className={`radio-toggle-button description-toggle-button align-ctr flex-btwn ${!desc_enabled && 'reversed'}`}
+                        {/* <div className={`radio-toggle-button description-toggle-button align-ctr flex-btwn ${!desc_enabled && 'reversed'}`}
                         // onClick={() => handleToggle(selection)}
                         >
                             <span className="button-text">{desc_enabled ? 'ON' : 'OFF'}</span>
                             <div className="circle-button"></div>
-                        </div>
+                        </div> */}
                     </div>
-                    <textarea className="description-box" name="description" placeholder="Enter text here..." id="" value={description}></textarea>
+                    <textarea className="description-box" name="description" placeholder="Enter text here..." id="" value={editedItem.description} onChange={(e) => handleEdit('description', e.target.value)}></textarea>
                 </div>
                 {selections && selections.length > 0 && displaySelections()}
             </div>

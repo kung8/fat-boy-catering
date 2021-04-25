@@ -145,14 +145,17 @@
                     &.radio-and-check-toggle-button {
                         min-width: 75px;
                         margin-right: 0;
+                        background: $lime;
                         @include down($mobile) {
                             min-width: 60px;
                         }
 
                         .button-text {
                             margin-left: 10px;
+                            color: $mantle;
                         }
                         &.reversed {
+                            background: $salmon;
                             .button-text {
                                 margin-left: 0;
                                 margin-right: 6px;
@@ -214,17 +217,53 @@
                         }
                         .selector-list {
                             .ingredient-item {
-                                padding: 6px 8px;
+                                padding: 8px 10px;
                                 background: $silver;
                                 margin-bottom: 4px;
                                 box-shadow: 0px 0px 2px 0px $stone inset;
-                                input {
-                                    display: none;
-                                }
                             }
                             .ingredient-name {
                                 font-size: 16px;
                                 color: #161616;
+                                border: none;
+                                outline: none;
+                                background-color: transparent;
+                            }
+                            .preset-container {
+                                margin-right: 12px;
+                                .preset-text {
+                                    font-size: 8px;
+                                }
+                                .preset-radio {
+                                    height: 20px;
+                                    width: 20px;
+                                }
+                                .preset-checkbox-container {
+                                    .preset-checkbox {
+                                        display: none;
+                                        outline: none;
+                                    }
+                                    .preset-checkbox {
+                                        & + *::before {
+                                            content: "";
+                                            display: inline-block;
+                                            vertical-align: middle;
+                                            width: 20px;
+                                            height: 20px;
+                                            border: solid 1.5px $check;
+                                            box-sizing: border-box;
+                                            background: $pearl;
+                                            cursor: pointer;
+                                        }
+                                        &:checked + *::before {
+                                            content: "✓";
+                                            color: white;
+                                            text-align: center;
+                                            background: $ocean;
+                                            border-color: $ocean;
+                                        }
+                                    }
+                                }
                             }
                         }
                         .add-item-btn {
@@ -237,84 +276,6 @@
                         }
                     }
                 }
-                // .selections-container {
-                //     margin-top: 16px;
-                //     .selection-container {
-                //         padding-left: 24px;
-                //         margin-bottom: 24px;
-                //         @include down($mini) {
-                //             padding-left: 16px;
-                //         }
-                //         @include down($mobile) {
-                //             margin-bottom: 8px;
-                //         }
-                //         .selection-name {
-                //             font-size: 28px;
-                //             margin-bottom: 8px;
-                //             @include down($mobile) {
-                //                 font-size: 20px;
-                //             }
-                //         }
-                //         .selector-list {
-                //             .ingredient-item {
-                //                 &.checkbox-type {
-                //                     input {
-                //                         display: none;
-                //                         outline: none;
-                //                     }
-                //                     input {
-                //                         & + *::before {
-                //                             content: "";
-                //                             display: inline-block;
-                //                             vertical-align: middle;
-                //                             width: 24px;
-                //                             height: 24px;
-                //                             border: solid 1.5px $check;
-                //                             margin-right: 10px;
-                //                             box-sizing: border-box;
-                //                             background: $pearl;
-                //                             cursor: pointer;
-                //                         }
-                //                         &:checked + *::before {
-                //                             content: "✓";
-                //                             color: white;
-                //                             text-align: center;
-                //                             background: $ocean;
-                //                             border-color: $ocean;
-                //                         }
-                //                     }
-                //                     span {
-                //                         font-size: 20px;
-                //                         margin-bottom: 16px;
-                //                         color: $mantle;
-                //                         cursor: pointer;
-                //                         @include down($mobile) {
-                //                             font-size: 16px;
-                //                         }
-                //                     }
-                //                 }
-                //                 &.radio-type {
-                //                     margin-bottom: 16px;
-                //                     input {
-                //                         height: 24px;
-                //                         width: 24px;
-                //                         margin-right: 10px;
-                //                         border: 10px solid grey;
-                //                         cursor: pointer;
-                //                     }
-                //                     label {
-                //                         font-size: 20px;
-                //                         color: $mantle;
-                //                         cursor: pointer;
-                //                         @include down($mobile) {
-                //                             font-size: 16px;
-                //                         }
-                //                     }
-                //                 }
-                //             }
-                //         }
-                //     }
-                // }
             }
             .add-item-button {
                 background: #FF9432;

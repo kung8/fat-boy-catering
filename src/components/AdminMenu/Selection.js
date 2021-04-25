@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Ingredient from './Ingredient';
 
 export default function Selection(props) {
-    const { selection } = props;
-    const { id, name, ingredients, selectionType } = selection;
+    const { selection, handleEdit, index: selIndex, editedItem } = props;
+    const { name, ingredients, selectionType } = selection;
     const check = selectionType === 'check';
 
     const displayIngredients = () => {
         return (
             <div className="selector-list">
-                {id && ingredients.map(ingredient => {
+                {ingredients.map((ingredient, index) => {
                     return (
                         <Ingredient
                             key={'ingredient-' + ingredient.id}
+                            index={index}
                             selection={selection}
-                            ingredient={ingredient}
+                            selIndex={selIndex}
+                            editedItem={editedItem}
+                            handleEdit={handleEdit}
                         />
                     )
                 })}
