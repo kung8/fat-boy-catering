@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 export default function Ingredient(props) {
     const { index, selection, selIndex, editedItem, handleEdit } = props;
-    const { selectionType } = selection;
+    const { selectionType } = editedItem.selections[selIndex];
     const { id, name, enabled, preset } = editedItem.selections[selIndex].ingredients[index];
 
     useEffect(() => {
@@ -34,7 +34,6 @@ export default function Ingredient(props) {
                             <input
                                 type="radio"
                                 name={`preset-radio-${selIndex}`}
-                                value={id}
                                 id={'radio-ingredient-' + id}
                                 className={`preset-radio ${preset && 'checked'}`}
                                 onChange={() => updateIngredient('preset', !preset)}
@@ -47,6 +46,7 @@ export default function Ingredient(props) {
                                     name={`preset-checkbox-${selIndex}`}
                                     checked={preset}
                                     id={'checkbox-' + id}
+                                    value={id}
                                     className={`preset-checkbox ${preset && 'checked'}`}
                                     onChange={() => updateIngredient('preset', !preset)}
                                 />
