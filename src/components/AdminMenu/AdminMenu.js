@@ -17,7 +17,7 @@ export default function AdminMenu(props) {
         getScreenWidth();
         handleScreenResize();
         // eslint-disable-next-line
-    }, [screenSize]);
+    }, [screenSize, menu]);
 
     const getAdminMenuPageData = async () => {
         const { data } = await axios.get('/api/menu/admin');

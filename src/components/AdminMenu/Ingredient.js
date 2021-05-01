@@ -1,23 +1,23 @@
 import React, { useEffect } from 'react';
 
 export default function Ingredient(props) {
-    const { index, selection, selIndex, editedItem, handleEdit } = props;
-    const { selectionType } = editedItem.selections[selIndex];
-    const { id, name, enabled, preset } = editedItem.selections[selIndex].ingredients[index];
+    const { index, selIndex, editedItem, handleEdit } = props;
+    const { selectionType, ingredients } = editedItem.selections[selIndex];
+    const { id, name, enabled, preset } = ingredients[index];
 
     useEffect(() => {
         // eslint-disable-next-line
     }, [editedItem]);
 
     const updateIngredient = async (prop, value) => {
-        const copy = { ...editedItem };
-        const selections = copy.selections;
+        const copy = Object.assign({}, editedItem);
+        const selections =[...copy.selections];
         selections[selIndex].ingredients[index][prop] = value;
         await handleEdit('selections', selections);
     }
 
     const handleDeletion = async () => {
-        const copy = { ...editedItem };
+        const copy = Object.assign({}, editedItem);
         const selections = copy.selections;
         selections[selIndex].ingredients.splice(index, 1);
         await handleEdit('selections', selections);
@@ -25,7 +25,7 @@ export default function Ingredient(props) {
 
     return (
         <div key={id} className="ingredient-item align-ctr flex-btwn">
-            <input className="ingredient-name" name="name" type="text" value={name} onChange={e => updateIngredient(e.target.name, e.target.value)} />
+            <input className="ingredient-name" name="name" type="text" value={name} onChange={e => updateIngredient('name', e.target.value)} />
             <div className="selector-controller align-ctr">
                 <div className="preset-container col align-ctr">
                     <span className="preset-text">Preset</span>

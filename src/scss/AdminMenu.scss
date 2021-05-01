@@ -93,6 +93,9 @@
                             @include down($mobile) {
                                 font-size: 18px;
                             }
+                            @include down($very-small) {
+                                font-size: 16px;
+                            }
                         }
                     }
                     .description-box {
@@ -111,6 +114,9 @@
                             min-height: 65px;
                             max-height: 65px;
                         }
+                        @include down($very-small) {
+                            font-size: 12px;
+                        }
                     }
                 }
                 .radio-toggle-button {
@@ -124,6 +130,11 @@
                         height: 25px;
                         width: 25px;
                         min-width: 50px;
+                        margin-right: 6px;
+                    }
+                    @include down($very-small) {
+                        height: 20px;
+                        min-width: 45px;
                     }
                     &.description-toggle-button {
                         margin-right: 0;
@@ -172,6 +183,9 @@
                         .button-text {
                             margin-left: 0;
                             margin-right: 4px;
+                            @include down($very-small) {
+                                margin-right: 5px;
+                            }
                         }
                     }
                     .circle-button {
@@ -185,6 +199,11 @@
                             width: 21px;
                             height: 21px;
                             min-width: 21px;
+                        }
+                        @include down($very-small) {
+                            width: 16px;
+                            height: 16px;
+                            min-width: 16px;
                         }
                     }
                     .button-text {
@@ -204,7 +223,9 @@
                         background: $grey;
                         border: $stone 1px solid;
                         padding: 6px;
-                        margin-bottom: 12px;
+                        &:not(:last-of-type) {
+                            margin-bottom: 12px;
+                        }
                         .selection-heading {
                             width: 100%;
                             background: $silver;
@@ -213,6 +234,17 @@
                             margin-bottom: 4px;
                             .selection-name {
                                 font-weight: 400;
+                            }
+                            input.selection-name {
+                                border: none;
+                                outline: none;
+                                background: transparent;
+                                width: 75%;
+                                font-size: 18px;
+                                color: #161616;
+                                @include down($very-small) {
+                                    font-size: 14px;
+                                }
                             }
                         }
                         .selector-list {
@@ -228,15 +260,26 @@
                                 border: none;
                                 outline: none;
                                 background-color: transparent;
+                                @include down($very-small) {
+                                    font-size: 12px;
+                                    min-width: 50%;
+                                }
                             }
                             .preset-container {
                                 margin-right: 12px;
+                                @include down($mobile) {
+                                    margin-right: 6px;
+                                }
                                 .preset-text {
                                     font-size: 8px;
                                 }
                                 .preset-radio {
                                     height: 20px;
                                     width: 20px;
+                                    @include down($very-small) {
+                                        height: 16px;
+                                        width: 16px;
+                                    }
                                 }
                                 .preset-checkbox-container {
                                     .preset-checkbox {
@@ -276,6 +319,13 @@
                         }
                     }
                 }
+                .add-selection-group-btn {
+                    background: $grey;
+                    border: $stone 1px solid;
+                    width: calc(100vw - 32px);
+                    padding: 6px;
+                    margin-bottom: 12px;
+                }
             }
             .add-item-button {
                 background: #FF9432;
@@ -284,6 +334,9 @@
                 outline: none;
                 padding: 12px;
                 font-size: 20px;
+                @include down($very-small) {
+                    font-size: 16px;
+                }
                 &.mobile {
                     @include up($mini) {
                         display: none;

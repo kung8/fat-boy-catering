@@ -26,7 +26,8 @@ massive(CONNECTION_STRING).then(db => {
     });
     
     app.get('/api/menu/admin', adminCtrl.getAdminMenuPage);
-    app.put('/api/menu/:id', adminCtrl.updateMenuItemEnabled);
+    app.put('/api/menu/:id/enabled', adminCtrl.updateMenuItemEnabled);
+    app.put('/api/menu/:id', adminCtrl.updateMenuItem);
     app.get('/api/menu/:id', menuCtrl.getMenuItem);
     app.get('/api/menu', menuCtrl.getMenuPage);
-});
+})
