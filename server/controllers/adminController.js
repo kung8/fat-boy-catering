@@ -115,21 +115,33 @@ module.exports = {
             for (let key in deleted) {
                 deleted[key].forEach(async element => {
                     await db.selections.delete_ingredient_from_selection({ selection_id: Number(key), ingredient_id: element })
+                    let [filled] = await db.selections.check_ingredients_is_empty_from_selection({ id: Number(key) })
+                    if (!filled) await db.selections.delete_selection({ id: Number(key) })
                 })
             }
 
             for (let key in created) {
                 created[key].forEach(async element => {
+                    let newKey = key;
+                    let newId = element.id;
+
+                    if (key.includes('FPO-')) {
+                        let foundSelection = selections.find(sel => sel.id === key)
+                        let type = foundSelection.selectionType === 'radio' ? 1 : 2
+                        let [newSelection] = await db.selections.add_selection({ name: foundSelection.name, menu_item_id: id, selection_type_id: type })
+                        newKey = Number(newSelection.id)
+                    }
+
                     let [ingExist] = await db.ingredients.check_ingredient({ name: element.name })
                     if (!ingExist) {
                         let [newItem] = await db.ingredients.create_new_ingredient({ name: element.name })
-                        element.id = newItem.id
+                        newId = newItem.id
                     } else {
-                        element.id = ingExist.id
+                        newId = ingExist.id
                     }
 
-                    const [exist] = await db.selections.check_ingredient_and_selection({ selection_id: Number(key), ingredient_id: element.id })
-                    if (!exist) await db.selections.add_ingredient_to_selections({ selection_id: Number(key), ingredient_id: element.id, enabled: element.enabled, preset: element.preset })
+                    const [exist] = await db.selections.check_ingredient_and_selection({ selection_id: newKey, ingredient_id: newId })
+                    if (!exist) await db.selections.add_ingredient_to_selections({ selection_id: newKey, ingredient_id: newId, enabled: element.enabled, preset: element.preset })
                 })
             }
 
@@ -138,8 +150,11 @@ module.exports = {
             let selection = []
 
             selections.forEach(async variant => {
-                let type = variant.selectionType === 'radio' ? 1 : 2
-                await db.selections.update_selections_name_and_type({ id: variant.id, selectionType: type, name: variant.name })
+                if (typeof variantId === 'number') {
+                    let variantId = variant.id;
+                    let type = variant.selectionType === 'radio' ? 1 : 2
+                    await db.selections.update_selections_name_and_type({ id: variantId, selectionType: type, name: variant.name })
+                }
             })
 
             const mappedSelections = await updatedSelections.map(instance => {

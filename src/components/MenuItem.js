@@ -31,7 +31,6 @@ export default function MenuItem(props) {
     const getMenuItemData = async () => {
         let id = props.match.params.id;
         let { data } = await axios.get('/api/menu/' + id);
-        console.log(data);
         await updateMenuItem(data);
         await updateIsLoaded(true);
         createSelection(data.selections);

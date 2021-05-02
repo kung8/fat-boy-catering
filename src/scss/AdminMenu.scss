@@ -136,6 +136,9 @@
                         height: 20px;
                         min-width: 45px;
                     }
+                    &.not-visible {
+                        visibility: hidden;
+                    }
                     &.description-toggle-button {
                         margin-right: 0;
                         height: 25px;
@@ -155,7 +158,7 @@
                     }
                     &.radio-and-check-toggle-button {
                         min-width: 75px;
-                        margin-right: 0;
+                        margin-right: 8px;
                         background: $lime;
                         @include down($mobile) {
                             min-width: 60px;
@@ -215,6 +218,14 @@
                             font-size: 8px;
                         }
                     }
+                }
+                .delete-selection-btn {
+                    border-radius: 50%;
+                    padding: 6px;
+                    border: 0.5px solid #f44336;
+                    outline: none;
+                    background-color: #f44336;
+                    box-shadow: 0px 0px 4px 1px $slate;
                 }
                 .selections-container {
                     width: calc(100vw - 32px);
@@ -323,7 +334,7 @@
                     background: $grey;
                     border: $stone 1px solid;
                     width: calc(100vw - 32px);
-                    padding: 6px;
+                    padding: 8px;
                     margin-bottom: 12px;
                 }
             }

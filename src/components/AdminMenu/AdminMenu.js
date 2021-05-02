@@ -17,7 +17,7 @@ export default function AdminMenu(props) {
         getScreenWidth();
         handleScreenResize();
         // eslint-disable-next-line
-    }, [screenSize, menu]);
+    }, [screenSize]);
 
     const getAdminMenuPageData = async () => {
         const { data } = await axios.get('/api/menu/admin');
@@ -39,15 +39,24 @@ export default function AdminMenu(props) {
     }
 
     const handleToggle = async (data) => {
-        const copy = menu.map(cat => {
-            let menuItems = cat.menuItems.map(item => {
-                if (item.id === data.id) return data;
-                return item;
+        if (Object.keys(data).length === 1) {
+            const copy = menu.map(cat => {
+                const foundItemIndex = cat.menuItems.findIndex(item => item.id === data.id)
+                if (foundItemIndex > -1) cat.menuItems.splice(foundItemIndex, 1);
+                return cat;
+            })
+            await updateMenu(copy);
+        } else {
+            const copy = menu.map(cat => {
+                let menuItems = cat.menuItems.map(item => {
+                    if (item.id === data.id) return data;
+                    return item;
+                });
+                cat.menuItems = menuItems;
+                return cat;
             });
-            cat.menuItems = menuItems;
-            return cat;
-        });
-        await updateMenu(copy);
+            await updateMenu(copy);
+        }
     }
 
     const mapMenu = () => {

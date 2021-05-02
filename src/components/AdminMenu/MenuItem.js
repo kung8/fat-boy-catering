@@ -9,11 +9,12 @@ export default function MenuItem(props) {
     const [editedItem, updateEditedItem] = useState(cloneDeep(item))
     const { id, enabled } = item;
     const { name, description, image, selections } = editedItem;
+    const [selectionNum, updateSelectionNum] = useState(1);
 
     useEffect(() => {
         updateCollapsedWithCatChange();
         // eslint-disable-next-line
-    }, [catCollapsed, editedItem])
+    }, [catCollapsed])
 
     const updateCollapsedWithCatChange = () => {
         if (catCollapsed) {
@@ -44,9 +45,11 @@ export default function MenuItem(props) {
     }
 
     const handleMenuItemToggle = async () => {
-        item.enabled = !enabled;
-        const { data } = await axios.put('/api/menu/' + id + '/enabled', { item });
-        await menuItemToggleFromAdmin(data);
+        if (typeof id === 'number') {
+            item.enabled = !enabled;
+            const { data } = await axios.put('/api/menu/' + id + '/enabled', { item });
+            await menuItemToggleFromAdmin(data);
+        }
     }
 
     const handleEdit = (prop, value) => {
@@ -61,12 +64,16 @@ export default function MenuItem(props) {
         const deleted = {};
         const created = {};
 
-        if (copy.name === "") {
+        if (copy.name === '' && original.name) {
             copy.name = original.name;
+        } else if (copy.name === '') {
+            menuItemToggleFromAdmin({ id });
+            return;
         }
 
         let old = {};
         let oldIng = {};
+
         if (original.selections) {
             original.selections.forEach(selection => {
                 let ids = selection.ingredients.map(el => el.id);
@@ -76,68 +83,142 @@ export default function MenuItem(props) {
             })
         }
 
-        if (copy.selections) {
+        if (copy.selections && copy.selections.length > 0) {
+            let selectionIds = Object.keys(old)
+            selectionIds = selectionIds.map(id => Number(id));
+
             let selections = copy.selections.map((instance, instanceIndex) => {
-                if (instance.name === "") {
+                if ((instance.name === "" || !instance.name) && original.selections) {
                     let index = original.selections.findIndex(el => el.id === instance.id);
                     if (index > -1) {
                         instance.name = original.selections[index].name;
+                    } else {
+                        copy.selections.splice(instanceIndex, 1)
+                        return null
+                    }
+                } else if (instance.name === "" || !instance.name) {
+                    copy.selections.splice(instanceIndex, 1)
+                    return null
+                }
+
+                // Isolate deleted selections
+                if (selectionIds.includes(instance.id)) {
+                    for (let num = 0; num < selectionIds.length; num++) {
+                        if (selectionIds[num] === instance.id) {
+                            selectionIds.splice(num, 1);
+                            break;
+                        }
                     }
                 }
 
+                // Check for deleted ingredients
                 let current = instance.ingredients.map(el => el.id);
+                if (old[instance.id]) {
+                    for (let i of old[instance.id]) {
+                        if (!current.includes(i) && i) {
+                            if (!deleted[instance.id]) {
+                                deleted[instance.id] = []
+                            }
+                            deleted[instance.id].push(i);
+                        }
+                    }
+                }
 
-                for (let i of old[instance.id]) {
-                    if (!current.includes(i) && i) {
+                if (instance.ingredients) {
+                    // Check for newly created ingredients
+                    instance.ingredients.forEach(element => {
+                        if (typeof element.id == 'string' || !element.id) {
+                            if (!created[instance.id]) {
+                                created[instance.id] = []
+                            }
+                            created[instance.id].push(element)
+                        }
+                    })
+
+                    let selectionType = instance.selectionType;
+                    let isPreset;
+                    let ingredients = instance.ingredients.map(el => {
+                        if (selectionType === 'radio' && el.preset) {
+                            isPreset = true;
+                        }
+                        if (el.name === "" && el.id.includes('FPO-')) {
+                            return null;
+                        } else if (el.name === "") {
+                            let index = original.selections[instanceIndex].ingredients.findIndex(ing => ing.id === el.id);
+                            if (index > -1) {
+                                el.name = original.selections[instanceIndex].ingredients[index].name;
+                            }
+                        }
+                        return el;
+                    })
+
+                    ingredients = ingredients.filter((i, index) => i.name && ingredients.findIndex(j => j.name === i.name) === index);
+
+                    if (selectionType === 'radio' && !isPreset) {
+                        let ing = [...ingredients]
+                        if (!ing[0]) {
+                            ing[0] = { id: null, enabled: false, preset: true, name: '' };
+                        } else {
+                            ing[0].preset = true;
+                        }
+                        ingredients = ing;
+                    }
+
+                    instance.ingredients = ingredients;
+                }
+
+                return instance;
+            }).filter(selection => selection);
+
+            // Delete ingredients from deleted selections 
+            for (let item of selectionIds) {
+                old[item].forEach(id => {
+                    if (!deleted[item]) {
+                        deleted[item] = []
+                    }
+                    deleted[item].push(id);
+                })
+            }
+            copy.selections = selections;
+        } else {
+            if (original.selections) {
+                original.selections.forEach(instance => {
+                    for (let i of old[instance.id]) {
                         if (!deleted[instance.id]) {
                             deleted[instance.id] = []
                         }
                         deleted[instance.id].push(i);
                     }
-                }
-
-                instance.ingredients.forEach(element => {
-                    if (typeof element.id == 'string') {
-                        if (!created[instance.id]) {
-                            created[instance.id] = []
-                        }
-                        created[instance.id].push(element)
-                    }
                 })
-                let selectionType = instance.selectionType;
-                let isPreset;
-                let ingredients = instance.ingredients.map(el => {
-                    if (selectionType === 'radio' && el.preset) {
-                        isPreset = true;
-                    }
-                    if (el.name === "" && el.id.includes('FPO-')) {
-                        return null;
-                    } else if (el.name === "") {
-                        let index = original.selections[instanceIndex].ingredients.findIndex(ing => ing.id === el.id);
-                        if (index > -1) {
-                            el.name = original.selections[instanceIndex].ingredients[index].name;
-                        }
-                    }
-                    return el;
-                })
-
-                ingredients = ingredients.filter((i, index) => i.name && ingredients.findIndex(j => j.name === i.name) === index);
-
-                if (selectionType === 'radio' && !isPreset) {
-                    let ing = [...ingredients]
-                    ing[0].preset = true;
-                    ingredients = ing;
-                }
-
-                instance.ingredients = ingredients;
-                return instance;
-            })
-            copy.selections = selections;
+            }
         }
 
         const { data } = await axios.put('/api/menu/' + id, { item: copy, deleted, created });
         await menuItemToggleFromAdmin(data);
         handleItemCollapse(boolean);
+    }
+
+    const addSelectionGroup = async () => {
+        let copy = { ...editedItem };
+        let selections = copy.selections;
+
+        if (!selections) {
+            selections = [];
+        }
+
+        selections.push({
+            id: 'FPO-' + selectionNum,
+            name: null,
+            selectionType: 'radio',
+            ingredients: []
+        })
+
+        copy.selections = selections;
+
+        updateSelectionNum(selectionNum + 1);
+
+        await menuItemToggleFromAdmin(copy);
+        handleEdit('selections', selections)
     }
 
     const displaySelections = () => {
@@ -163,21 +244,21 @@ export default function MenuItem(props) {
         <div id={'menu-item-' + id} className="menu-item-container">
             <button id={'menu-item-button-' + id} key={id} className="menu-item-card align-ctr flex-btwn">
                 <div className="toggle-and-menu-item-name-container align-ctr">
-                    <div
-                        className={`radio-toggle-button align-ctr flex-btwn ${!enabled && 'reversed'}`}
+                    <div 
+                        className={`radio-toggle-button align-ctr flex-btwn ${!enabled && 'reversed'} ${typeof id !== 'number' && 'not-visible'}`}
                         onClick={() => handleMenuItemToggle()}>
                         <span className="button-text">{enabled ? 'ON' : 'OFF'}</span>
                         <div className="circle-button"></div>
                     </div>
                     {
                         collapsed ?
-                            <div className="menu-item-name-and-description">
-                                <h4 className="menu-item-name">{name}</h4>
+                            <div className="menu-item-name-and-description" onClick={() => handleItemCollapse(!collapsed)}>
+                                <input type="text" placeholder="New Menu Item..." className="menu-item-name" value={name} onChange={(e) => handleEdit('name', e.target.value)} />
                                 {description && <p className="menu-item-description">{description}</p>}
                             </div>
                             :
                             <div className="menu-item-name-and-description">
-                                <input type="text" className="menu-item-name" value={editedItem.name} onChange={(e) => handleEdit('name', e.target.value)} />
+                                <input type="text" placeholder="New Menu Item..." className="menu-item-name" value={name} onChange={(e) => handleEdit('name', e.target.value)} />
                             </div>
                     }
                 </div>
@@ -204,7 +285,7 @@ export default function MenuItem(props) {
                     <textarea className="description-box" name="description" placeholder="Enter text here..." id="" value={editedItem.description} onChange={(e) => handleEdit('description', e.target.value)}></textarea>
                 </div>
                 {selections && selections.length > 0 && displaySelections()}
-                <button className="add-selection-group-btn">Add Selection Group</button>
+                <button className="add-selection-group-btn" onClick={() => addSelectionGroup()}>+ Add Selection Group</button>
             </div>
         </div>
     )

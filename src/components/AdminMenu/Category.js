@@ -5,6 +5,7 @@ export default function Category(props) {
     const { category, index, screenSize, mini, menuItemToggleFromAdmin } = props;
     const { id, name, image, menuItems } = category;
     const [collapsed, updateCollapsed] = useState(screenSize < mini);
+    const [menuItemNum, updateMenuItemNum] = useState(0);
 
     useEffect(() => {
         handleCollapseWithResize();
@@ -50,6 +51,20 @@ export default function Category(props) {
         })
     }
 
+    const addMenuItem = () => {
+        menuItems.push({
+            id: 'FPO-' + menuItemNum, 
+            image: null, 
+            name: '',
+            range: [5, 10], 
+            enabled: true,
+            description: '',
+            desc_enabled: false
+        })
+
+        updateMenuItemNum(menuItemNum + 1);
+    }
+
     return (
         <div className={`category-card col align-ctr ${collapsed && 'collapsed-card'}`}>
             <button
@@ -62,9 +77,9 @@ export default function Category(props) {
             <div className={`category-img-and-menu col wrap ${collapsed && 'none'}`} style={{ height: !collapsed && getHeight() }}>
                 <img className="category-highlighted-img" src={image} alt="category highlights" />
                 {displayMenuItem()}
-                <button className="add-item-button mobile">Add Item</button>
+                <button className="add-item-button mobile" onClick={() => addMenuItem()}>Add Item</button>
             </div>
-            <button className="add-item-button desktop">Add Item</button>
+            <button className="add-item-button desktop" onClick={() => addMenuItem()}>Add Item</button>
         </div>
     )
 }
