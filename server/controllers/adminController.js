@@ -1,5 +1,4 @@
-const hero = './assets/background-menu-placeholder.png'
-const cloneDeep = require('lodash.clonedeep')
+const hero = '1PslYKPq4VhxmDxjSufWgGophGsPWSF0w';
 
 module.exports = {
     getAdminMenuPage: async (req, res) => {

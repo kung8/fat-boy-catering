@@ -11,6 +11,7 @@ export default function AdminMenu(props) {
     const mini = 700;
     const [screenSize, updateScreenSize] = useState(window.screen.width);
     const [isLoaded, updateIsLoaded] = useState(false);
+    const googleDriveURL = 'https://drive.google.com/uc?export=view&id=';
 
     useEffect(() => {
         getAdminMenuPageData();
@@ -81,7 +82,7 @@ export default function AdminMenu(props) {
     return (
         <Loading loaded={isLoaded} checkHeight={checkHeight} image=".hero">
             <div className="admin-menu-page menu-page col align-ctr">
-                <img src={hero} alt="hero" className="hero" />
+                <img src={googleDriveURL + hero} alt="hero" className="hero" />
                 {mapMenu()}
                 <button className="add-category-group-button">+ Add Category Group</button>
                 <Footer />

@@ -77,7 +77,43 @@
                     }
                 }
                 .item-image {
-                    margin-bottom: 16px;
+                    margin-top: 12px;
+                    margin-bottom: 12px;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    width: calc(100vw - 32px);
+                    height: 150px;
+                    position: relative;
+                    border: $stone 1px solid;
+                    .edit-pencil {
+                        position: absolute;
+                        right: 10px;
+                        top: 5px;
+                    }
+                }
+                .image-container {
+                    width: calc(100vw - 32px);
+                    margin-bottom: 12px;
+                    margin-top: 12px;
+                    border: $stone 1px solid;
+                    background: $grey;
+                    .image-label-container {
+                        padding: 6px 8px 0;
+                    }
+                    .item-image-input {
+                        width: 100%;
+                        padding: 8px;
+                        border: none;
+                        outline: none;
+                        font-size: 14px;
+                        background: transparent;
+                    }
+                    .preview-btn {
+                        height: 100%;
+                        background: transparent;
+                        border: none;
+                        outline: none;
+                    }
                 }
                 .description-container {
                     width: calc(100vw - 32px);
