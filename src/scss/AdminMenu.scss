@@ -3,6 +3,84 @@
         margin-bottom: 6px;
         width: 100%;
         .category-card {
+            .category-name {
+                width: 90%;
+                outline: none;
+                border: none;
+                background: transparent;
+                @include down($very-small) {
+                    font-size: 14px;
+                }
+            }
+            @include up($mini) {
+                padding-left: 0;
+                .category-name {
+                    padding-left: 8px;
+                    font-size: 16px;
+                }
+            }
+            .category-image {
+                height: 135px;
+                background-size: cover;
+                background-repeat: no-repeat;
+                width: 49%;
+                @include down($tablet) {
+                    height: 110px;
+                }
+                @include down($mini) {
+                    width: 100%;
+                    position: relative;
+                    border: $stone 1px solid;
+                    height: 205px;
+                }
+                @include down($mobile) {
+                    height: 150px;
+                }
+                .edit-pencil {
+                    position: absolute;
+                    right: 10px;
+                    top: 10px;
+                }
+            }
+            .category-image-container {
+                width: calc(100vw - 24px);
+                margin-bottom: 12px;
+                margin-top: 12px;
+                border: $stone 1px solid;
+                background: $grey;
+                .image-label-container {
+                    padding: 6px 8px 0;
+                    h4 {
+                        font-size: 16px;
+                        @include down($mobile) {
+                            font-size: 14px;
+                        }
+                        @include down($very-small) {
+                            font-size: 12px;
+                        }
+                    }
+                }
+                .item-image-input {
+                    width: 100%;
+                    padding: 8px;
+                    border: none;
+                    outline: none;
+                    font-size: 14px;
+                    background: transparent;
+                    @include down($mobile) {
+                        font-size: 12px;
+                    }
+                    @include down($very-small) {
+                        font-size: 10px;
+                    }
+                }
+                .preview-btn {
+                    height: 100%;
+                    background: transparent;
+                    border: none;
+                    outline: none;
+                }
+            }
             .menu-item-container {
                 width: 49%;
                 @include down($mini) {
@@ -29,8 +107,15 @@
                             width: 100%;
                             font-family: Roboto;
                             font-weight: 700;
-                            @include up($mobile) {
-                                font-size: 16px;
+                            font-size: 16px;
+                            @include down($mini) {
+                                font-size: 14px;
+                            }
+                            @include down($mobile) {
+                                font-size: 12px;
+                            }
+                            @include down($very-small) {
+                                font-size: 10px;
                             }
                         }
                     }
@@ -81,7 +166,7 @@
                     margin-bottom: 12px;
                     background-size: cover;
                     background-repeat: no-repeat;
-                    width: calc(100vw - 32px);
+                    width: calc(100vw - 24px);
                     height: 150px;
                     position: relative;
                     border: $stone 1px solid;
@@ -92,7 +177,7 @@
                     }
                 }
                 .image-container {
-                    width: calc(100vw - 32px);
+                    width: calc(100vw - 24px);
                     margin-bottom: 12px;
                     margin-top: 12px;
                     border: $stone 1px solid;
@@ -116,7 +201,7 @@
                     }
                 }
                 .description-container {
-                    width: calc(100vw - 32px);
+                    width: calc(100vw - 24px);
                     background: $grey;
                     padding: 8px;
                     border: $stone 1px solid;
@@ -170,7 +255,7 @@
                     }
                     @include down($very-small) {
                         height: 20px;
-                        min-width: 45px;
+                        min-width: 32px;
                     }
                     &.not-visible {
                         visibility: hidden;
@@ -189,6 +274,9 @@
                                 @include down($mobile) {
                                     margin-right: 5px;
                                 }
+                                @include down($very-small) {
+                                    margin-right: -5px;
+                                }
                             }
                         }
                     }
@@ -203,6 +291,7 @@
                         .button-text {
                             margin-left: 10px;
                             color: $mantle;
+                            visibility: visible;
                         }
                         &.reversed {
                             background: $salmon;
@@ -218,12 +307,15 @@
                         .circle-button {
                             margin-right: 0;
                             margin-left: 2px;
+                            @include down($very-small) {
+                                margin-right: -5px;
+                            }
                         }
                         .button-text {
                             margin-left: 0;
                             margin-right: 4px;
                             @include down($very-small) {
-                                margin-right: 5px;
+                                margin-right: 0;
                             }
                         }
                     }
@@ -253,6 +345,10 @@
                         @include down($mobile) {
                             font-size: 8px;
                         }
+                        @include down($very-small) {
+                            visibility: hidden;
+                            margin-left: 0;
+                        }
                     }
                 }
                 .delete-selection-btn {
@@ -264,7 +360,7 @@
                     box-shadow: 0px 0px 4px 1px $slate;
                 }
                 .selections-container {
-                    width: calc(100vw - 32px);
+                    width: calc(100vw - 24px);
                     margin-bottom: 12px;
                     .selection-container {
                         background: $grey;
@@ -369,7 +465,7 @@
                 .add-selection-group-btn {
                     background: $grey;
                     border: $stone 1px solid;
-                    width: calc(100vw - 32px);
+                    width: calc(100vw - 24px);
                     padding: 8px;
                     margin-bottom: 12px;
                 }
@@ -385,6 +481,7 @@
                     font-size: 16px;
                 }
                 &.mobile {
+                    width: 100%;
                     @include up($mini) {
                         display: none;
                     }

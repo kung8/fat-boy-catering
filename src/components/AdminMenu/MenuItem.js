@@ -10,7 +10,7 @@ export default function MenuItem(props) {
     const { id, enabled } = item;
     const { name, description, image, selections } = editedItem;
     const [selectionNum, updateSelectionNum] = useState(1);
-    const [showImage, updateShowImage] = useState(true);
+    const [showImage, updateShowImage] = useState(image ? true : false);
     const googleDriveURL = 'https://drive.google.com/uc?export=view&id=';
 
     useEffect(() => {
@@ -281,7 +281,7 @@ export default function MenuItem(props) {
                             <div className="image-label-container align-ctr flex-btwn">
                                 <h4>Menu Item Image</h4>
                                 <button className="preview-btn flex-ctr">
-                                    <svg onClick={() => updateShowImage(!showImage)} id="Layer_2" enable-background="new 0 0 24 24" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><g><path d="m12 21c-5.196 0-9.815-3.067-11.767-7.814-.31-.753-.31-1.618 0-2.371 1.952-4.748 6.571-7.815 11.767-7.815s9.815 3.067 11.767 7.814c.31.753.31 1.618 0 2.371-1.952 4.748-6.571 7.815-11.767 7.815zm0-17c-4.789 0-9.045 2.824-10.842 7.194-.21.512-.21 1.099 0 1.611 1.797 4.371 6.053 7.195 10.842 7.195s9.045-2.824 10.842-7.194c.21-.512.21-1.099 0-1.611-1.797-4.371-6.053-7.195-10.842-7.195z" /></g><g><path d="m12 16c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4zm0-7c-1.654 0-3 1.346-3 3s1.346 3 3 3 3-1.346 3-3-1.346-3-3-3z" /></g></svg>
+                                    <svg onClick={() => updateShowImage(!showImage)} id="Layer_2" enableBackground="new 0 0 24 24" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><g><path d="m12 21c-5.196 0-9.815-3.067-11.767-7.814-.31-.753-.31-1.618 0-2.371 1.952-4.748 6.571-7.815 11.767-7.815s9.815 3.067 11.767 7.814c.31.753.31 1.618 0 2.371-1.952 4.748-6.571 7.815-11.767 7.815zm0-17c-4.789 0-9.045 2.824-10.842 7.194-.21.512-.21 1.099 0 1.611 1.797 4.371 6.053 7.195 10.842 7.195s9.045-2.824 10.842-7.194c.21-.512.21-1.099 0-1.611-1.797-4.371-6.053-7.195-10.842-7.195z" /></g><g><path d="m12 16c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4zm0-7c-1.654 0-3 1.346-3 3s1.346 3 3 3 3-1.346 3-3-1.346-3-3-3z" /></g></svg>
                                 </button>
                             </div>
                             <input onChange={(e) => handleEdit('image', e.target.value)} className="item-image-input" placeholder="Hosted Image URL..." type="text" name="image" id={`menu-item-${id}-image`} value={image} />

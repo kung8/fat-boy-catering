@@ -39,9 +39,15 @@ export default function AdminMenu(props) {
         });
     }
 
+    const updateCategory = async (arr, index) => {
+        const copy = [...menu];
+        copy[index] = arr;
+        await updateMenu(copy);
+    }
+
     const handleToggle = async (data) => {
         if (Object.keys(data).length === 1) {
-            const copy = menu.map(cat => {
+            const copy = await menu.map(cat => {
                 const foundItemIndex = cat.menuItems.findIndex(item => item.id === data.id)
                 if (foundItemIndex > -1) cat.menuItems.splice(foundItemIndex, 1);
                 return cat;
@@ -72,6 +78,7 @@ export default function AdminMenu(props) {
                             screenSize={screenSize}
                             mini={mini}
                             menuItemToggleFromAdmin={handleToggle}
+                            updateCategory={updateCategory}
                         />
                     )
                 })}
