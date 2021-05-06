@@ -1,13 +1,22 @@
 .admin-menu-page {
+    position: relative;
     .menu {
-        margin-bottom: 6px;
         width: 100%;
+        margin-bottom: 16px;
         .category-card {
+            &.extra-spacing {
+                border-bottom: 1.5px solid $charcoal;
+                padding-bottom: 48px;
+            }
             .category-name {
                 width: 90%;
                 outline: none;
                 border: none;
                 background: transparent;
+                &::placeholder {
+                    color: $pearl;
+                    opacity: 50%;
+                }
                 @include down($mobile) {
                     font-size: 14px;
                 }
@@ -98,6 +107,7 @@
                         min-width: 90%;
                     }
                     .menu-item-name-and-description {
+                        width: 100%;
                         @include down($mini) {
                             width: 75%;
                         }
@@ -471,7 +481,7 @@
                 }
             }
             .add-item-button {
-                background: #FF9432;
+                background: $sunshine;
                 color: $pearl;
                 border: none;
                 outline: none;
@@ -495,10 +505,11 @@
         }
     }
     .add-category-group-button {
-        background: $grey;
+        background: $sunshine;
+        color: $pearl;
         width: 90%;
         outline: none;
         padding: 8px 10px;
-        border: $stone 1px solid; 
+        border: none;
     }
 }

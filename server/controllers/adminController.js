@@ -1,9 +1,14 @@
 const hero = '1PslYKPq4VhxmDxjSufWgGophGsPWSF0w';
 
-module.exports = {
+const adminCtrl = {
     getAdminMenuPage: async (req, res) => {
         const db = req.app.get('db')
         const items = await db.categories.get_categories_with_menu_items()
+        const finalMenu = await adminCtrl.loopThroughItems(items);
+        res.send({ menu: finalMenu, hero })
+    },
+
+    loopThroughItems: async (items) => {
         const existingCategory = []
         const finalMenu = []
         await items.forEach(item => {
@@ -91,8 +96,9 @@ module.exports = {
             }
         })
 
-        res.send({ menu: finalMenu, hero })
+        return finalMenu
     },
+
     updateMenuItemEnabled: async (req, res) => {
         const db = req.app.get('db')
         const { item } = req.body
@@ -192,5 +198,26 @@ module.exports = {
         } else {
             res.send(menuItem)
         }
+    },
+    updateCategory: async (req, res) => {
+        const db = req.app.get('db')
+        const { name, image } = req.body
+        let { id } = req.params
+        let category
+
+        if (!id.includes('FPO-')) {
+            id = Number(id)
+            await db.categories.update_category({ id, name, image })
+            const items = await db.categories.get_single_category({ id })
+            let [newCategory] = await adminCtrl.loopThroughItems(items);
+            category = newCategory
+        } else {
+            let [newCategory] = await db.categories.add_new_category({ name, image })
+            newCategory.menuItems = []
+            category = newCategory
+        }
+        res.send(category)
     }
 }
+
+module.exports = adminCtrl;

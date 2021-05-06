@@ -3,6 +3,8 @@ import axios from 'axios';
 import Footer from '../Footer';
 import Loading from '../Loading';
 import Category from './Category';
+import { toast } from 'react-toastify'
+import Toast from '../Toast';
 
 export default function AdminMenu(props) {
     const { checkHeight } = props;
@@ -12,6 +14,7 @@ export default function AdminMenu(props) {
     const [screenSize, updateScreenSize] = useState(window.screen.width);
     const [isLoaded, updateIsLoaded] = useState(false);
     const googleDriveURL = 'https://drive.google.com/uc?export=view&id=';
+    const [categoryNum, updateCategoryNum] = useState(0);
 
     useEffect(() => {
         getAdminMenuPageData();
@@ -66,6 +69,10 @@ export default function AdminMenu(props) {
         }
     }
 
+    const showToast = (text, color) => {
+        toast(text, { className: color })
+    }
+
     const mapMenu = () => {
         return (
             <div className="menu">
@@ -79,6 +86,8 @@ export default function AdminMenu(props) {
                             mini={mini}
                             menuItemToggleFromAdmin={handleToggle}
                             updateCategory={updateCategory}
+                            isLast={menu.length - 1 === index}
+                            showToast={showToast}
                         />
                     )
                 })}
@@ -86,12 +95,25 @@ export default function AdminMenu(props) {
         )
     }
 
+    const addCategoryGroup = () => {
+        const copy = [...menu];
+        copy.push({
+            id: 'FPO-' + categoryNum,
+            name: undefined,
+            image: undefined,
+            menuItems: []
+        });
+        updateCategoryNum(categoryNum + 1);
+        updateMenu(copy);
+    }
+
     return (
         <Loading loaded={isLoaded} checkHeight={checkHeight} image=".hero">
             <div className="admin-menu-page menu-page col align-ctr">
                 <img src={googleDriveURL + hero} alt="hero" className="hero" />
                 {mapMenu()}
-                <button className="add-category-group-button">+ Add Category Group</button>
+                <button onClick={() => addCategoryGroup()} className="add-category-group-button">+ Add Additional Category</button>
+                {Toast}
                 <Footer />
             </div>
         </Loading>

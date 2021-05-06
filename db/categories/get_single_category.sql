@@ -4,4 +4,5 @@ FULL OUTER JOIN menu_items mi ON mi.category_id = c.id
 FULL OUTER JOIN selections s ON s.menu_item_id = mi.id
 FULL OUTER JOIN selections_ingredients si ON si.selection_id = s.id
 FULL OUTER JOIN ingredients i ON si.ingredient_id = i.id
+WHERE c.id = ${id}
 ORDER BY c.id ASC, mi.id ASC, s.id ASC, i.id ASC;
