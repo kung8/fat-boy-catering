@@ -9,6 +9,7 @@
     .menu-item-name-container {
         background: $pearl;
         position: relative;
+        margin-top: -5px;
         .item-chevron-arrow {
             transform: rotate(180deg) translate(0, 50%);
             height: 30px;

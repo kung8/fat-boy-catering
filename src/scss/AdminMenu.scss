@@ -8,7 +8,7 @@
                 outline: none;
                 border: none;
                 background: transparent;
-                @include down($very-small) {
+                @include down($mobile) {
                     font-size: 14px;
                 }
             }
@@ -52,10 +52,10 @@
                     padding: 6px 8px 0;
                     h4 {
                         font-size: 16px;
-                        @include down($mobile) {
+                        @include down($mini) {
                             font-size: 14px;
                         }
-                        @include down($very-small) {
+                        @include down($mobile) {
                             font-size: 12px;
                         }
                     }
@@ -67,10 +67,10 @@
                     outline: none;
                     font-size: 14px;
                     background: transparent;
-                    @include down($mobile) {
+                    @include down($mini) {
                         font-size: 12px;
                     }
-                    @include down($very-small) {
+                    @include down($mobile) {
                         font-size: 10px;
                     }
                 }
@@ -108,13 +108,13 @@
                             font-family: Roboto;
                             font-weight: 700;
                             font-size: 16px;
-                            @include down($mini) {
+                            @include down($tablet) {
                                 font-size: 14px;
                             }
-                            @include down($mobile) {
+                            @include down($mini) {
                                 font-size: 12px;
                             }
-                            @include down($very-small) {
+                            @include down($mobile) {
                                 font-size: 10px;
                             }
                         }
@@ -211,10 +211,10 @@
                         .description-text {
                             font-weight: 400;
                             font-size: 20px;
-                            @include down($mobile) {
+                            @include down($mini) {
                                 font-size: 18px;
                             }
-                            @include down($very-small) {
+                            @include down($mobile) {
                                 font-size: 16px;
                             }
                         }
@@ -231,11 +231,11 @@
                         font-size: 14px;
                         line-height: 1.35;
 
-                        @include down($mobile) {
+                        @include down($mini) {
                             min-height: 65px;
                             max-height: 65px;
                         }
-                        @include down($very-small) {
+                        @include down($mobile) {
                             font-size: 12px;
                         }
                     }
@@ -247,13 +247,13 @@
                     border-radius: 16px;
                     min-width: 60px;
                     background: $grass;
-                    @include down($mobile) {
+                    @include down($mini) {
                         height: 25px;
                         width: 25px;
                         min-width: 50px;
                         margin-right: 6px;
                     }
-                    @include down($very-small) {
+                    @include down($mobile) {
                         height: 20px;
                         min-width: 32px;
                     }
@@ -271,10 +271,10 @@
                         &.reversed {
                             .button-text {
                                 margin-right: 8px;
-                                @include down($mobile) {
+                                @include down($mini) {
                                     margin-right: 5px;
                                 }
-                                @include down($very-small) {
+                                @include down($mobile) {
                                     margin-right: -5px;
                                 }
                             }
@@ -307,14 +307,14 @@
                         .circle-button {
                             margin-right: 0;
                             margin-left: 2px;
-                            @include down($very-small) {
+                            @include down($mobile) {
                                 margin-right: -5px;
                             }
                         }
                         .button-text {
                             margin-left: 0;
                             margin-right: 4px;
-                            @include down($very-small) {
+                            @include down($mobile) {
                                 margin-right: 0;
                             }
                         }
@@ -326,12 +326,12 @@
                         border-radius: 100%;
                         min-width: 26px;
                         margin-right: 2px;
-                        @include down($mobile) {
+                        @include down($mini) {
                             width: 21px;
                             height: 21px;
                             min-width: 21px;
                         }
-                        @include down($very-small) {
+                        @include down($mobile) {
                             width: 16px;
                             height: 16px;
                             min-width: 16px;
@@ -345,7 +345,7 @@
                         @include down($mobile) {
                             font-size: 8px;
                         }
-                        @include down($very-small) {
+                        @include down($mobile) {
                             visibility: hidden;
                             margin-left: 0;
                         }
@@ -385,7 +385,7 @@
                                 width: 75%;
                                 font-size: 18px;
                                 color: #161616;
-                                @include down($very-small) {
+                                @include down($mobile) {
                                     font-size: 14px;
                                 }
                             }
@@ -403,7 +403,7 @@
                                 border: none;
                                 outline: none;
                                 background-color: transparent;
-                                @include down($very-small) {
+                                @include down($mobile) {
                                     font-size: 12px;
                                     min-width: 50%;
                                 }
@@ -419,7 +419,7 @@
                                 .preset-radio {
                                     height: 20px;
                                     width: 20px;
-                                    @include down($very-small) {
+                                    @include down($mobile) {
                                         height: 16px;
                                         width: 16px;
                                     }
@@ -477,7 +477,7 @@
                 outline: none;
                 padding: 12px;
                 font-size: 20px;
-                @include down($very-small) {
+                @include down($mobile) {
                     font-size: 16px;
                 }
                 &.mobile {

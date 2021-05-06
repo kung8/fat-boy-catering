@@ -11,6 +11,7 @@ export default function MenuItem(props) {
     const [qty, updateQty] = useState(1);
     const [isLoaded, updateIsLoaded] = useState(false);
     const [instructions, updateInstructions] = useState('');
+    const googleDriveURL = 'https://drive.google.com/uc?export=view&id=';
 
     useEffect(() => {
         getSessionStorage();
@@ -152,7 +153,7 @@ export default function MenuItem(props) {
             <div className="menu-item-page">
                 {
                     image ?
-                        <img id="item-image" className="item-image" src={image} alt={name} /> :
+                        <img id="item-image" className="item-image" src={googleDriveURL + image} alt={name} /> :
                         <div id="item-image" className="placeholder"></div>
                 }
                 <div className="menu-item-name-container" onClick={() => props.history.push('/')}>
