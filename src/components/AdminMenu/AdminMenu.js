@@ -3,8 +3,6 @@ import axios from 'axios';
 import Footer from '../Footer';
 import Loading from '../Loading';
 import Category from './Category';
-import { toast } from 'react-toastify'
-import Toast from '../Toast';
 
 export default function AdminMenu(props) {
     const { checkHeight } = props;
@@ -69,10 +67,6 @@ export default function AdminMenu(props) {
         }
     }
 
-    const showToast = (text, color) => {
-        toast(text, { className: color })
-    }
-
     const mapMenu = () => {
         return (
             <div className="menu">
@@ -87,7 +81,7 @@ export default function AdminMenu(props) {
                             menuItemToggleFromAdmin={handleToggle}
                             updateCategory={updateCategory}
                             isLast={menu.length - 1 === index}
-                            showToast={showToast}
+                            removeCategoryGroup={removeCategoryGroup}
                         />
                     )
                 })}
@@ -107,13 +101,18 @@ export default function AdminMenu(props) {
         updateMenu(copy);
     }
 
+    const removeCategoryGroup = (index) => {
+        const copy = [...menu];
+        copy.splice(index, 1);
+        updateMenu(copy);
+    }
+
     return (
         <Loading loaded={isLoaded} checkHeight={checkHeight} image=".hero">
             <div className="admin-menu-page menu-page col align-ctr">
                 <img src={googleDriveURL + hero} alt="hero" className="hero" />
                 {mapMenu()}
                 <button onClick={() => addCategoryGroup()} className="add-category-group-button">+ Add Additional Category</button>
-                {Toast}
                 <Footer />
             </div>
         </Loading>

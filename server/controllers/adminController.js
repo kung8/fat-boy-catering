@@ -56,31 +56,33 @@ const adminCtrl = {
                 let menuItemIndex = currentCategory.menuItems.findIndex(meal => meal.id === id)
                 let currentMenuItem
 
-                if (menuItemIndex > -1) {
-                    currentMenuItem = currentCategory.menuItems[menuItemIndex]
-                } else {
-                    if (currentCategory.menuItems) {
-                        currentCategory.menuItems.push(menuItem)
-                        menuItemIndex = currentCategory.menuItems.length - 1
+                if (id && name) {
+                    if (menuItemIndex > -1) {
                         currentMenuItem = currentCategory.menuItems[menuItemIndex]
                     } else {
-                        currentCategory.menuItems = [menuItem]
-                        menuItemIndex = 0
-                        currentMenuItem = currentCategory.menuItems[0]
+                        if (currentCategory.menuItems) {
+                            currentCategory.menuItems.push(menuItem)
+                            menuItemIndex = currentCategory.menuItems.length - 1
+                            currentMenuItem = currentCategory.menuItems[menuItemIndex]
+                        } else {
+                            currentCategory.menuItems = [menuItem]
+                            menuItemIndex = 0
+                            currentMenuItem = currentCategory.menuItems[0]
+                        }
                     }
-                }
-                if (selection_id) {
-                    if (currentMenuItem.selections) {
-                        let selectionIndex = finalMenu[catIndex].menuItems[menuItemIndex].selections.findIndex(element => element.id === selection_id)
-                        if (selectionIndex > -1) {
-                            currentMenuItem.selections[selectionIndex].ingredients.push(ingredient)
+                    if (selection_id) {
+                        if (currentMenuItem.selections) {
+                            let selectionIndex = finalMenu[catIndex].menuItems[menuItemIndex].selections.findIndex(element => element.id === selection_id)
+                            if (selectionIndex > -1) {
+                                currentMenuItem.selections[selectionIndex].ingredients.push(ingredient)
+                            } else {
+                                selections.ingredients = [ingredient]
+                                currentMenuItem.selections.push(selections)
+                            }
                         } else {
                             selections.ingredients = [ingredient]
-                            currentMenuItem.selections.push(selections)
+                            currentMenuItem.selections = [selections]
                         }
-                    } else {
-                        selections.ingredients = [ingredient]
-                        currentMenuItem.selections = [selections]
                     }
                 }
 
@@ -90,7 +92,9 @@ const adminCtrl = {
                     selections.ingredients.push(ingredient)
                     menuItem.selections = [selections]
                 }
-                category.menuItems.push(menuItem)
+                if (id && name) {
+                    category.menuItems.push(menuItem)
+                }
                 existingCategory.push(category_id)
                 finalMenu.push(category)
             }
