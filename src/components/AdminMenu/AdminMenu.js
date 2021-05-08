@@ -3,6 +3,7 @@ import axios from 'axios';
 import Footer from '../Footer';
 import Loading from '../Loading';
 import Category from './Category';
+import MenuItemModal from './MenuItemModal';
 
 export default function AdminMenu(props) {
     const { checkHeight } = props;
@@ -13,6 +14,8 @@ export default function AdminMenu(props) {
     const [isLoaded, updateIsLoaded] = useState(false);
     const googleDriveURL = 'https://drive.google.com/uc?export=view&id=';
     const [categoryNum, updateCategoryNum] = useState(0);
+    const [showMenuItemModal, updateShowMenuItemModal] = useState(false);
+    const [menuItemModalData, updateMenuItemModalData] = useState({});
 
     useEffect(() => {
         getAdminMenuPageData();
@@ -67,6 +70,12 @@ export default function AdminMenu(props) {
         }
     }
 
+    const updateMenuItemModal = (boolean, data) => {
+        console.log(boolean, data);
+        updateShowMenuItemModal(boolean);
+        updateMenuItemModalData(data);
+    }
+
     const mapMenu = () => {
         return (
             <div className="menu">
@@ -82,6 +91,7 @@ export default function AdminMenu(props) {
                             updateCategory={updateCategory}
                             isLast={menu.length - 1 === index}
                             removeCategoryGroup={removeCategoryGroup}
+                            updateMenuItemModal={updateMenuItemModal}
                         />
                     )
                 })}
@@ -108,11 +118,17 @@ export default function AdminMenu(props) {
     }
 
     return (
-        <Loading loaded={isLoaded} checkHeight={checkHeight} image=".hero">
+        <Loading loaded={isLoaded} checkHeight={checkHeight} image=".hero" showMenuItemModal={showMenuItemModal}>
             <div className="admin-menu-page menu-page col align-ctr">
                 <img src={googleDriveURL + hero} alt="hero" className="hero" />
                 {mapMenu()}
                 <button onClick={() => addCategoryGroup()} className="add-category-group-button">+ Add Additional Category</button>
+                {
+                    showMenuItemModal &&
+                    <MenuItemModal
+                        menuItemModalData={menuItemModalData}
+                        updateShowMenuItemModal={updateShowMenuItemModal} />
+                }
                 <Footer />
             </div>
         </Loading>

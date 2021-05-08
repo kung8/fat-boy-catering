@@ -4,7 +4,7 @@ import Selection from './Selection';
 import cloneDeep from 'lodash.clonedeep';
 
 export default function MenuItem(props) {
-    const { index, item, catIndex, catCollapsed, menuItemToggleFromAdmin } = props;
+    const { index, item, catIndex, catCollapsed, menuItemToggleFromAdmin, screenSize, mini, updateMenuItemModal } = props;
     const [collapsed, updateCollasped] = useState(true);
     const [editedItem, updateEditedItem] = useState(cloneDeep(item))
     const { id, enabled } = item;
@@ -24,6 +24,7 @@ export default function MenuItem(props) {
             document.getElementById('save-item-' + id)?.classList.add('none');
             document.getElementById('x-item-' + id)?.classList.add('none');
         } else {
+            document.getElementById('save-item-' + id)?.classList.add('none');
             document.getElementById('x-item-' + id)?.classList.add('none');
         }
     }
@@ -247,6 +248,14 @@ export default function MenuItem(props) {
         )
     }
 
+    const handleEditing = (collapsed) => {
+        if (screenSize < mini) {
+            handleItemCollapse(collapsed);
+        } else {
+            updateMenuItemModal(true, editedItem);
+        }
+    }
+
     return (
         <div id={'menu-item-' + id} className="menu-item-container">
             <button id={'menu-item-button-' + id} key={id} className="menu-item-card align-ctr flex-btwn">
@@ -259,12 +268,12 @@ export default function MenuItem(props) {
                     </div>
                     {
                         collapsed ?
-                            <div className="menu-item-name-and-description" onClick={() => handleItemCollapse(!collapsed)}>
+                            <div className="menu-item-name-and-description" onClick={() => handleEditing(!collapsed)}>
                                 <input type="text" placeholder="New Menu Item..." className="menu-item-name" value={name} onChange={(e) => handleEdit('name', e.target.value)} />
                                 {description && <p className="menu-item-description">{description}</p>}
                             </div>
                             :
-                            <div className="menu-item-name-and-description">
+                            <div className="menu-item-name-and-description" onClick={() => handleEditing(!collapsed)}>
                                 <input type="text" placeholder="New Menu Item..." className="menu-item-name" value={name} onChange={(e) => handleEdit('name', e.target.value)} />
                             </div>
                     }

@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default function Loading({ children, loaded, checkHeight, image }) {
+export default function Loading({ children, loaded, checkHeight, image, showMenuItemModal }) {
 
     return (
-        <div className="loading-page" onScroll={() => checkHeight(image)}>
+        <div className={`loading-page ${showMenuItemModal && 'show-wrapper'}`} onScroll={() => checkHeight(image)}>
             {
                 loaded ?
                     children

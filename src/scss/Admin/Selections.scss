@@ -1,0 +1,118 @@
+.delete-selection-btn {
+    border-radius: 50%;
+    padding: 6px;
+    border: 0.5px solid $ruby;
+    outline: none;
+    background-color: $ruby;
+    box-shadow: 0px 0px 4px 1px $slate;
+}
+.selections-container {
+    width: calc(100vw - 24px);
+    margin-bottom: 12px;
+    .selection-container {
+        background: $grey;
+        border: $stone 1px solid;
+        padding: 6px;
+        &:not(:last-of-type) {
+            margin-bottom: 12px;
+        }
+        .selection-heading {
+            width: 100%;
+            background: $silver;
+            box-shadow: 0px 0px 2px 0px $stone inset;
+            padding: 6px 8px;
+            margin-bottom: 4px;
+            .selection-name {
+                font-weight: 400;
+            }
+            input.selection-name {
+                border: none;
+                outline: none;
+                background: transparent;
+                width: 75%;
+                font-size: 18px;
+                color: #161616;
+                @include down($mobile) {
+                    font-size: 14px;
+                }
+            }
+        }
+        .selector-list {
+            .ingredient-item {
+                padding: 8px 10px;
+                background: $silver;
+                margin-bottom: 4px;
+                box-shadow: 0px 0px 2px 0px $stone inset;
+            }
+            .ingredient-name {
+                font-size: 16px;
+                color: #161616;
+                border: none;
+                outline: none;
+                background-color: transparent;
+                @include down($mobile) {
+                    font-size: 12px;
+                    min-width: 50%;
+                }
+            }
+            .preset-container {
+                margin-right: 12px;
+                @include down($mobile) {
+                    margin-right: 6px;
+                }
+                .preset-text {
+                    font-size: 8px;
+                }
+                .preset-radio {
+                    height: 20px;
+                    width: 20px;
+                    @include down($mobile) {
+                        height: 16px;
+                        width: 16px;
+                    }
+                }
+                .preset-checkbox-container {
+                    .preset-checkbox {
+                        display: none;
+                        outline: none;
+                    }
+                    .preset-checkbox {
+                        & + *::before {
+                            content: "";
+                            display: inline-block;
+                            vertical-align: middle;
+                            width: 20px;
+                            height: 20px;
+                            border: solid 1.5px $check;
+                            box-sizing: border-box;
+                            background: $pearl;
+                            cursor: pointer;
+                        }
+                        &:checked + *::before {
+                            content: "✓";
+                            color: white;
+                            text-align: center;
+                            background: $ocean;
+                            border-color: $ocean;
+                        }
+                    }
+                }
+            }
+        }
+        .add-item-btn {
+            width: 100%;
+            padding: 2px;
+            outline: none;
+            border: none;
+            background: transparent;
+            margin-bottom: 2px;
+        }
+    }
+}
+.add-selection-group-btn {
+    background: $grey;
+    border: $stone 1px solid;
+    width: calc(100vw - 24px);
+    padding: 8px;
+    margin-bottom: 12px;
+}

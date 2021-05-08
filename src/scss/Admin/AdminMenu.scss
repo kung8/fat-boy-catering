@@ -27,6 +27,11 @@
                     font-size: 16px;
                 }
             }
+            @include up($mini) {
+                .category-save {
+                    margin-right: 6px;
+                }
+            }
             .category-image {
                 height: 135px;
                 background-size: cover;
@@ -118,9 +123,6 @@
                             font-weight: 700;
                             font-size: 16px;
                             @include down($tablet) {
-                                font-size: 14px;
-                            }
-                            @include down($mini) {
                                 font-size: 12px;
                             }
                             @include down($mobile) {
@@ -250,52 +252,39 @@
                     }
                 }
                 .radio-toggle-button {
-                    width: 60px;
-                    height: 30px;
-                    margin-right: 10px;
+                    height: 20px;
+                    width: 20px;
+                    min-width: 32px;
+                    margin-right: 6px;
                     border-radius: 16px;
-                    min-width: 60px;
                     background: $grass;
-                    @include down($mini) {
-                        height: 25px;
-                        width: 25px;
-                        min-width: 50px;
-                        margin-right: 6px;
-                    }
-                    @include down($mobile) {
-                        height: 20px;
-                        min-width: 32px;
-                    }
                     &.not-visible {
                         visibility: hidden;
                     }
-                    &.description-toggle-button {
-                        margin-right: 0;
-                        height: 25px;
-                        .circle-button {
-                            height: 21px;
-                            width: 21px;
-                            min-width: 21px;
-                        }
-                        &.reversed {
-                            .button-text {
-                                margin-right: 8px;
-                                @include down($mini) {
-                                    margin-right: 5px;
-                                }
-                                @include down($mobile) {
-                                    margin-right: -5px;
-                                }
-                            }
-                        }
-                    }
+                    // &.description-toggle-button {
+                    //     margin-right: 0;
+                    //     height: 25px;
+                    //     .circle-button {
+                    //         height: 21px;
+                    //         width: 21px;
+                    //         min-width: 21px;
+                    //     }
+                    //     &.reversed {
+                    //         .button-text {
+                    //             margin-right: 8px;
+                    //             @include down($mini) {
+                    //                 margin-right: 5px;
+                    //             }
+                    //             @include down($mobile) {
+                    //                 margin-right: -5px;
+                    //             }
+                    //         }
+                    //     }
+                    // }
                     &.radio-and-check-toggle-button {
-                        min-width: 75px;
                         margin-right: 8px;
                         background: $lime;
-                        @include down($mobile) {
-                            min-width: 60px;
-                        }
+                        min-width: 60px;
 
                         .button-text {
                             margin-left: 10px;
@@ -314,170 +303,31 @@
                         background: $stone;
                         flex-direction: row-reverse;
                         .circle-button {
-                            margin-right: 0;
+                            margin-right: -5px;
                             margin-left: 2px;
-                            @include down($mobile) {
-                                margin-right: -5px;
-                            }
                         }
                         .button-text {
                             margin-left: 0;
-                            margin-right: 4px;
-                            @include down($mobile) {
-                                margin-right: 0;
-                            }
+                            margin-right: 0;
                         }
                     }
                     .circle-button {
-                        height: 26px;
-                        width: 26px;
+                        width: 16px;
+                        height: 16px;
+                        min-width: 16px;
                         background: $pearl;
                         border-radius: 100%;
-                        min-width: 26px;
                         margin-right: 2px;
-                        @include down($mini) {
-                            width: 21px;
-                            height: 21px;
-                            min-width: 21px;
-                        }
-                        @include down($mobile) {
-                            width: 16px;
-                            height: 16px;
-                            min-width: 16px;
-                        }
                     }
                     .button-text {
                         color: $pearl;
                         letter-spacing: 1.5px;
-                        margin-left: 10px;
-                        font-size: 12px;
-                        @include down($mobile) {
-                            font-size: 8px;
-                        }
-                        @include down($mobile) {
-                            visibility: hidden;
-                            margin-left: 0;
-                        }
+                        font-size: 8px;
+                        visibility: hidden;
+                        margin-left: 0;
                     }
                 }
-                .delete-selection-btn {
-                    border-radius: 50%;
-                    padding: 6px;
-                    border: 0.5px solid #f44336;
-                    outline: none;
-                    background-color: #f44336;
-                    box-shadow: 0px 0px 4px 1px $slate;
-                }
-                .selections-container {
-                    width: calc(100vw - 24px);
-                    margin-bottom: 12px;
-                    .selection-container {
-                        background: $grey;
-                        border: $stone 1px solid;
-                        padding: 6px;
-                        &:not(:last-of-type) {
-                            margin-bottom: 12px;
-                        }
-                        .selection-heading {
-                            width: 100%;
-                            background: $silver;
-                            box-shadow: 0px 0px 2px 0px $stone inset;
-                            padding: 6px 8px;
-                            margin-bottom: 4px;
-                            .selection-name {
-                                font-weight: 400;
-                            }
-                            input.selection-name {
-                                border: none;
-                                outline: none;
-                                background: transparent;
-                                width: 75%;
-                                font-size: 18px;
-                                color: #161616;
-                                @include down($mobile) {
-                                    font-size: 14px;
-                                }
-                            }
-                        }
-                        .selector-list {
-                            .ingredient-item {
-                                padding: 8px 10px;
-                                background: $silver;
-                                margin-bottom: 4px;
-                                box-shadow: 0px 0px 2px 0px $stone inset;
-                            }
-                            .ingredient-name {
-                                font-size: 16px;
-                                color: #161616;
-                                border: none;
-                                outline: none;
-                                background-color: transparent;
-                                @include down($mobile) {
-                                    font-size: 12px;
-                                    min-width: 50%;
-                                }
-                            }
-                            .preset-container {
-                                margin-right: 12px;
-                                @include down($mobile) {
-                                    margin-right: 6px;
-                                }
-                                .preset-text {
-                                    font-size: 8px;
-                                }
-                                .preset-radio {
-                                    height: 20px;
-                                    width: 20px;
-                                    @include down($mobile) {
-                                        height: 16px;
-                                        width: 16px;
-                                    }
-                                }
-                                .preset-checkbox-container {
-                                    .preset-checkbox {
-                                        display: none;
-                                        outline: none;
-                                    }
-                                    .preset-checkbox {
-                                        & + *::before {
-                                            content: "";
-                                            display: inline-block;
-                                            vertical-align: middle;
-                                            width: 20px;
-                                            height: 20px;
-                                            border: solid 1.5px $check;
-                                            box-sizing: border-box;
-                                            background: $pearl;
-                                            cursor: pointer;
-                                        }
-                                        &:checked + *::before {
-                                            content: "✓";
-                                            color: white;
-                                            text-align: center;
-                                            background: $ocean;
-                                            border-color: $ocean;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        .add-item-btn {
-                            width: 100%;
-                            padding: 2px;
-                            outline: none;
-                            border: none;
-                            background: transparent;
-                            margin-bottom: 2px;
-                        }
-                    }
-                }
-                .add-selection-group-btn {
-                    background: $grey;
-                    border: $stone 1px solid;
-                    width: calc(100vw - 24px);
-                    padding: 8px;
-                    margin-bottom: 12px;
-                }
+                @import './Selections';
             }
             .add-item-button {
                 background: $sunshine;
@@ -511,4 +361,5 @@
         padding: 8px 10px;
         border: none;
     }
+    @import './MenuItemModal';
 }
