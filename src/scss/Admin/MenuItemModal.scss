@@ -21,12 +21,17 @@
         background: $pearl;
         z-index: 3;
         filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+        overflow-y: hidden;
         .menu-item-heading-container {
             padding: 10px 8px;
             background: $dark-grey;
             .menu-item-name {
                 font-size: 16px;
                 color: $pearl;
+                background: transparent;
+                border: none; 
+                outline: none;
+                width: 75%;
             }
             .close-menu-item-modal {
                 background: transparent;
@@ -35,8 +40,10 @@
             }
         }
         .menu-item-body-container {
-            overflow-y: hidden;
+            overflow-y: scroll;
+            height: 100%;
             -ms-overflow-style: none;
+            padding-bottom: 50px;
             &::-webkit-scrollbar {
                 display: none;
             }
@@ -45,6 +52,8 @@
                 width: 65%;
                 border: 1px solid $slate;
                 padding: 6px;
+                background: $grey;
+                border: $stone 1px solid;
                 .description-text {
                     margin-bottom: 4px;
                     font-size: 14px;
@@ -56,12 +65,35 @@
                     max-height: 54px;
                     outline: none;
                     border: none;
+                    background: transparent;
                 }
             }
+            @import './RadioToggle';
             @import './Selections';
             .selections-container {
                 margin-top: 16px;
                 width: 65%;
+                margin-bottom: 0;
+                .selection-container {
+                    .selection-heading {
+                        input.selection-name {
+                            font-size: 16px;
+                        }
+                    }
+                }
+            }
+            .add-selection-group-btn {
+                margin-top: 12px;
+                width: 65%;
+            }
+            .save-menu-item-btn {
+                width: 65%;
+                background: $sunshine;
+                border: none;
+                outline: none;
+                padding: 6px 8px;
+                font-size: 20px;
+                color: $pearl;
             }
         }
     }

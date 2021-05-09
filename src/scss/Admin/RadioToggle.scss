@@ -1,0 +1,76 @@
+.radio-toggle-button {
+    height: 20px;
+    width: 20px;
+    min-width: 32px;
+    margin-right: 6px;
+    border-radius: 16px;
+    background: $grass;
+    &.not-visible {
+        visibility: hidden;
+    }
+    // &.description-toggle-button {
+    //     margin-right: 0;
+    //     height: 25px;
+    //     .circle-button {
+    //         height: 21px;
+    //         width: 21px;
+    //         min-width: 21px;
+    //     }
+    //     &.reversed {
+    //         .button-text {
+    //             margin-right: 8px;
+    //             @include down($mini) {
+    //                 margin-right: 5px;
+    //             }
+    //             @include down($mobile) {
+    //                 margin-right: -5px;
+    //             }
+    //         }
+    //     }
+    // }
+    &.radio-and-check-toggle-button {
+        margin-right: 8px;
+        background: $lime;
+        min-width: 50px;
+
+        .button-text {
+            margin-left: 6px;
+            color: $mantle;
+            visibility: visible;
+        }
+        &.reversed {
+            background: $salmon;
+            .button-text {
+                margin-left: 0;
+                margin-right: 2px;
+            }
+        }
+    }
+    &.reversed {
+        background: $stone;
+        flex-direction: row-reverse;
+        .circle-button {
+            margin-right: -5px;
+            margin-left: 2px;
+        }
+        .button-text {
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
+    .circle-button {
+        width: 16px;
+        height: 16px;
+        min-width: 16px;
+        background: $pearl;
+        border-radius: 100%;
+        margin-right: 2px;
+    }
+    .button-text {
+        color: $pearl;
+        letter-spacing: 1.5px;
+        font-size: 8px;
+        visibility: hidden;
+        margin-left: 0;
+    }
+}

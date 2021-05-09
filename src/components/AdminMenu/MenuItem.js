@@ -6,7 +6,7 @@ import cloneDeep from 'lodash.clonedeep';
 export default function MenuItem(props) {
     const { index, item, catIndex, catCollapsed, menuItemToggleFromAdmin, screenSize, mini, updateMenuItemModal } = props;
     const [collapsed, updateCollasped] = useState(true);
-    const [editedItem, updateEditedItem] = useState(cloneDeep(item))
+    const [editedItem, updateEditedItem] = useState(cloneDeep(item));
     const { id, enabled } = item;
     const { name, description, image, selections } = editedItem;
     const [selectionNum, updateSelectionNum] = useState(1);
@@ -73,7 +73,7 @@ export default function MenuItem(props) {
         if (copy.name === '' && original.name) {
             copy.name = original.name;
         } else if (copy.name === '' || !copy.name) {
-            menuItemToggleFromAdmin({ id }, catIndex, index);
+            menuItemToggleFromAdmin({ id });
             return;
         }
 
@@ -273,7 +273,7 @@ export default function MenuItem(props) {
                                 {description && <p className="menu-item-description">{description}</p>}
                             </div>
                             :
-                            <div className="menu-item-name-and-description" onClick={() => handleEditing(!collapsed)}>
+                            <div className="menu-item-name-and-description">
                                 <input type="text" placeholder="New Menu Item..." className="menu-item-name" value={name} onChange={(e) => handleEdit('name', e.target.value)} />
                             </div>
                     }

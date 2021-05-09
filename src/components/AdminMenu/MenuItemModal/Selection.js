@@ -1,15 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Ingredient from './Ingredient';
 
 export default function Selection(props) {
-    const { selection, handleEdit, index: selIndex, editedItem } = props;
-    const { name, ingredients, selectionType } = selection;
+    const { selection, selIndex, handleEdit, editedItem } = props;
+    const { name, selectionType, ingredients } = selection;
     const check = selectionType === 'check';
     const [placeholderNum, updatePlaceholderNum] = useState(0);
 
-    useEffect(() => {
-        // eslint-disable-next-line
-    }, [editedItem]);
+    const displayIngredients = () => {
+        return (
+            <div className="selector-list">
+                {ingredients.map((ingredient, index) => {
+                    return (
+                        <Ingredient
+                            key={'modal-item-ingredient-' + ingredient.id}
+                            selectionType={selectionType}
+                            ingredient={ingredient}
+                            selIndex={selIndex}
+                            index={index}
+                            handleEdit={handleEdit}
+                            editedItem={editedItem}
+                        />
+                    )
+                })}
+            </div>
+        )
+    }
 
     const updateSelectionName = (name) => {
         let copy = { ...editedItem };
@@ -43,25 +59,6 @@ export default function Selection(props) {
         handleEdit('selections', selections);
     }
 
-    const displayIngredients = () => {
-        return (
-            <div className="selector-list">
-                {ingredients.map((ingredient, index) => {
-                    return (
-                        <Ingredient
-                            key={'ingredient-' + ingredient.id}
-                            index={index}
-                            selection={selection}
-                            selIndex={selIndex}
-                            editedItem={editedItem}
-                            handleEdit={handleEdit}
-                        />
-                    )
-                })}
-            </div>
-        )
-    }
-
     const addIngredientItem = async () => {
         let copy = { ...editedItem };
         let num = placeholderNum
@@ -74,9 +71,11 @@ export default function Selection(props) {
     return (
         <div className="selection-container">
             <div className="selection-heading align-ctr flex-btwn">
-                <input className="selection-name" value={name} onChange={(e) => updateSelectionName(e.target.value)} placeholder="New Selection Name..."/>
+                <input className="selection-name" value={name} onChange={(e) => updateSelectionName(e.target.value)} placeholder="New Selection Name..." />
                 <div className="radio-toggle-and-delete-button-container align-ctr">
-                    <div className={`radio-toggle-button radio-and-check-toggle-button align-ctr flex-btwn ${check && 'reversed'}`} onClick={() => updateSelectionType()} >
+                    <div
+                        className={`radio-toggle-button radio-and-check-toggle-button align-ctr flex-btwn ${check && 'reversed'}`}
+                        onClick={() => updateSelectionType()}>
                         <span className="button-text">{check ? 'check' : 'radio'}</span>
                         <div className="circle-button"></div>
                     </div>

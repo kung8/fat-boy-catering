@@ -3,7 +3,7 @@ import axios from 'axios';
 import Footer from '../Footer';
 import Loading from '../Loading';
 import Category from './Category';
-import MenuItemModal from './MenuItemModal';
+import MenuItemModal from './MenuItemModal/MenuItemModal';
 
 export default function AdminMenu(props) {
     const { checkHeight } = props;
@@ -49,7 +49,7 @@ export default function AdminMenu(props) {
         await updateMenu(copy);
     }
 
-    const handleToggle = async (data) => {
+    const handleToggle = async (data, reload) => {
         if (Object.keys(data).length === 1) {
             const copy = await menu.map(cat => {
                 const foundItemIndex = cat.menuItems.findIndex(item => item.id === data.id)
@@ -58,20 +58,25 @@ export default function AdminMenu(props) {
             })
             await updateMenu(copy);
         } else {
-            const copy = menu.map(cat => {
-                let menuItems = cat.menuItems.map(item => {
+            const copy = await menu.map(async cat => {
+                let menuItems = await cat.menuItems.map(item => {
                     if (item.id === data.id) return data;
                     return item;
                 });
                 cat.menuItems = menuItems;
                 return cat;
             });
-            await updateMenu(copy);
+            Promise.all(copy).then(async newMenu => {
+                await updateMenu(newMenu);
+            })
+        }
+
+        if (reload) {
+            window.location.reload();
         }
     }
 
     const updateMenuItemModal = (boolean, data) => {
-        console.log(boolean, data);
         updateShowMenuItemModal(boolean);
         updateMenuItemModalData(data);
     }
@@ -126,8 +131,11 @@ export default function AdminMenu(props) {
                 {
                     showMenuItemModal &&
                     <MenuItemModal
+                        key="menu-item-modal"
                         menuItemModalData={menuItemModalData}
-                        updateShowMenuItemModal={updateShowMenuItemModal} />
+                        updateShowMenuItemModal={updateShowMenuItemModal}
+                        menuItemToggleFromAdmin={handleToggle}
+                    />
                 }
                 <Footer />
             </div>
