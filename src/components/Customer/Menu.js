@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Footer from './Footer';
 import axios from 'axios';
-import Loading from './Loading';
+import Footer from '../_Global/Footer';
+import Loading from '../_Global/Loading';
 
 export default function Menu(props) {
     const { checkHeight, updateCartNum } = props;

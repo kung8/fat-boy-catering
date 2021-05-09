@@ -1,6 +1,6 @@
 import './App.scss';
 import routes from './routes';
-import Navigation from './components/Navigation';
+import Navigation from './components/_Global/Navigation';
 import { useState } from 'react';
 
 function App() {

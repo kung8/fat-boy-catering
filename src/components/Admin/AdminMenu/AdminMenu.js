@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Footer from '../Footer';
-import Loading from '../Loading';
+import Footer from '../../_Global/Footer';
+import Loading from '../../_Global/Loading';
 import Category from './Category';
-import MenuItemModal from './MenuItemModal/MenuItemModal';
+import MenuItemModal from '../MenuItemModal/MenuItemModal';
 
 export default function AdminMenu(props) {
     const { checkHeight } = props;

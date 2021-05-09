@@ -1,15 +1,15 @@
-@import './scss/_variables';
-@import './scss/_breakpoint';
-@import './scss/global';
-@import './scss/layout';
-@import './scss/Navigation';
-@import './scss/Loading';
-@import './scss/MenuPage';
-@import './scss/MenuItem';
+@import './scss/_Global/_variables';
+@import './scss/_Global/_breakpoint';
+@import './scss/_Global/global';
+@import './scss/_Global/layout';
+@import './scss/_Global/Navigation';
+@import './scss/_Global/Loading';
+@import './scss/Customer/MenuPage';
+@import './scss/Customer/MenuItem';
 @import './scss/Admin/AdminMenu';
-@import './scss/StatusPage';
-@import './scss/Footer';
-@import './scss/Toast';
+@import './scss/Admin/StatusPage';
+@import './scss/_Global/Footer';
+@import './scss/_Global/Toast';
 
 .main {
     width: 100vw;
