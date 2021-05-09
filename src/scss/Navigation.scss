@@ -16,6 +16,11 @@
                 opacity: 1;
             }
         }
+        .tracking-icon {
+            path {
+                fill: $hitam;
+            }
+        }
     }
     @include down($tablet) {
         width: 90%;
