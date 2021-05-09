@@ -124,7 +124,7 @@ export default function Category(props) {
     }
 
     const handleSaving = async (bool) => {
-        let { check1, check2 } = saveCategory();
+        let { check1, check2 } = await saveCategory();
         if (screenSize < mini && check1 && check2) {
             await handleCollapse(bool);
         }
@@ -172,7 +172,7 @@ export default function Category(props) {
             <div className={`category-img-and-menu col wrap align-ctr ${collapsed && 'none'}`} style={{ height: !collapsed && getHeight() }}>
                 {
                     showImage ?
-                        <div id="category-image" className="category-image" style={{ backgroundImage: `url(${googleDriveURL + image})` }} aria-label={name}>
+                        <div id="category-image" className={`category-image`} style={{ backgroundImage: `url(${googleDriveURL + image})` }} aria-label={name}>
                             <svg onClick={() => updateShowImage(!showImage)} className="edit-pencil" width="12" height="12" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 7.91646V10.0001H2.08362L8.23169 3.85199L6.14806 1.76837L0 7.91646Z" fill="black" /><path d="M9.83745 1.45992L8.54004 0.162522C8.32334 -0.0541741 7.9705 -0.0541741 7.75381 0.162522L6.737 1.17933L8.82062 3.26295L9.83743 2.24614C10.0542 2.02945 10.0542 1.67661 9.83745 1.45992Z" fill="black" /></svg>
                         </div>
                         :
