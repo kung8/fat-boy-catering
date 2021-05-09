@@ -1,6 +1,5 @@
 .menu-page {
     width: 100%;
-    
     @include up($tablet) {
         &::-webkit-scrollbar {
             width: 6px;

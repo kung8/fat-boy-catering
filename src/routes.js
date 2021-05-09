@@ -4,6 +4,7 @@ import AdminMenu from './components/Admin/AdminMenu/AdminMenu';
 import Menu from './components/Customer/Menu';
 import MenuItem from './components/Customer/MenuItem';
 import Status from './components/Admin/Status/Status';
+import Checkout from './components/Customer/Checkout';
 
 // const path = '/craft-menu/';
 const path = '/';
@@ -11,6 +12,7 @@ const path = '/';
 export default function route(routeProps) {
     return (
         <Switch>
+            <Route path={`${path}checkout`} render={(props) => <Checkout {...props} {...routeProps} />} />
             <Route path={`${path}admin/status`} render={(props) => <Status {...props} {...routeProps} />} />
             <Route path={`${path}admin`} render={(props) => <AdminMenu {...props} {...routeProps} />} />
             <Route path={`${path}:id`} render={(props) => <MenuItem {...props} {...routeProps} />} />

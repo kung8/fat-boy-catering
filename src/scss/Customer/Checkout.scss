@@ -1,0 +1,12 @@
+.checkout-page {
+    width: 100%;
+    @include up($tablet) {
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: $charcoal;
+            border-radius: 10px;
+        }
+    }
+}
