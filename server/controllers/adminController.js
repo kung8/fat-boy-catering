@@ -8,6 +8,19 @@ const adminCtrl = {
         res.send({ menu: finalMenu, hero })
     },
 
+    deleteCategory: async (req, res) => {
+        const db = req.app.get('db')
+        let { id } = req.params;
+        id = Number(id);
+        const menuItems = await db.menu_items.get_menu_items_by_category({ id });
+        menuItems.forEach(async item => {
+            const { id: menu_item_id } = item;
+            await db.selections.delete_selections_by_menu_item({ menu_item_id });
+        });
+        await db.categories.delete_category({ id });
+        res.status(200);
+    },
+
     loopThroughItems: async (items) => {
         const existingCategory = []
         const finalMenu = []

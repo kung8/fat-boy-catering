@@ -20,18 +20,18 @@ export default function Category(props) {
     const handleCollapseWithResize = () => {
         if (screenSize < mini) {
             document.getElementById('save-' + index)?.classList.add('none');
+            document.getElementById('x-cat-item-' + index)?.classList.add('none');
             updateCollapsed(true);
         } else {
             document.getElementById('save-' + index)?.classList.remove('none');
             updateCollapsed(false);
         }
-        document.getElementById('x-item-' + index)?.classList.add('none');
     }
 
     const handleCollapse = async (bool) => {
         updateCollapsed(bool);
         let arrow = document.getElementById('arrow-' + index);
-        let saveOrX = document.getElementById('save-' + index) || document.getElementById('x-item-' + index);
+        let saveOrX = document.getElementById('save-' + index) || document.getElementById('x-cat-item-' + index);
 
         if (bool) {
             saveOrX.classList.add('none');
@@ -49,8 +49,6 @@ export default function Category(props) {
             }
         }, 225);
     }
-
-
 
     const getHeight = () => {
         let height;
@@ -108,23 +106,26 @@ export default function Category(props) {
         await updateEditedCategory(copy);
     }
 
-    const saveCategory = async (bool) => {
-        let check = await checkName();
-        check = await checkImage();
-        if (check) {
+    const saveCategory = async () => {
+        let check1 = await checkName();
+        let check2 = await checkImage();
+        if (check1 && check2) {
             const { data } = await axios.put('/api/category/' + id, editedCategory);
             await updateEditedCategory(data);
             updateShowImage(true);
         } else {
-            removeCategoryGroup(index);
+            if (typeof id === 'number') {
+                await axios.delete('/api/category/' + id);
+            }
+            await removeCategoryGroup(index);
         }
 
-        return check;
+        return { check1, check2 };
     }
 
     const handleSaving = async (bool) => {
-        let check = saveCategory();
-        if (screenSize < mini && check) {
+        let { check1, check2 } = saveCategory();
+        if (screenSize < mini && check1 && check2) {
             await handleCollapse(bool);
         }
     }
@@ -165,7 +166,7 @@ export default function Category(props) {
                     name !== '' && image ?
                         <svg id={`save-` + index} className={`save-cat-${index} category-save`} onClick={() => handleSaving(!collapsed)} width="24" height="24" viewBox="-2 -2 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.75781 8.24219H3.24219C3.08039 8.24219 2.94922 8.37336 2.94922 8.53516C2.94922 8.69695 3.08039 8.82812 3.24219 8.82812H6.75781C6.91961 8.82812 7.05078 8.69695 7.05078 8.53516C7.05078 8.37336 6.91961 8.24219 6.75781 8.24219Z" fill="black" /><path d="M6.75781 5.89844H3.24219C3.08039 5.89844 2.94922 6.02961 2.94922 6.19141C2.94922 6.3532 3.08039 6.48438 3.24219 6.48438H6.75781C6.91961 6.48438 7.05078 6.3532 7.05078 6.19141C7.05078 6.02961 6.91961 5.89844 6.75781 5.89844Z" fill="black" /><path d="M6.75781 7.07031H3.24219C3.08039 7.07031 2.94922 7.20148 2.94922 7.36328C2.94922 7.52508 3.08039 7.65625 3.24219 7.65625H6.75781C6.91961 7.65625 7.05078 7.52508 7.05078 7.36328C7.05078 7.20148 6.91961 7.07031 6.75781 7.07031Z" fill="black" /><path d="M6.46484 0H2.36328V2.53906H6.46484V0Z" fill="black" /><path d="M9.91418 1.64832L8.35168 0.0858203C8.29674 0.0308789 8.22223 0 8.14453 0H7.05078V2.83203C7.05078 2.99383 6.91961 3.125 6.75781 3.125H2.07031C1.90852 3.125 1.77734 2.99383 1.77734 2.83203V0H0.292969C0.131172 0 0 0.131172 0 0.292969V9.70703C0 9.86883 0.131172 10 0.292969 10C0.383691 10 9.5852 10 9.70703 10C9.86883 10 10 9.86883 10 9.70703V1.85547C10 1.77777 9.96912 1.70326 9.91418 1.64832ZM7.63672 9.41406H2.36328V5.3125H7.63672V9.41406Z" fill="black" /></svg>
                         :
-                        <svg id={`x-item-` + index} height="20" onClick={() => handleSaving(!collapsed)} viewBox="0 0 365.71733 365" width="20" xmlns="http://www.w3.org/2000/svg"><g fill="#E0115F"><path d="m356.339844 296.347656-286.613282-286.613281c-12.5-12.5-32.765624-12.5-45.246093 0l-15.105469 15.082031c-12.5 12.503906-12.5 32.769532 0 45.25l286.613281 286.613282c12.503907 12.5 32.769531 12.5 45.25 0l15.082031-15.082032c12.523438-12.480468 12.523438-32.75.019532-45.25zm0 0" /><path d="m295.988281 9.734375-286.613281 286.613281c-12.5 12.5-12.5 32.769532 0 45.25l15.082031 15.082032c12.503907 12.5 32.769531 12.5 45.25 0l286.632813-286.59375c12.503906-12.5 12.503906-32.765626 0-45.246094l-15.082032-15.082032c-12.5-12.523437-32.765624-12.523437-45.269531-.023437zm0 0" /></g></svg>
+                        <svg id={`x-cat-item-` + index} height="20" onClick={() => handleSaving(!collapsed)} viewBox="0 0 365.71733 365" width="20" xmlns="http://www.w3.org/2000/svg"><g fill="#E0115F"><path d="m356.339844 296.347656-286.613282-286.613281c-12.5-12.5-32.765624-12.5-45.246093 0l-15.105469 15.082031c-12.5 12.503906-12.5 32.769532 0 45.25l286.613281 286.613282c12.503907 12.5 32.769531 12.5 45.25 0l15.082031-15.082032c12.523438-12.480468 12.523438-32.75.019532-45.25zm0 0" /><path d="m295.988281 9.734375-286.613281 286.613281c-12.5 12.5-12.5 32.769532 0 45.25l15.082031 15.082032c12.503907 12.5 32.769531 12.5 45.25 0l286.632813-286.59375c12.503906-12.5 12.503906-32.765626 0-45.246094l-15.082032-15.082032c-12.5-12.523437-32.765624-12.523437-45.269531-.023437zm0 0" /></g></svg>
                 }
             </button>
             <div className={`category-img-and-menu col wrap align-ctr ${collapsed && 'none'}`} style={{ height: !collapsed && getHeight() }}>

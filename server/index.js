@@ -27,6 +27,7 @@ massive(CONNECTION_STRING).then(db => {
     
     app.get('/api/menu/admin', adminCtrl.getAdminMenuPage);
     app.put('/api/category/:id', adminCtrl.updateCategory);
+    app.delete('/api/category/:id', adminCtrl.deleteCategory);
     app.put('/api/menu/:id/enabled', adminCtrl.updateMenuItemEnabled);
     app.put('/api/menu/:id', adminCtrl.updateMenuItem);
     app.get('/api/menu/:id', menuCtrl.getMenuItem);

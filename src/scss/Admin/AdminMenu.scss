@@ -5,16 +5,25 @@
         margin-bottom: 16px;
         .category-card {
             &.extra-spacing {
-                border-bottom: 1.5px solid $charcoal;
+                @include down($mini) {
+                    border-bottom: 1.5px solid $charcoal;
+                }
+            }
+            .category-name-container {
+                @include up($mini) {
+                    padding-right: 8px;
+                }
             }
             .category-name {
                 width: 90%;
                 outline: none;
                 border: none;
                 background: transparent;
-                &::placeholder {
-                    color: $pearl;
-                    opacity: 50%;
+                @include down($mini) {
+                    &::placeholder {
+                        color: $pearl;
+                        opacity: 50%;
+                    }
                 }
                 @include down($mobile) {
                     font-size: 14px;
@@ -27,16 +36,12 @@
                     font-size: 16px;
                 }
             }
-            @include up($mini) {
-                .category-save {
-                    margin-right: 6px;
-                }
-            }
             .category-image {
                 height: 135px;
                 background-size: cover;
                 background-repeat: no-repeat;
                 width: 49%;
+                min-height: 132px;
                 @include down($tablet) {
                     height: 110px;
                 }
@@ -61,6 +66,9 @@
                 margin-top: 12px;
                 border: $stone 1px solid;
                 background: $grey;
+                @include up($mini) {
+                    width: 98%;
+                }
                 .image-label-container {
                     padding: 6px 8px 0;
                     h4 {
@@ -271,6 +279,7 @@
                     }
                 }
                 &.desktop {
+                    margin-top: 12px;
                     @include down($mini) {
                         display: none;
                     }

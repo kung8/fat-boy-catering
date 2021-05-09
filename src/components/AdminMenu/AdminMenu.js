@@ -104,7 +104,8 @@ export default function AdminMenu(props) {
         )
     }
 
-    const addCategoryGroup = () => {
+    const addCategoryGroup = async () => {
+        const lastIndex = menu.length - 1;
         const copy = [...menu];
         copy.push({
             id: 'FPO-' + categoryNum,
@@ -113,13 +114,15 @@ export default function AdminMenu(props) {
             menuItems: []
         });
         updateCategoryNum(categoryNum + 1);
-        updateMenu(copy);
+        await updateMenu(copy);
+
+        document.getElementById('x-cat-item-' + lastIndex)?.classList.remove('none');
     }
 
-    const removeCategoryGroup = (index) => {
+    const removeCategoryGroup = async (index) => {
         const copy = [...menu];
         copy.splice(index, 1);
-        updateMenu(copy);
+        await updateMenu(copy);
     }
 
     return (
