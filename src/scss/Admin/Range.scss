@@ -1,0 +1,25 @@
+.range-container {
+    width: calc(100vw - 24px);
+    background: $grey;
+    padding: 8px;
+    border: $stone 1px solid;
+    margin-bottom: 12px;
+    .range-text {
+        margin-bottom: 4px;
+    }
+    .range-btn-container {
+        .range-btn {
+            padding: 12px;
+            width: 48%;
+            border-radius: 50px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            color: $pearl;
+            background: $platinum;
+            &.selected {
+                background: $grass;
+            }
+        }
+    }
+}

@@ -33,10 +33,10 @@ const adminCtrl = {
                 menuItems: []
             }
 
-            let range = [5, 10]
+            let range = 0
 
             if (range_id === 1) {
-                range = [10, 15]
+                range = 1
             }
 
             let selectionType = selection_type_id === 1 ? 'radio' : 'check'
@@ -127,11 +127,11 @@ const adminCtrl = {
     updateMenuItem: async (req, res) => {
         const db = req.app.get('db')
         const { deleted, created, item } = req.body
-        const { description, image, name, selections } = item
+        const { description, image, name, selections, range } = item
         let { id } = req.params
         id = Number(id)
 
-        const [menuItem] = await db.menu_items.update_menu_item({ id, description, image, name })
+        const [menuItem] = await db.menu_items.update_menu_item({ id, description, image, name, range })
 
         if (selections) {
             for (let key in deleted) {

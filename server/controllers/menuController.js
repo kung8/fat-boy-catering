@@ -20,10 +20,10 @@ module.exports = {
         const { id } = req.params;
         const [item] = await db.menu_items.get_menu_item({ id });
 
-        let range = [5, 10];
+        let range = 0;
 
         if (item.range === 1) {
-            range = [10, 15];
+            range = 1;
         }
 
         item.range = range;

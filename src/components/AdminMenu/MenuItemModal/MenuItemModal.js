@@ -6,7 +6,7 @@ import axios from 'axios';
 export default function MenuItemModal(props) {
     const { menuItemModalData, updateShowMenuItemModal, menuItemToggleFromAdmin } = props;
     const [editedItem, updateEditedItem] = useState(cloneDeep(menuItemModalData));
-    const { id, name, description, selections } = editedItem;
+    const { id, name, description, selections, range } = editedItem;
     const [selectionNum, updateSelectionNum] = useState(1);
 
     const displaySelections = () => {
@@ -238,6 +238,13 @@ export default function MenuItemModal(props) {
                     </div>
                     {selections && selections.length > 0 && displaySelections()}
                     <button className="add-selection-group-btn" onClick={() => addSelectionGroup()}>+ Add Selection Group</button>
+                    <div className="range-container">
+                        <h4 className="range-text">Range</h4>
+                        <div className="range-btn-container align-ctr flex-btwn">
+                            <button onClick={() => handleEdit('range', 0)} className={`range-btn ${range === 0 && 'selected'}`}>5 - 10 m</button>
+                            <button onClick={() => handleEdit('range', 1)} className={`range-btn ${range === 1 && 'selected'}`}>10 - 15 m</button>
+                        </div>
+                    </div>
                     <button className="save-menu-item-btn" onClick={() => sendEditToSave()}>Save</button>
                 </div>
             </div>

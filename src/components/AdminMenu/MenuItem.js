@@ -8,7 +8,7 @@ export default function MenuItem(props) {
     const [collapsed, updateCollasped] = useState(true);
     const [editedItem, updateEditedItem] = useState(cloneDeep(item));
     const { id, enabled } = item;
-    const { name, description, image, selections } = editedItem;
+    const { name, description, image, selections, range } = editedItem;
     const [selectionNum, updateSelectionNum] = useState(1);
     const [showImage, updateShowImage] = useState(image ? true : false);
     const googleDriveURL = 'https://drive.google.com/uc?export=view&id=';
@@ -73,7 +73,7 @@ export default function MenuItem(props) {
         if (copy.name === '' && original.name) {
             copy.name = original.name;
         } else if (copy.name === '' || !copy.name) {
-            menuItemToggleFromAdmin({ id });
+            await menuItemToggleFromAdmin({ id });
             return;
         }
 
@@ -321,6 +321,13 @@ export default function MenuItem(props) {
                 </div>
                 {selections && selections.length > 0 && displaySelections()}
                 <button className="add-selection-group-btn" onClick={() => addSelectionGroup()}>+ Add Selection Group</button>
+                <div className="range-container">
+                    <h4 className="range-text">Range</h4>
+                    <div className="range-btn-container align-ctr flex-btwn">
+                        <button onClick={() => handleEdit('range', 0)} className={`range-btn ${range === 0 && 'selected'}`}>5 - 10 m</button>
+                        <button onClick={() => handleEdit('range', 1)} className={`range-btn ${range === 1 && 'selected'}`}>10 - 15 m</button>
+                    </div>
+                </div>
             </div>
         </div>
     )

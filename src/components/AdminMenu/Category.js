@@ -90,7 +90,7 @@ export default function Category(props) {
             id: 'FPO-' + menuItemNum,
             image: undefined,
             name: '',
-            range: [5, 10],
+            range: 0,
             enabled: true,
             description: '',
             desc_enabled: false

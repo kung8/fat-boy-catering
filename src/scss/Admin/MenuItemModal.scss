@@ -86,6 +86,11 @@
                 margin-top: 12px;
                 width: 65%;
             }
+            @import './Range';
+            .range-container {
+                width: 65%;
+                font-size: 14px;
+            }
             .save-menu-item-btn {
                 width: 65%;
                 background: $sunshine;
