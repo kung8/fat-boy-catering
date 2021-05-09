@@ -1,5 +1,55 @@
 .admin-menu-page {
     position: relative;
+    .hero {
+        margin-top: 75px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 260px;
+        width: 100%;
+        position: relative;
+        @include down($mini) {
+            margin-top: 62px;
+            height: 185px;
+        }
+        @include down($mobile) {
+            height: 130px;
+        }
+        .edit-pencil {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+        &.hero-container {
+            margin-top: 80px;
+            width: 100%;
+            padding: 6px;
+            margin-bottom: 32px;
+            height: unset;
+            @include down($mini) {
+                margin-top: 70px;
+            }
+            .hero-label-container {
+                width: 100%;
+                .hero-label {
+                    margin-bottom: 4px;
+                    font-weight: 400;
+                }
+                .preview-btn {
+                    height: 100%;
+                    background: transparent;
+                    border: none;
+                    outline: none;
+                }
+            }
+            .hero-input {
+                width: calc(100% - 32px);
+                padding: 8px 6px;
+                background: $grey;
+                border: none;
+                outline: none;
+            }
+        }
+    }
     .menu {
         width: 100%;
         margin-bottom: 16px;
@@ -72,6 +122,9 @@
                     width: 49%;
                     margin-top: 0px;
                     margin-bottom: 2px;
+                    &.new-category {
+                        width: 99%;
+                    }
                 }
                 @include down($mini) {
                     border: $stone 1px solid;
@@ -137,6 +190,9 @@
                             font-family: Roboto;
                             font-weight: 700;
                             font-size: 16px;
+                            @include down($desktop) {
+                                font-size: 14px;
+                            }
                             @include down($tablet) {
                                 font-size: 12px;
                             }

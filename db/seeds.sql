@@ -8,6 +8,7 @@ DROP TABLE selections_ingredients;
 DROP TABLE ingredients;
 DROP TABLE orders;
 DROP TABLE line_items;
+DROP TABLE hero;
 
 -- CREATION OF TABLES -- 
 CREATE TABLE users (
@@ -76,6 +77,11 @@ CREATE TABLE line_items (
     menu_item_id integer, 
     toppings varchar[],
     instructions varchar
+);
+
+CREATE TABLE hero (
+    id serial primary key, 
+    hero varchar
 );
 
 -- INITIALIZE TABLES --  
@@ -373,3 +379,6 @@ VALUES  ('white'),
         ('honey'),
         ('single shot'),
         ('double shot');
+
+INSERT INTO hero (hero)
+VALUES  ('1PslYKPq4VhxmDxjSufWgGophGsPWSF0w');
