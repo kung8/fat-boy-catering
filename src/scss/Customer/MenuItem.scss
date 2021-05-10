@@ -21,10 +21,35 @@
                 height: 24px;
                 width: 15px;
             }
+            @include down($mobile) {
+                height: 20px;
+                width: 12px;
+                left: 12px;
+            }
         }
         .menu-item-name {
             padding: 20px;
             padding-left: 60px;
+            font-size: 20px;
+            @include down($mobile) {
+                font-size: 12px;
+                padding-left: 40px;
+            }
+        }
+        .eta-container {
+            padding-right: 20px;
+            width: 150px;
+            @include down($mini) {
+                padding-right: 12px;
+                width: 120px;
+            }
+            .range {
+                font-size: 12px;
+                font-style: italic;
+                @include down($mobile) {
+                    font-size: 10px;
+                }
+            }
         }
     }
     @import './Selections';
