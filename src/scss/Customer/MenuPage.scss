@@ -48,6 +48,9 @@
                     color: $pearl;
                     letter-spacing: 1.25px;
                 }
+                @include down($mobile) {
+                    font-size: 14px;
+                }
             }
             .category-chevron-arrow {
                 height: 10px;
@@ -100,11 +103,19 @@
                 outline: none;
                 cursor: pointer;
                 margin-bottom: 3px;
+                h4 {
+                    font-size: 14px;
+                }
                 @include down($mini) {
                     width: 100%;
                     margin-bottom: 1px;
                     &:last-of-type {
                         margin-bottom: 0;
+                    }
+                }
+                @include down($mobile) {
+                    h4 {
+                        font-size: 12px;
                     }
                 }
                 .menu-item-name {
@@ -114,6 +125,10 @@
                 }
                 .menu-item-description {
                     padding-right: 50px;
+                    font-size: 12px;
+                    @include down($mobile) {
+                        font-size: 10px;
+                    }
                 }
                 .item-chevron-arrow {
                     height: 18px;

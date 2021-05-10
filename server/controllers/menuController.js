@@ -4,7 +4,7 @@ const hero = './assets/background-menu-placeholder.png';
 module.exports = {
     getMenuPage: async (req, res) => {
         const db = req.app.get('db');
-        const categories = await db.categories.get_categories(); 
+        const categories = await db.categories.get_categories();
         const catWithMenuItems = await categories.map(async cat => {
             const menuItems = await db.menu_items.get_menu_items_by_category({ id: cat.id });
             cat.menuItems = menuItems;
@@ -38,5 +38,20 @@ module.exports = {
             item.selections = selections;
             res.send(item);
         });
+    },
+    checkout: async (req, res) => {
+        const db = req.app.get('db');
+        let { name, department, phone, cartItems } = req.body;
+        const [newOrder] = await db.orders.add_order({ name, department, phone });
+        const order_id = newOrder.id;
+
+        const date = Date.now();
+
+        await cartItems.forEach(async item => {
+            let { instructions, selections: ingredients, menu_item_id } = item;
+            if (instructions === '') instructions = null;
+            await db.orders.add_line_item({ order_id, menu_item_id, ingredients, instructions, date });
+        });
+        return res.sendStatus(200);
     }
 }

@@ -76,7 +76,8 @@ CREATE TABLE line_items (
     order_id integer, 
     menu_item_id integer, 
     toppings varchar[],
-    instructions varchar
+    instructions varchar, 
+    date varchar
 );
 
 CREATE TABLE hero (

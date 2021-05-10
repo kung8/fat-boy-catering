@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Footer from '../_Global/Footer';
-import Loading from '../_Global/Loading';
+import Footer from '../../_Global/Footer';
+import Loading from '../../_Global/Loading';
 
-export default function MenuItem(props) {
+export default function EditMenuItem(props) {
     const { checkHeight, updateCartNum } = props;
     const [menuItem, updateMenuItem] = useState({});
     const { id, image, name, selections } = menuItem;
@@ -12,38 +12,48 @@ export default function MenuItem(props) {
     const [isLoaded, updateIsLoaded] = useState(false);
     const [instructions, updateInstructions] = useState('');
     const googleDriveURL = 'https://drive.google.com/uc?export=view&id=';
+    const [selectedCartItem, updateSelectedCartItem] = useState({});
+    const [cartItems, updateCartItems] = useState({});
+    const [selectedIndex, updateSelectedIndex] = useState(null);
 
     useEffect(() => {
-        getSessionStorage();
-        if (Object.keys(menuItem).length === 0) {
-            getMenuItemData();
+        let selectedItem = getSessionStorage();
+        if (menuItem && Object.keys(menuItem).length === 0) {
+            getMenuItemData(selectedItem);
         }
         // eslint-disable-next-line
     }, [])
 
-    const getSessionStorage = async () => {
-        let cart = await sessionStorage.getItem('cart');
+    const getSessionStorage = () => {
+        let cart = sessionStorage.getItem('cart');
+        let selectedIndex = sessionStorage.getItem('selectedIndex');
         if (cart) {
-            cart = Object.keys(JSON.parse(cart));
-            await updateCartNum(cart.length);
+            cart = JSON.parse(cart);
+            updateCartItems(cart);
+            updateSelectedIndex(selectedIndex);
+            updateSelectedCartItem(cart[selectedIndex]);
+            updateCartNum(Object.keys(cart).length);
+            updateQty(cart[selectedIndex].qty);
+            updateInstructions(cart[selectedIndex].instructions);
+            return cart[selectedIndex];
         }
     }
 
-    const getMenuItemData = async () => {
+    const getMenuItemData = async (selectedItem) => {
         let id = props.match.params.id;
         let { data } = await axios.get('/api/menu/' + id);
         await updateMenuItem(data);
         await updateIsLoaded(true);
-        createSelection(data.selections);
+        createSelection(data.selections, selectedItem);
     }
 
-    const createSelection = async (arr) => {
+    const createSelection = async (arr, selectedItem) => {
         let selectionObj = {};
         arr.forEach((selection, index) => {
             let type = selection.selection_type_id;
             let newArr = [];
             selection.ingredients.forEach(item => {
-                if (item.preset) {
+                if (selectedItem.selections && selectedItem.selections.includes(item.name)) {
                     if (type === 2) {
                         newArr.push(item.name);
                     }
@@ -76,16 +86,8 @@ export default function MenuItem(props) {
         updateSelected(selectedCopy);
     }
 
-    const addToCart = async () => {
-        let cart = sessionStorage.getItem('cart');
-        cart = JSON.parse(cart);
-
-        if (!cart) {
-            cart = {};
-        }
-
-        let num = Object.keys(cart).length;
-
+    const saveCartItemToCart = async () => {
+        let cart = { ...cartItems }
         let item = {
             menu_item_id: id,
             name,
@@ -94,11 +96,12 @@ export default function MenuItem(props) {
             instructions
         }
 
-        cart[num] = item;
+        cart[selectedIndex] = item;
+        updateCartItems(cart);
         cart = JSON.stringify(cart);
         sessionStorage.setItem('cart', cart);
 
-        props.history.push('/');
+        props.history.push('/cart');
     }
 
     const loopThroughSelection = () => {
@@ -181,7 +184,7 @@ export default function MenuItem(props) {
                         </button>
                     </div>
                 </div>
-                <button className="add-to-cart-button" onClick={() => addToCart()}>Add To Cart</button>
+                <button className="add-to-cart-button" onClick={() => saveCartItemToCart()}>Save Changes</button>
                 <Footer />
             </div>
         </Loading>
