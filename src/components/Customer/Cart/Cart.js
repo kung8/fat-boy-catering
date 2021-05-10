@@ -38,20 +38,28 @@ export default function Cart(props) {
     }
 
     const displayCart = () => {
-        return (
-            <div className="cart-container container-size">
-                {cartItems.map((item, index) => {
-                    return (
-                        <CartItem
-                            key={'cart-item-' + index}
-                            item={item}
-                            index={index}
-                            editCartItem={editCartItem}
-                        />
-                    )
-                })}
-            </div>
-        )
+        if (cartItems.length > 0) {
+            return (
+                <div className="cart-container container-size">
+                    {cartItems.map((item, index) => {
+                        return (
+                            <CartItem
+                                key={'cart-item-' + index}
+                                item={item}
+                                index={index}
+                                editCartItem={editCartItem}
+                            />
+                        )
+                    })}
+                </div>
+            )
+        } else {
+            return (
+                <div className="empty-cart-container container-size">
+                    There's nothing in your cart
+                </div>
+            )
+        }
     }
 
     const handleFormDataUpdate = async (prop, value) => {
@@ -80,7 +88,11 @@ export default function Cart(props) {
             updateCartNum(0);
             props.history.push('/');
         } else {
-            toast('Please fill out all the fields', { className: 'salmon' })
+            if (cartItems.length === 0) {
+                toast('Please add something to your cart', { className: 'salmon' });
+            } else {
+                toast('Please fill out all the fields', { className: 'salmon' });
+            }
         }
     }
 

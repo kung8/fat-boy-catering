@@ -87,6 +87,15 @@
                 }
             }
         }
+        .empty-cart-container {
+            text-align: center;
+            padding-top: 100px;
+            padding-bottom: 100px;
+            @include down($mini) {
+                padding-top: 75px;
+                padding-bottom: 75px;
+            }
+        }
         .checkout-container {
             margin-top: 20px;
             .form-container {
