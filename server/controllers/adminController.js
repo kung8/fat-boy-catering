@@ -133,11 +133,18 @@ const adminCtrl = {
     updateMenuItem: async (req, res) => {
         const db = req.app.get('db');
         const { deleted, created, item } = req.body;
-        const { description, image, name, selections, range } = item;
+        const { description, image, name, selections, range, category_id } = item;
         let { id } = req.params;
-        id = Number(id);
+        let menuItem;
 
-        const [menuItem] = await db.menu_items.update_menu_item({ id, description, image, name, range });
+        if (id.includes('FPO-')) {
+            let [newItem] = await db.menu_items.add_menu_item({ description, image, name, range, category_id });
+            menuItem = newItem;
+        } else {
+            id = Number(id);
+            let [updateItem] = await db.menu_items.update_menu_item({ id, description, image, name, range });
+            menuItem = updateItem;
+        }
 
         if (selections) {
             for (let key in deleted) {

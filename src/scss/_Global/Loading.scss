@@ -3,6 +3,7 @@
     overflow-y: scroll;
     background: $slate;
     overflow-x: hidden;
+    min-height: calc(100vh - 100px);
     @include down($tablet) {
         width: 90%;
     }

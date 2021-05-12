@@ -32,6 +32,10 @@
                 border: none; 
                 outline: none;
                 width: 75%;
+                text-transform: capitalize;
+                &::placeholder {
+                    color: $pearl;
+                }
             }
             .close-menu-item-modal {
                 background: transparent;
