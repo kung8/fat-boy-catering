@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import MenuItem from './MenuItem';
+import clonedeep from 'lodash.clonedeep';
+import socket from '../../_Global/Socket';
 // import Toast from '../../_Global/Toast';
 // import { toast } from 'react-toastify';
-import clonedeep from 'lodash.clonedeep';
 
 export default function Category(props) {
     const { category, index, screenSize, mini, menuItemToggleFromAdmin, isLast, removeCategoryGroup, updateMenuItemModal } = props;
@@ -78,7 +79,6 @@ export default function Category(props) {
                     catId={id}
                     item={item}
                     index={index}
-                    catIndex={index}
                     catCollapsed={collapsed}
                     menuItemToggleFromAdmin={menuItemToggleFromAdmin}
                     screenSize={screenSize}
@@ -123,11 +123,13 @@ export default function Category(props) {
             const { data } = await axios.put('/api/category/' + id, editedCategory);
             await updateEditedCategory(data);
             updateShowImage(true);
+            socket.emit('update category data', data);
             // await toast.dismiss();
             // toast('Updated successfully!', { className: 'lime' });
         } else if (x) {
             if (typeof id === 'number') {
                 await axios.delete('/api/category/' + id);
+                socket.emit('delete category data', id);
                 // await toast.dismiss();
                 // toast('Removed Successfully!', { className: 'lime' });
             }

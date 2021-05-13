@@ -1,13 +1,21 @@
 module.exports = {
     socketListeners: async (socket, db, io) => {
-        socket.on('update menu data', async (data) => {
-            console.log(data);
-            socket.join('menu page');
-            io.in('menu page').emit('update menu data', data);
+        let room = 'menu page';
+        socket.join(room);
+        socket.on('join room', () => {
+            io.in(room).emit('joined successfully');
+        })
+        socket.on('update menu data', async menu => {
+            socket.join(room);
+            io.in(room).emit('updated menu data', menu);
         });
 
-        socket.on('', async () => {
-
+        socket.on('update category data', async category => {
+            io.in(room).emit('updated category data', category);
+        });
+        
+        socket.on('delete category data', async id => {
+            io.in(room).emit('deleted category data', id);
         });
     }
 }

@@ -20,9 +20,22 @@ export default function Menu(props) {
         getScreenWidth();
         initializeCollapse();
         handleScreenResize();
-        socket.on('update menu data', (data) => {
-            console.log(data);
+        socket.emit('join room');
+        socket.on('joined successfully');
+        socket.on('updated menu data', data => {
             updateMenu(data);
+        });
+        socket.on('updated category data', data => {
+            let copy = [...menu];
+            let catIndex = copy.findIndex(cat => cat.id === data.id);
+            if (catIndex > -1) copy[catIndex] = data;
+            updateMenu(copy);
+        })
+        socket.on('deleted category data', id => {
+            let copy = [...menu];
+            let catIndex = copy.findIndex(cat => cat.id === id);
+            if (catIndex > -1) copy.splice(catIndex, 1);
+            updateMenu(copy);
         })
         // eslint-disable-next-line
     }, [screenSize]);

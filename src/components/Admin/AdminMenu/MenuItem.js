@@ -6,7 +6,7 @@ import cloneDeep from 'lodash.clonedeep';
 // import { toast } from 'react-toastify';
 
 export default function MenuItem(props) {
-    const { index, item, catId, catIndex, catCollapsed, menuItemToggleFromAdmin, screenSize, mini, updateMenuItemModal } = props;
+    const { index, item, catId, catCollapsed, menuItemToggleFromAdmin, screenSize, mini, updateMenuItemModal } = props;
     const [collapsed, updateCollasped] = useState(true);
     const [editedItem, updateEditedItem] = useState(cloneDeep(item));
     const { enabled } = item;
@@ -21,8 +21,8 @@ export default function MenuItem(props) {
     }, [catCollapsed])
 
     const updateCollapsedWithCatChange = () => {
-        let x = document.getElementById(`menu-item-x-${catIndex}-${index}`);
-        let save = document.getElementById(`menu-item-save-${catIndex}-${index}`);
+        let x = document.getElementById(`menu-item-x-${catId}-${index}`);
+        let save = document.getElementById(`menu-item-save-${catId}-${index}`);
         if (catCollapsed) {
             updateCollasped(true);
         }
@@ -70,7 +70,7 @@ export default function MenuItem(props) {
         await updateEditedItem(copy);
 
         if (name !== '' && image !== '' && image) {
-            document.getElementById(`menu-item-save-${catIndex}-${index}`).classList.remove('none');
+            document.getElementById(`menu-item-save-${catId}-${index}`).classList.remove('none');
         }
     }
 
