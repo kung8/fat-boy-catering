@@ -19,40 +19,40 @@ export default function Category(props) {
         // eslint-disable-next-line
     }, [screenSize]);
 
-    const handleCollapseWithResize = () => {
+    const handleCollapseWithResize = async () => {
         let save = document.getElementById(`category-save-${index}`);
         let x = document.getElementById(`category-x-${index}`);
         if (screenSize < mini) {
-            if (save) save.classList.add('none');
-            if (x) x.classList.add('none');
-            updateCollapsed(true);
+            if (save) await save.classList.add('none');
+            if (x) await x.classList.add('none');
+            await updateCollapsed(true);
         } else {
-            if (save) save.classList.remove('none');
-            if (x) x.classList.add('none');
-            updateCollapsed(false);
+            if (save) await save.classList.remove('none');
+            if (x) await x.classList.add('none');
+            await updateCollapsed(false);
         }
     }
 
     const handleCollapse = async (bool) => {
-        updateCollapsed(bool);
+        await updateCollapsed(bool);
         let arrow = document.getElementById(`category-arrow-${index}`);
         let save = document.getElementById(`category-save-${index}`)
         let x = document.getElementById(`category-x-${index}`);
 
         if (bool) {
-            if (save) save.classList.add('none');
-            if (arrow) arrow.classList.remove('none');
+            if (save) await save.classList.add('none');
+            if (arrow) await arrow.classList.remove('none');
         } else {
-            if (arrow) arrow.classList.add('right-side-up');
+            if (arrow) await arrow.classList.add('right-side-up');
         }
 
-        setTimeout(() => {
+        setTimeout(async () => {
             if (bool) {
-                if (arrow) arrow.classList.remove('right-side-up');
+                if (arrow) await arrow.classList.remove('right-side-up');
             } else {
-                if (arrow) arrow.classList.add('none');
-                if (save) save.classList.remove('none');
-                if (x) x.classList.remove('none');
+                if (arrow) await arrow.classList.add('none');
+                if (save) await save.classList.remove('none');
+                if (x) await x.classList.remove('none');
             }
         }, 225);
     }
@@ -75,6 +75,7 @@ export default function Category(props) {
             return (
                 <MenuItem
                     key={'menu-item-' + item.id}
+                    catId={id}
                     item={item}
                     index={index}
                     catIndex={index}
@@ -127,18 +128,16 @@ export default function Category(props) {
         } else if (x) {
             if (typeof id === 'number') {
                 await axios.delete('/api/category/' + id);
+                // await toast.dismiss();
+                // toast('Removed Successfully!', { className: 'lime' });
             }
             await removeCategoryGroup(index);
-            // await toast.dismiss();
-            // toast('Removed Successfully!', { className: 'lime' });
         }
     }
 
     const handleSaving = async (bool) => {
         await saveCategory();
-        let check1 = await checkName();
-        let check2 = await checkImage();
-        if (screenSize < mini && check1 && check2) {
+        if (screenSize < mini && checkName() && checkImage()) {
             await handleCollapse(bool);
         }
     }

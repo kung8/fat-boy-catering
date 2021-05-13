@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Footer from '../_Global/Footer';
 import Loading from '../_Global/Loading';
+import socket from '../_Global/Socket';
 
 export default function Menu(props) {
     const { checkHeight, updateCartNum } = props;
@@ -19,6 +20,10 @@ export default function Menu(props) {
         getScreenWidth();
         initializeCollapse();
         handleScreenResize();
+        socket.on('update menu data', (data) => {
+            console.log(data);
+            updateMenu(data);
+        })
         // eslint-disable-next-line
     }, [screenSize]);
 
@@ -80,7 +85,7 @@ export default function Menu(props) {
         return (
             <div className="menu">
                 {menu.map((category, index) => {
-                    const { id:categoryId, name, image, menuItems } = category;
+                    const { id: categoryId, name, image, menuItems } = category;
                     const collapsed = isCollapsedArr && isCollapsedArr[index];
 
                     const numOfEnabled = menuItems.filter(item => item.enabled).length;

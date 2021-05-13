@@ -1,4 +1,3 @@
-const menuData = require('../data/menu');
 const hero = './assets/background-menu-placeholder.png';
 
 module.exports = {

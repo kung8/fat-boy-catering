@@ -8,7 +8,7 @@ const express = require('express');
 
 const menuCtrl = require('./controllers/menuController');
 const adminCtrl = require('./controllers/adminController');
-const menu = require('./data/menu');
+const socketCtrl = require('./controllers/socketController');
 
 const app = express();
 app.use(express.json());
@@ -22,7 +22,7 @@ massive(CONNECTION_STRING).then(db => {
 
     //SOCKET ENDPOINTS
     io.on('connection', socket => {
-        SocketCtrl.socketListeners(socket, db, io);
+        socketCtrl.socketListeners(socket, db, io);
     });
     
     app.get('/api/menu/admin', adminCtrl.getAdminMenuPage);
