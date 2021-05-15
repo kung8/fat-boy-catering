@@ -146,14 +146,17 @@ export default function Category(props) {
             updateShowImage(true);
             socket.emit('update category data', data);
             await toast.dismiss();
-            toast('Updated successfully!', { className: 'lime' });
+            toast(`Updated ${name}!`, { className: 'lime' });
         } else {
             if (typeof id === 'number') {
                 await axios.delete('/api/category/' + id);
                 socket.emit('delete category data', id);
+                await toast.dismiss();
+                toast(`Removed ${name} successfully!`, { className: 'lime' });
+            } else {
+                await toast.dismiss();
+                toast(`Removed successfully!`, { className: 'lime' });
             }
-            await toast.dismiss();
-            toast('Removed Successfully!', { className: 'lime' });
             await removeCategoryGroup(index);
         }
         if (screenSize < mini) {
