@@ -42,9 +42,9 @@ export default function Category(props) {
 
         if (bool) {
             if (name !== '' && !image) {
-                updateShowSave(false);
+                await updateShowSave(false);
             } else {
-                updateShowX(false);
+                await updateShowX(false);
             }
             updateShowArrow(true);
         } else {
@@ -57,9 +57,11 @@ export default function Category(props) {
             } else {
                 updateShowArrow(false);
                 if (name !== '' && !image) {
-                    updateShowX(true);
+                    await updateShowX(true);
+                    await updateShowSave(false);
                 } else {
-                    updateShowSave(true);
+                    await updateShowSave(true);
+                    await updateShowX(false);
                 }
             }
         }, 225);
@@ -118,7 +120,7 @@ export default function Category(props) {
     }
 
     const editCategory = async (prop, value) => {
-        if (name === '' || image === '' || !image) {
+        if (value === '' || name === '' || image === '' || !image) {
             await updateShowX(true);
             await updateShowSave(false);
         } else {
@@ -140,17 +142,19 @@ export default function Category(props) {
             await updateEditedCategory(data);
             updateShowImage(true);
             socket.emit('update category data', data);
+            await toast.dismiss();
             toast('Updated successfully!', { className: 'lime' });
-            updateShowSave(false);
         } else {
             if (typeof id === 'number') {
                 await axios.delete('/api/category/' + id);
                 socket.emit('delete category data', id);
             }
+            await toast.dismiss();
             toast('Removed Successfully!', { className: 'lime' });
-            updateShowX(false);
             await removeCategoryGroup(index);
         }
+        await updateShowSave(false);
+        await updateShowX(false);
     }
 
     const handleSaving = async (bool) => {

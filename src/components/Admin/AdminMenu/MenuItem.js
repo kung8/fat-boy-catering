@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Selection from './Selection';
 import cloneDeep from 'lodash.clonedeep';
-import Toast from '../../_Global/Toast';
-import { toast } from 'react-toastify';
+// import Toast from '../../_Global/Toast';
+// import { toast } from 'react-toastify';
 
 export default function MenuItem(props) {
     const { index, item, catIndex, catCollapsed, menuItemToggleFromAdmin, screenSize, mini, updateMenuItemModal } = props;
@@ -342,7 +342,7 @@ export default function MenuItem(props) {
                     </div>
                 </div>
             </div>
-            {Toast}
+            {/* {Toast} */}
         </div>
     )
 }
