@@ -190,7 +190,7 @@ export default function Category(props) {
                     id="category-name"
                     placeholder="Enter Category Name..."
                     value={name}
-                    onClick={() => { if (collapsed) { handleCollapse(true) } }}
+                    onClick={() => { if (collapsed) { handleCollapse(false) } }}
                     onChange={e => editCategory('name', e.target.value)}
                 />
                 {showArrow && <svg id={`category-arrow-${index}`}
