@@ -6,7 +6,7 @@ export default (
         position="bottom-center"
         hideProgressBar={true}
         closeOnClick={true}
-        autoClose={500}
+        autoClose={1500}
         transition={Flip}
         draggable={true}
         draggablePercent={80}

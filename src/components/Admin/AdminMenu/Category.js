@@ -28,9 +28,15 @@ export default function Category(props) {
             updateShowSave(false);
             updateShowX(false);
             await updateCollapsed(true);
+            updateShowArrow(true);
         } else {
-            updateShowSave(true);
-            updateShowX(false);
+            if (name === '' || image === '' || !image) {
+                updateShowX(true);
+                updateShowSave(false);
+            } else {
+                updateShowX(false);
+                updateShowSave(true);
+            }
             await updateCollapsed(false);
         }
     }
@@ -41,11 +47,8 @@ export default function Category(props) {
         let arrow = document.getElementById(`category-arrow-${index}`);
 
         if (bool) {
-            if (name !== '' && !image) {
-                await updateShowSave(false);
-            } else {
-                await updateShowX(false);
-            }
+            await updateShowSave(false);
+            await updateShowX(false);
             updateShowArrow(true);
         } else {
             await arrow.classList.add('right-side-up');
@@ -56,7 +59,7 @@ export default function Category(props) {
                 if (arrow) await arrow.classList.remove('right-side-up');
             } else {
                 updateShowArrow(false);
-                if (name !== '' && !image) {
+                if (name === '' || !image || image === '') {
                     await updateShowX(true);
                     await updateShowSave(false);
                 } else {
@@ -153,8 +156,10 @@ export default function Category(props) {
             toast('Removed Successfully!', { className: 'lime' });
             await removeCategoryGroup(index);
         }
-        await updateShowSave(false);
-        await updateShowX(false);
+        if (screenSize < mini) {
+            await updateShowSave(false);
+            await updateShowX(false);
+        }
     }
 
     const handleSaving = async (bool) => {
