@@ -11,7 +11,7 @@ const adminCtrl = {
         const db = req.app.get('db');
         const { hero } = req.body;
         await db.hero.update_hero({ hero });
-        res.status(200);
+        res.sendStatus(200);
     },
 
     deleteCategory: async (req, res) => {

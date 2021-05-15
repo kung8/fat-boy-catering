@@ -140,6 +140,7 @@ export default function AdminMenu(props) {
     const editHero = async () => {
         if (hero !== "") {
             await axios.put('/api/menu/hero', { hero });
+            updateShowHero(true);
         }
     }
 
