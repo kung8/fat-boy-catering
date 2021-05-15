@@ -74,7 +74,7 @@ export default function Selection(props) {
     return (
         <div className="selection-container">
             <div className="selection-heading align-ctr flex-btwn">
-                <input className="selection-name" value={name} onChange={(e) => updateSelectionName(e.target.value)} placeholder="New Selection Name..."/>
+                <input className="selection-name" value={name} onChange={(e) => updateSelectionName(e.target.value)} placeholder="New Selection Name..." />
                 <div className="radio-toggle-and-delete-button-container align-ctr">
                     <div className={`radio-toggle-button radio-and-check-toggle-button align-ctr flex-btwn ${check && 'reversed'}`} onClick={() => updateSelectionType()} >
                         <span className="button-text">{check ? 'check' : 'radio'}</span>

@@ -4,6 +4,7 @@ import Selection from './Selection';
 import cloneDeep from 'lodash.clonedeep';
 import Toast from '../../_Global/Toast';
 import { toast } from 'react-toastify';
+import socket from '../../_Global/Socket';
 
 export default function MenuItem(props) {
     const { index, item, catIndex, catCollapsed, menuItemToggleFromAdmin, screenSize, mini, updateMenuItemModal } = props;
@@ -16,7 +17,7 @@ export default function MenuItem(props) {
     const googleDriveURL = 'https://drive.google.com/uc?export=view&id=';
     const [showArrow, updateShowArrow] = useState(true);
     const [showSave, updateShowSave] = useState(false);
-    const [showX, updateShowX] = useState(false)
+    const [showX, updateShowX] = useState(false);
 
     useEffect(() => {
         updateCollapsedWithCatChange();
@@ -117,12 +118,12 @@ export default function MenuItem(props) {
                     if (index > -1) {
                         instance.name = original.selections[index].name;
                     } else {
-                        copy.selections.splice(instanceIndex, 1)
-                        return null
+                        copy.selections.splice(instanceIndex, 1);
+                        return null;
                     }
                 } else if (instance.name === "" || !instance.name) {
-                    copy.selections.splice(instanceIndex, 1)
-                    return null
+                    copy.selections.splice(instanceIndex, 1);
+                    return null;
                 }
 
                 // Isolate deleted selections
@@ -141,7 +142,7 @@ export default function MenuItem(props) {
                     for (let i of old[instance.id]) {
                         if (!current.includes(i) && i) {
                             if (!deleted[instance.id]) {
-                                deleted[instance.id] = []
+                                deleted[instance.id] = [];
                             }
                             deleted[instance.id].push(i);
                         }
@@ -153,9 +154,9 @@ export default function MenuItem(props) {
                     instance.ingredients.forEach(element => {
                         if (typeof element.id == 'string' || !element.id) {
                             if (!created[instance.id]) {
-                                created[instance.id] = []
+                                created[instance.id] = [];
                             }
-                            created[instance.id].push(element)
+                            created[instance.id].push(element);
                         }
                     })
 
@@ -209,7 +210,7 @@ export default function MenuItem(props) {
                 original.selections.forEach(instance => {
                     for (let i of old[instance.id]) {
                         if (!deleted[instance.id]) {
-                            deleted[instance.id] = []
+                            deleted[instance.id] = [];
                         }
                         deleted[instance.id].push(i);
                     }
@@ -223,6 +224,7 @@ export default function MenuItem(props) {
             await menuItemToggleFromAdmin(data);
             await updateEditedItem(data);
             handleItemCollapse(boolean);
+            socket.emit('update menu item data', data);
             if (newItem) {
                 toast(`Added ${name}!`, { className: 'lime' });
             } else {

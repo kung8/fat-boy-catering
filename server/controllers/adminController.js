@@ -222,10 +222,14 @@ const adminCtrl = {
             })
 
             Promise.all(mappedSelections).then(() => {
+                menuItem.range = menuItem.range_id;
+                delete menuItem.range_id;
                 menuItem.selections = selection;
                 res.send(menuItem);
             })
         } else {
+            menuItem.range = menuItem.range_id;
+            delete menuItem.range_id;
             res.send(menuItem);
         }
     },

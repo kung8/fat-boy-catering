@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Footer from '../_Global/Footer';
 import Loading from '../_Global/Loading';
+import socket from '../_Global/Socket';
 
 export default function MenuItem(props) {
     const { checkHeight, updateCartNum } = props;
@@ -19,6 +20,9 @@ export default function MenuItem(props) {
         if (Object.keys(menuItem).length === 0) {
             getMenuItemData();
         }
+        socket.emit('join room');
+        socket.on('joined successfully');
+        socket.on('updated menu item data', data => updateMenuItem(data));
         // eslint-disable-next-line
     }, [])
 
