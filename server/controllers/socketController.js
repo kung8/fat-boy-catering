@@ -1,22 +1,22 @@
-const room = 'menu page';
+let room = 'menu page';
 
 module.exports = {
     socketListeners: async (socket, db, io) => {
         socket.join(room);
+
         socket.on('join menu page room', () => {
-            io.in(room).emit('joined successfully');
+            io.in(room).emit('joined menu page successfully');
         });
 
-        socket.on('join menu item', id => {
-            const room = 'menu item ' + id;
+        socket.on('join menu item page', id => {
+            room = 'menu item ' + id;
             socket.join(room);
-            io.in(room).emit('joined successfully');
+            io.in(room).emit('joined menu item page successfully');
         });
 
         socket.on('update menu data', async menu => {
             io.in(room).emit('updated menu data', menu);
         });
-
 
         socket.on('update category data', async category => {
             io.in(room).emit('updated category data', category);
@@ -25,8 +25,9 @@ module.exports = {
         socket.on('delete category data', async id => {
             io.in(room).emit('deleted category data', id);
         });
+
         socket.on('convey menu item update', async id => {
-            const room = 'menu item ' + id;
+            room = 'menu item ' + id;
             socket.join(room);
             const [item] = await db.menu_items.get_menu_item({ id });
             let range = 0;

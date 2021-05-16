@@ -59,7 +59,7 @@ export default function AdminMenu(props) {
                 return cat;
             })
             await updateMenu(copy);
-            socket.emit('update menu data', copy);
+            await socket.emit('update menu data', copy);
         } else {
             const copy = await menu.map(async cat => {
                 let menuItems = await cat.menuItems.map(item => {
@@ -71,7 +71,7 @@ export default function AdminMenu(props) {
             });
             Promise.all(copy).then(async newMenu => {
                 await updateMenu(newMenu);
-                socket.emit('update menu data', newMenu);
+                await socket.emit('update menu data', newMenu);
             })
         }
 
@@ -119,7 +119,7 @@ export default function AdminMenu(props) {
         });
         updateCategoryNum(categoryNum + 1);
         await updateMenu(copy);
-        socket.emit('update menu data', copy);
+        await socket.emit('update menu data', copy);
 
         document.getElementById('x-cat-item-' + lastIndex)?.classList.remove('none');
     }
@@ -128,7 +128,7 @@ export default function AdminMenu(props) {
         const copy = [...menu];
         copy.splice(index, 1);
         await updateMenu(copy);
-        socket.emit('update menu data', copy);
+        await socket.emit('update menu data', copy);
     }
 
     const handleHeroInput = async (value) => {
