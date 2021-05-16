@@ -16,14 +16,19 @@ export default function Menu(props) {
 
     useEffect(() => {
         getSessionStorage();
-        getMenuPageData();
+        if (menu.length === 0) {
+            getMenuPageData();
+        }
         getScreenWidth();
         initializeCollapse();
         handleScreenResize();
         socket.emit('join menu page room');
         socket.on('joined menu page successfully');
-        socket.on('updated menu data', data => {
-            updateMenu(data);
+        socket.on('updated menu data', async data => {
+            await updateMenu(data);
+            if (menu.length === 0) {
+                await getMenuPageData();
+            }
         });
         socket.on('updated category data', data => {
             let copy = [...menu];
