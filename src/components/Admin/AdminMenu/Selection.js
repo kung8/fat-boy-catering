@@ -66,7 +66,7 @@ export default function Selection(props) {
         let copy = { ...editedItem };
         let num = placeholderNum
         const selections = copy.selections;
-        selections[selIndex].ingredients.push({ id: 'FPO-' + placeholderNum, name: null, preset: false, enabled: false });
+        selections[selIndex].ingredients.push({ id: 'FPO-' + placeholderNum, name: null, preset: false, enabled: true });
         await handleEdit('selections', selections);
         updatePlaceholderNum(num + 1);
     }
