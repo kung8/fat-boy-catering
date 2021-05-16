@@ -18,16 +18,19 @@ export default function Menu(props) {
         getSessionStorage();
         if (menu.length === 0) {
             getMenuPageData();
+            getScreenWidth();
+            initializeCollapse();
+            handleScreenResize();
         }
-        getScreenWidth();
-        initializeCollapse();
-        handleScreenResize();
         socket.emit('join menu page room');
         socket.on('joined menu page successfully');
         socket.on('updated menu data', async data => {
             await updateMenu(data);
             if (menu.length === 0) {
                 await getMenuPageData();
+                await getScreenWidth();
+                await initializeCollapse();
+                await handleScreenResize();
             }
         });
         socket.on('updated category data', data => {
