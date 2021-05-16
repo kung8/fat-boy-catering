@@ -13,6 +13,7 @@ export default function Menu(props) {
     const [screenSize, updateScreenSize] = useState(window.screen.width);
     const [isLoaded, updateIsLoaded] = useState(false);
     const googleDriveURL = 'https://drive.google.com/uc?export=view&id=';
+    const [room, updateRoom] = useState(null);
 
     useEffect(() => {
         getSessionStorage();
@@ -22,29 +23,32 @@ export default function Menu(props) {
             initializeCollapse();
             handleScreenResize();
         }
-        socket.emit('join menu page room');
-        socket.on('joined menu page successfully');
-        socket.on('updated menu data', async data => {
-            await updateMenu(data);
-            if (menu.length === 0) {
-                await getMenuPageData();
-                await getScreenWidth();
-                await initializeCollapse();
-                await handleScreenResize();
-            }
-        });
-        socket.on('updated category data', data => {
-            let copy = [...menu];
-            let catIndex = copy.findIndex(cat => cat.id === data.id);
-            if (catIndex > -1) copy[catIndex] = data;
-            updateMenu(copy);
-        })
-        socket.on('deleted category data', id => {
-            let copy = [...menu];
-            let catIndex = copy.findIndex(cat => cat.id === id);
-            if (catIndex > -1) copy.splice(catIndex, 1);
-            updateMenu(copy);
-        })
+        if (!room) {
+            socket.emit('join menu page room');
+            socket.on('joined menu page successfully', async roomName => await updateRoom(roomName));
+            initializeCollapse();
+            socket.on('updated menu data', async data => {
+                await updateMenu(data);
+                if (menu.length === 0) {
+                    await getMenuPageData();
+                    await getScreenWidth();
+                    await initializeCollapse();
+                    await handleScreenResize();
+                }
+            });
+            socket.on('updated category data', data => {
+                let copy = [...menu];
+                let catIndex = copy.findIndex(cat => cat.id === data.id);
+                if (catIndex > -1) copy[catIndex] = data;
+                updateMenu(copy);
+            })
+            socket.on('deleted category data', id => {
+                let copy = [...menu];
+                let catIndex = copy.findIndex(cat => cat.id === id);
+                if (catIndex > -1) copy.splice(catIndex, 1);
+                updateMenu(copy);
+            })
+        }
         // eslint-disable-next-line
     }, [screenSize]);
 

@@ -5,7 +5,7 @@ module.exports = {
         socket.join(room);
 
         socket.on('join menu page room', () => {
-            io.in(room).emit('joined menu page successfully');
+            io.in(room).emit('joined menu page successfully', room);
         });
 
         socket.on('join menu item page', id => {
