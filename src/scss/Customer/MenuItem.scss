@@ -30,7 +30,7 @@
         .menu-item-name {
             padding: 20px;
             padding-left: 60px;
-            font-size: 20px;
+            font-size: 16px;
             @include down($mobile) {
                 font-size: 12px;
                 padding-left: 40px;
@@ -38,9 +38,12 @@
         }
         .eta-container {
             padding-right: 20px;
-            width: 150px;
+            width: 235px;
             @include down($mini) {
                 padding-right: 12px;
+                width: 225px;
+            }
+            @include down($mobile) {
                 width: 120px;
             }
             .range {
@@ -57,16 +60,16 @@
     .special-instructions-container {
         padding-left: 24px;
         padding-right: 24px;
-        margin-bottom: 24px;
+        margin-bottom: 16px;
         @include down($mini) {
             padding-left: 16px;
             padding-right: 16px;
         }
         .special-instructions-text {
             margin-bottom: 8px;
-            font-size: 28px;
+            font-size: 16px;
             @include down($mobile) {
-                font-size: 20px;
+                font-size: 14px;
             }
         }
         .special-instructions {
@@ -76,9 +79,9 @@
             max-height: 150px;
             padding: 8px;
             outline: none;
-            font-size: 20px;
+            font-size: 16px;
             @include down($mobile) {
-                font-size: 16px;
+                font-size: 12px;
             }
         }
     }
@@ -92,10 +95,10 @@
             margin-bottom: 32px;
         }
         .quantity-text {
-            font-size: 28px;
+            font-size: 16px;
             margin-bottom: 8px;
             @include down($mobile) {
-                font-size: 20px;
+                font-size: 14px;
             }
         }
         .qty-btn-container {
@@ -145,5 +148,11 @@
         padding: 12px;
         width: 100%;
         font-size: 40px;
+        @include down($mini) {
+            font-size: 32px;
+        }
+        @include down($mobile) {
+            font-size: 24px;
+        }
     }
 }

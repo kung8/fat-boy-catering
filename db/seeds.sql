@@ -96,7 +96,7 @@ VALUES  ('Today`s Special', '1PslYKPq4VhxmDxjSufWgGophGsPWSF0w'),
         ('Hot Beverages', '1PslYKPq4VhxmDxjSufWgGophGsPWSF0w');
 
 INSERT INTO menu_items (name, enabled, description, desc_enabled, category_id, range_id, image)
-VALUES  ('カレーライス (JAPANESE CURRY RICE)', true, '', false, 1, 0, '1PslYKPq4VhxmDxjSufWgGophGsPWSF0w'),
+VALUES  ('カレーライス (Japanese Curry Rice)', true, '', false, 1, 0, '1PslYKPq4VhxmDxjSufWgGophGsPWSF0w'),
         ('PB&J', true, '', false, 2, 0, '1PslYKPq4VhxmDxjSufWgGophGsPWSF0w'),
         ('Nutella Sandwich', true, '', false, 2, 0, '1PslYKPq4VhxmDxjSufWgGophGsPWSF0w'),
         ('Grilled Sandwich', true, '', false, 2, 0, '1PslYKPq4VhxmDxjSufWgGophGsPWSF0w'),
