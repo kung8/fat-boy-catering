@@ -53,8 +53,12 @@ export default function Menu(props) {
 
     const getSessionStorage = async () => {
         let cart = await sessionStorage.getItem('cart');
+        
         if (cart) {
-            cart = Object.keys(JSON.parse(cart));
+            cart = Object.values(JSON.parse(cart));
+            let values = cart.filter(item => item.qty > 0);
+            sessionStorage.setItem('cart', JSON.stringify(values));
+            cart = values;
             await updateCartNum(cart.length);
         }
     }

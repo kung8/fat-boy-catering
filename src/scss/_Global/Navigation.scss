@@ -36,6 +36,9 @@
     }
     .cart-container {
         position: relative;
+        &.visible-hidden {
+            visibility: hidden;
+        }
         .cart {
             cursor: pointer;
             color: $pearl;

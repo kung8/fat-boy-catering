@@ -21,10 +21,14 @@ export default function Cart(props) {
     const getCart = async () => {
         let cart = sessionStorage.getItem('cart');
         if (cart) {
-            cart = JSON.parse(cart);
+            cart = Object.values(JSON.parse(cart));
+            let values = cart.filter(item => item.qty > 0);
+            sessionStorage.setItem('cart', JSON.stringify(values));            
             let newCart = [];
             for (let key in cart) {
-                newCart.push(cart[key]);
+                if (cart[key].qty > 0) {
+                    newCart.push(cart[key]);
+                }
             }
             await updateCartItems(newCart);
             await updateCartNum(newCart.length);

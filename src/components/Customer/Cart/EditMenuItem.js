@@ -175,7 +175,7 @@ export default function EditMenuItem(props) {
                 <div className="quantity-container">
                     <h2 className="quantity-text">Quantity</h2>
                     <div className="qty-btn-container align-ctr">
-                        <button disabled={qty === 1} onClick={() => updateQty(qty - 1)} className={`decrement-btn ${qty === 1 && 'transparent'}`}>
+                        <button disabled={qty === 0} onClick={() => updateQty(qty - 1)} className={`decrement-btn ${qty === 0 && 'transparent'}`}>
                             <svg width="12" height="10" viewBox="0 0 9 2" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.12903 0H0.870968C0.391935 0 0 0.45 0 1C0 1.55 0.391935 2 0.870968 2H8.12903C8.60806 2 9 1.55 9 1C9 0.45 8.60806 0 8.12903 0Z" fill="white" /></svg>
                         </button>
                         <div className="qty-display">{qty}</div>
