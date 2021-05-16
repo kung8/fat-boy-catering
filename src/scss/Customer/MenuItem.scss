@@ -20,20 +20,24 @@
             @include down($mini) {
                 height: 24px;
                 width: 15px;
+                left: 12px;
             }
             @include down($mobile) {
                 height: 20px;
                 width: 12px;
-                left: 12px;
+                left: 8px;
             }
         }
         .menu-item-name {
             padding: 20px;
             padding-left: 60px;
             font-size: 16px;
-            @include down($mobile) {
+            @include down($mini) {
                 font-size: 12px;
                 padding-left: 40px;
+            }
+            @include down($mobile) {
+                padding-left: 32px;
             }
         }
         .eta-container {
