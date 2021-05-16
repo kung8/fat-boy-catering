@@ -7,7 +7,7 @@ import Toast from '../../_Global/Toast';
 import { toast } from 'react-toastify';
 
 export default function Category(props) {
-    const { category, index, screenSize, mini, menuItemToggleFromAdmin, isLast, removeCategoryGroup, updateMenuItemModal } = props;
+    const { category, index, screenSize, mini, menuItemToggleFromAdmin, isLast, removeCategoryGroup, updateMenuItemModal, updateCategory } = props;
     const [editedCategory, updateEditedCategory] = useState(clonedeep(category))
     const { id, name, image, menuItems } = editedCategory;
     const [collapsed, updateCollapsed] = useState(screenSize < mini);
@@ -118,7 +118,7 @@ export default function Category(props) {
             desc_enabled: false
         })
 
-        await updateEditedCategory(copy)
+        await updateEditedCategory(copy);
         updateMenuItemNum(menuItemNum + 1);
     }
 
@@ -142,6 +142,7 @@ export default function Category(props) {
     const saveCategory = async () => {
         if (name !== '' && image !== '' && image) {
             const { data } = await axios.put('/api/category/' + id, editedCategory);
+            await updateCategory(data, index);
             await updateEditedCategory(data);
             updateShowImage(true);
             socket.emit('update category data', data);

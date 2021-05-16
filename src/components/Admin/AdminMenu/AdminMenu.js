@@ -31,6 +31,7 @@ export default function AdminMenu(props) {
         const { hero, menu } = data;
         updateHero(hero);
         await updateMenu(menu);
+        socket.emit('update menu data', menu);
         await updateIsLoaded(true);
     }
 
@@ -49,6 +50,7 @@ export default function AdminMenu(props) {
         const copy = [...menu];
         copy[index] = arr;
         await updateMenu(copy);
+        await socket.emit('update menu data', copy);
     }
 
     const handleToggle = async (data, reload) => {
@@ -75,9 +77,11 @@ export default function AdminMenu(props) {
             })
         }
 
-        if (reload) {
-            window.location.reload();
-        }
+        setTimeout(() => {
+            if (reload) {
+                window.location.reload();
+            }
+        }, 1000);
     }
 
     const updateMenuItemModal = (boolean, data) => {
@@ -120,7 +124,6 @@ export default function AdminMenu(props) {
         updateCategoryNum(categoryNum + 1);
         await updateMenu(copy);
         await socket.emit('update menu data', copy);
-
         document.getElementById('x-cat-item-' + lastIndex)?.classList.remove('none');
     }
 

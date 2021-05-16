@@ -17,40 +17,41 @@ export default function Menu(props) {
 
     useEffect(() => {
         getSessionStorage();
-        if (menu.length === 0) {
-            getMenuPageData();
-            getScreenWidth();
-            initializeCollapse();
-            handleScreenResize();
-        }
+        initialization();
         if (!room) {
             socket.emit('join menu page room');
             socket.on('joined menu page successfully', async roomName => await updateRoom(roomName));
             initializeCollapse();
             socket.on('updated menu data', async data => {
                 await updateMenu(data);
-                if (menu.length === 0) {
-                    await getMenuPageData();
-                    await getScreenWidth();
-                    await initializeCollapse();
-                    await handleScreenResize();
-                }
+                initialization();
             });
-            socket.on('updated category data', data => {
+            socket.on('updated category data', async data => {
                 let copy = [...menu];
                 let catIndex = copy.findIndex(cat => cat.id === data.id);
                 if (catIndex > -1) copy[catIndex] = data;
-                updateMenu(copy);
+                await updateMenu(copy);
+                initialization();
             })
-            socket.on('deleted category data', id => {
+            socket.on('deleted category data', async id => {
                 let copy = [...menu];
                 let catIndex = copy.findIndex(cat => cat.id === id);
                 if (catIndex > -1) copy.splice(catIndex, 1);
-                updateMenu(copy);
+                await updateMenu(copy);
+                initialization();
             })
         }
         // eslint-disable-next-line
     }, [screenSize]);
+
+    const initialization = async () => {
+        if (menu.length === 0) {
+            await getMenuPageData();
+            await getScreenWidth();
+            await initializeCollapse();
+            await handleScreenResize();
+        }
+    }
 
     const getSessionStorage = async () => {
         let cart = await sessionStorage.getItem('cart');
