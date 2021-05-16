@@ -20,7 +20,7 @@ export default function Menu(props) {
         getScreenWidth();
         initializeCollapse();
         handleScreenResize();
-        socket.emit('join room');
+        socket.emit('join menu page room');
         socket.on('joined successfully');
         socket.on('updated menu data', data => {
             updateMenu(data);

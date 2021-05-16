@@ -119,7 +119,7 @@ const adminCtrl = {
             }
         })
 
-        return finalMenu
+        return finalMenu;
     },
 
     updateMenuItemEnabled: async (req, res) => {
@@ -163,8 +163,13 @@ const adminCtrl = {
                     if (key.includes('FPO-')) {
                         let foundSelection = selections.find(sel => sel.id === key);
                         let type = foundSelection.selectionType === 'radio' ? 1 : 2;
-                        let [newSelection] = await db.selections.add_selection({ name: foundSelection.name, menu_item_id: id, selection_type_id: type });
-                        newKey = Number(newSelection.id);
+                        let [exist] = await db.selections.check_selection({ name: foundSelection.name, menu_item_id: id });
+                        if (!exist) {
+                            let [newSelection] = await db.selections.add_selection({ name: foundSelection.name, menu_item_id: id, selection_type_id: type });
+                            newKey = Number(newSelection.id);
+                        } else {
+                            newKey = exist.id;
+                        }
                     }
 
                     let [ingExist] = await db.ingredients.check_ingredient({ name: element.name });
@@ -180,17 +185,18 @@ const adminCtrl = {
                 })
             }
 
-            const updatedSelections = await db.selections.get_selections_and_ingredients({ id });
-            let uniqueSelectionId = [];
-            let selection = [];
-
             selections.forEach(async variant => {
                 if (typeof variantId === 'number') {
                     let variantId = variant.id;
                     let type = variant.selectionType === 'radio' ? 1 : 2;
                     await db.selections.update_selections_name_and_type({ id: variantId, selectionType: type, name: variant.name });
                 }
-            })
+            });
+
+            const updatedSelections = await db.selections.get_selections_and_ingredients({ id });
+
+            let uniqueSelectionId = [];
+            let selection = [];
 
             const mappedSelections = await updatedSelections.map(instance => {
                 const { selection_id, selection_name, selection_type_id, enabled: ingredient_enabled, preset, ingredient_id, ingredient_name } = instance;

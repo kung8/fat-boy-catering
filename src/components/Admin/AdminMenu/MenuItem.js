@@ -219,17 +219,17 @@ export default function MenuItem(props) {
         }
 
         if (copy.name && copy.image) {
-            let newItem = typeof id !== 'number';
+            // let newItem = typeof id !== 'number';
             const { data } = await axios.put('/api/menu/' + id, { item: copy, deleted, created });
-            await menuItemToggleFromAdmin(data);
-            await updateEditedItem(data);
-            handleItemCollapse(boolean);
-            socket.emit('update menu item data', data);
-            if (newItem) {
-                toast(`Added ${name}!`, { className: 'lime' });
-            } else {
-                toast(`Updated ${name} successfully!`, { className: 'lime' });
-            }
+            await socket.emit('convey menu item update', id);
+            await menuItemToggleFromAdmin(data, true);
+            // await updateEditedItem(data);
+            // handleItemCollapse(boolean);
+            // if (newItem) {
+            //     toast(`Added ${name}!`, { className: 'lime' });
+            // } else {
+            //     toast(`Updated ${name} successfully!`, { className: 'lime' });
+            // }
         }
     }
 

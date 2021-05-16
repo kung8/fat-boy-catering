@@ -20,9 +20,11 @@ export default function MenuItem(props) {
         if (Object.keys(menuItem).length === 0) {
             getMenuItemData();
         }
-        socket.emit('join room');
+        socket.emit('join menu item', id);
         socket.on('joined successfully');
-        socket.on('updated menu item data', data => updateMenuItem(data));
+        socket.on('updated menu item ' + id + ' data', async () => {
+            getMenuItemData();
+        });
         // eslint-disable-next-line
     }, [])
 
