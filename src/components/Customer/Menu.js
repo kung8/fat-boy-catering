@@ -19,8 +19,8 @@ export default function Menu(props) {
         getSessionStorage();
         initialization();
         if (!room) {
-            socket.emit('join menu page room');
-            socket.on('joined menu page successfully', async roomName => await updateRoom(roomName));
+            socket.emit('join page');
+            socket.on('joined successfully', async roomName => await updateRoom(roomName));
             initializeCollapse();
             socket.on('updated menu data', async data => {
                 await updateMenu(data);
@@ -32,25 +32,23 @@ export default function Menu(props) {
                 if (catIndex > -1) copy[catIndex] = data;
                 await updateMenu(copy);
                 initialization();
-            })
+            });
             socket.on('deleted category data', async id => {
                 let copy = [...menu];
                 let catIndex = copy.findIndex(cat => cat.id === id);
                 if (catIndex > -1) copy.splice(catIndex, 1);
                 await updateMenu(copy);
                 initialization();
-            })
+            });
         }
         // eslint-disable-next-line
     }, [screenSize]);
 
     const initialization = async () => {
-        if (menu.length === 0) {
-            await getMenuPageData();
-            await getScreenWidth();
-            await initializeCollapse();
-            await handleScreenResize();
-        }
+        await getMenuPageData();
+        await getScreenWidth();
+        await initializeCollapse();
+        await handleScreenResize();
     }
 
     const getSessionStorage = async () => {

@@ -4,7 +4,6 @@ import Selection from './Selection';
 import cloneDeep from 'lodash.clonedeep';
 import Toast from '../../_Global/Toast';
 import { toast } from 'react-toastify';
-import socket from '../../_Global/Socket';
 
 export default function MenuItem(props) {
     const { index, item, catIndex, catCollapsed, menuItemToggleFromAdmin, screenSize, mini, updateMenuItemModal } = props;
@@ -92,7 +91,7 @@ export default function MenuItem(props) {
         if (copy.name === '' && original.name) {
             copy.name = original.name;
         } else if (copy.name === '' || !copy.name) {
-            await menuItemToggleFromAdmin({ id });
+            await menuItemToggleFromAdmin({ id, index: catIndex, menuItemIndex: index });
             return;
         }
 
@@ -219,17 +218,16 @@ export default function MenuItem(props) {
         }
 
         if (copy.name && copy.image) {
-            // let newItem = typeof id !== 'number';
+            let newItem = typeof id !== 'number';
             const { data } = await axios.put('/api/menu/' + id, { item: copy, deleted, created });
-            await socket.emit('convey menu item update', id);
-            await menuItemToggleFromAdmin(data, true);
-            // await updateEditedItem(data);
-            // handleItemCollapse(boolean);
-            // if (newItem) {
-            //     toast(`Added ${name}!`, { className: 'lime' });
-            // } else {
-            //     toast(`Updated ${name} successfully!`, { className: 'lime' });
-            // }
+            await menuItemToggleFromAdmin(data);
+            await updateEditedItem(data);
+            handleItemCollapse(boolean);
+            if (newItem) {
+                toast(`Added ${name}!`, { className: 'lime' });
+            } else {
+                toast(`Updated ${name} successfully!`, { className: 'lime' });
+            }
         }
     }
 

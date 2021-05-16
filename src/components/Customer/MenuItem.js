@@ -17,14 +17,9 @@ export default function MenuItem(props) {
 
     useEffect(() => {
         getSessionStorage();
-        if (Object.keys(menuItem).length === 0) {
-            getMenuItemData();
-        }
-        socket.emit('join menu item page', id);
-        socket.on('joined menu item page successfully');
-        socket.on('updated menu item ' + id + ' data', async () => {
-            getMenuItemData();
-        });
+        socket.emit('join item page');
+        socket.on('joined item successfully', async () => await getMenuItemData());
+        socket.on('updated menu data', async () => await getMenuItemData());
         // eslint-disable-next-line
     }, [])
 
@@ -135,7 +130,14 @@ export default function MenuItem(props) {
                                     const boolean = selected && selected[index] && selected[index] === ingredientName;
                                     return (
                                         <div key={ingredientId} className="ingredient-item radio-type align-ctr">
-                                            <input className={`${boolean && 'checked'}`} type="radio" name={id} id={ingredientId} checked={boolean} value={ingredientId} onChange={() => handleSelection(index, ingredientName, true)} />
+                                            <input 
+                                                className={`${boolean && 'checked'}`} 
+                                                type="radio" 
+                                                name={id} 
+                                                id={ingredientId} 
+                                                checked={boolean} 
+                                                value={ingredientId} 
+                                                onChange={() => handleSelection(index, ingredientName, true)} />
                                             <label htmlFor={ingredientId}>{ingredientName}</label>
                                         </div>
                                     )

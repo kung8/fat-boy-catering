@@ -54,12 +54,9 @@ export default function AdminMenu(props) {
     }
 
     const handleToggle = async (data, reload) => {
-        if (Object.keys(data).length === 1) {
-            const copy = await menu.map(cat => {
-                const foundItemIndex = cat.menuItems.findIndex(item => item.id === data.id)
-                if (foundItemIndex > -1) cat.menuItems.splice(foundItemIndex, 1);
-                return cat;
-            })
+        if (Object.keys(data).length === 3) {
+            const copy = [...menu];
+            copy[data.index].menuItems.splice(data.menuItemIndex, 1);
             await updateMenu(copy);
             await socket.emit('update menu data', copy);
         } else {
