@@ -68,7 +68,8 @@ CREATE TABLE orders (
     id serial primary key,
     name varchar, 
     phone varchar, 
-    department varchar
+    department varchar,
+    status varchar
 );
 
 CREATE TABLE line_items (
@@ -77,7 +78,8 @@ CREATE TABLE line_items (
     menu_item_id integer, 
     toppings varchar[],
     instructions varchar, 
-    date varchar
+    date varchar, 
+    qty integer
 );
 
 CREATE TABLE hero (

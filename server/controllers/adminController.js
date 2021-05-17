@@ -257,6 +257,47 @@ const adminCtrl = {
             category = newCategory;
         }
         res.send(category);
+    },
+
+    getOrders: async (req, res) => {
+        const db = req.app.get('db');
+        const orders = await db.orders.get_orders();
+        const organizedOrders = [];
+        const existing = [];
+        await orders.forEach(async order => {
+            const { line_item_id, qty, menu_item_id, toppings, instructions, date, order_id, name, phone, department, status, menu_item_name } = order;
+            
+            const orderObj = {
+                order_id,
+                name,
+                phone,
+                department,
+                date,
+                status
+            }
+
+            const lineItem = {
+                line_item_id,
+                menu_item_id,
+                ingredients: toppings,
+                instructions,
+                menu_item_name,
+                qty
+            }
+
+            if (!existing.includes(order_id)) {
+                existing.push(order_id);
+                if (!orderObj.lineItems) {
+                    orderObj.lineItems = [];
+                }
+                orderObj.lineItems.push(lineItem);
+                organizedOrders.push(orderObj);
+            } else {
+                let index = organizedOrders.findIndex(item => item.order_id === order_id);
+                if (index > -1) organizedOrders[index].lineItems.push(lineItem);
+            }
+        });
+        res.send(organizedOrders);
     }
 }
 
