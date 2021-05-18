@@ -20,9 +20,13 @@ export default function Status(props) {
 
     const getOrders = async () => {
         let { data } = await axios.get('/api/orders');
-        data = data.filter(order => filteredStatuses.includes(order.status));
-        updateOrders(data);
-        updateIsLoaded(true);
+        handleFilter(data);
+    }
+
+    const handleFilter = async (orderData) => {
+        let data = await orderData.filter(order => filteredStatuses.includes(order.status));
+        await updateOrders(data);
+        await updateIsLoaded(true);
     }
 
     const mapFilters = () => {
@@ -33,7 +37,7 @@ export default function Status(props) {
                     {filters.map((filter, index) => {
                         return (
                             <button
-                                key={index}
+                                key={filter + '-' + index}
                                 onClick={() => handleFilterChange(filter)}
                                 className={`filter-btn ${filter === selectedFilter && 'selected'}`}
                             >
@@ -56,7 +60,7 @@ export default function Status(props) {
                         const included = filteredStatuses.includes(label);
                         return (
                             <button
-                                key={index}
+                                key={label + '-' + index}
                                 className={`status-btn align-ctr ${!included && 'not-included'}`}
                                 onClick={() => handleStatusSelection(label, included)}
                             >
@@ -79,8 +83,9 @@ export default function Status(props) {
                     {orders.map(order => {
                         return (
                             <OrderCard
-                                key={order.id}
+                                key={order.order_id}
                                 order={order}
+                                updateOrder={updateOrder}
                             />
                         )
                     })}
@@ -111,6 +116,15 @@ export default function Status(props) {
             selected.push(filter);
         }
         updateFilteredStatuses(selected);
+    }
+
+    const updateOrder = async (newOrder) => {
+        const { order_id } = newOrder;
+        const copy = [...orders];
+        let index = copy.findIndex(item => item.order_id === order_id);
+        if (index > -1) copy[index] = newOrder
+        await updateOrders(copy);
+        await handleFilter(copy);
     }
 
     return (

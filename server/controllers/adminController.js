@@ -262,11 +262,16 @@ const adminCtrl = {
     getOrders: async (req, res) => {
         const db = req.app.get('db');
         const orders = await db.orders.get_orders();
+        const organizedOrders = await adminCtrl.formatOrder(orders);
+        res.send(organizedOrders);
+    },
+
+    formatOrder: async (orders) => {
         const organizedOrders = [];
         const existing = [];
         await orders.forEach(async order => {
             const { line_item_id, qty, menu_item_id, toppings, instructions, date, order_id, name, phone, department, status, menu_item_name } = order;
-            
+
             const orderObj = {
                 order_id,
                 name,
@@ -297,7 +302,17 @@ const adminCtrl = {
                 if (index > -1) organizedOrders[index].lineItems.push(lineItem);
             }
         });
-        res.send(organizedOrders);
+
+        return organizedOrders;
+    },
+
+    updateOrderStatus: async (req, res) => {
+        const db = req.app.get('db');
+        const { id } = req.params;
+        const { status } = req.body;
+        const updatedOrder = await db.orders.update_status({ id, status });
+        const [order] = await adminCtrl.formatOrder(updatedOrder);
+        res.send(order);
     }
 }
 

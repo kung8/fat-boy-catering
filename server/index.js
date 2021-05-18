@@ -35,4 +35,5 @@ massive(CONNECTION_STRING).then(db => {
     app.get('/api/menu', menuCtrl.getMenuPage);
     app.post('/api/cart', menuCtrl.checkout);
     app.get('/api/orders', adminCtrl.getOrders);
+    app.put('/api/order/:id', adminCtrl.updateOrderStatus);
 })

@@ -98,6 +98,12 @@
                         font-size: 14px;
                         text-decoration: underline;
                     }
+                    .status-label {
+                        background: transparent;
+                        text-align-last: right;
+                        border: none;
+                        outline: none;
+                    }
                 }
                 .line-item-card {
                     margin-bottom: 16px;
