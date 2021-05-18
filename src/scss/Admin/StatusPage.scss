@@ -1,9 +1,12 @@
 .status-page {
     width: 100%;
     background: $slate;
-    margin-top: 75px;
-    @include down($mini) {
-        margin-top: 62px;
+    .top-section {
+        height: 85px;
+        width: 100%;
+        @include down($mini) {
+            height: 65px;
+        }
     }
     .container {
         width: 70%;

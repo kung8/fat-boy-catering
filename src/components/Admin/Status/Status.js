@@ -128,8 +128,9 @@ export default function Status(props) {
     }
 
     return (
-        <Loading loaded={isLoaded} checkHeight={checkHeight} image={null}>
+        <Loading loaded={isLoaded} checkHeight={checkHeight} image={'.top-section'}>
             <div className="status-page align-ctr col">
+                <div className="top-section"></div>
                 {mapFilters()}
                 {mapStatuses()}
                 {mapOrders()}
