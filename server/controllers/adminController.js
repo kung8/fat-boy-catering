@@ -261,7 +261,8 @@ const adminCtrl = {
 
     getOrders: async (req, res) => {
         const db = req.app.get('db');
-        const orders = await db.orders.get_orders();
+        const { start, end } = req.query;
+        const orders = await db.orders.get_orders({ start, end });
         const organizedOrders = await adminCtrl.formatOrder(orders);
         res.send(organizedOrders);
     },

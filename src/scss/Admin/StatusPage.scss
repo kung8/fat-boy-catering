@@ -44,6 +44,15 @@
                 background: $blue-green;
             }
         }
+        .dash-container {
+            height: 48px;
+            width: 75px;
+            p {
+                height: 10%;
+                color: $hitam;
+                font-size: 20px;
+            }
+        }
         .status-btn-container {
             background: $burnt;
             padding: 12px 16px;
