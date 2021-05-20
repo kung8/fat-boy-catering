@@ -93,16 +93,16 @@
                 padding: 8px;
                 margin-bottom: 12px;
                 &.open {
-                    background: $grass;
+                    background: #B38CFA;
                 }
                 &.in-progress {
-                    background: $sunshine;
+                    background: #ffcc99;
                 }
                 &.fulfilled {
-                    background: $ruby;
+                    background: #FA6F65;
                 }
                 * {
-                    color: $pearl;
+                    color: $hitam;
                 }
                 .order-heading {
                     margin-bottom: 4px;
@@ -119,11 +119,16 @@
                 }
                 .line-item-card {
                     margin-bottom: 16px;
+                    .line-item-heading {
+                        margin-bottom: 2px;
+                    }
                     .menu-item-name {
                         font-size: 12px;
                     }
                     .ingredients {
-                        font-size: 12px;
+                        span {
+                            font-size: 10px;
+                        }
                     }
                     .instructions {
                         font-size: 12px;

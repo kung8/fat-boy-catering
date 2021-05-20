@@ -3,6 +3,9 @@ import OrderCard from './OrderCard';
 import axios from 'axios';
 import Loading from '../../_Global/Loading';
 import Footer from '../../_Global/Footer';
+import socket from '../../_Global/Socket';
+import Toast from '../../_Global/Toast';
+import { toast } from 'react-toastify';
 
 export default function Status(props) {
     const { checkHeight } = props;
@@ -10,12 +13,17 @@ export default function Status(props) {
     const [isLoaded, updateIsLoaded] = useState(false);
     // const filters = ['Today', 'Date Period'];
     // const filters = ['Today'];
-    const statuses = [{ color: '#008D28', label: 'Open' }, { color: '#FF9432', label: 'In Progress' }, { color: '#f44336', label: 'Fulfilled' }];
+    const statuses = [{ color: '#B38CFA', label: 'Open' }, { color: '#ffcc99', label: 'In Progress' }, { color: '#FA6F65', label: 'Fulfilled' }];
     // const [selectedFilter, updateSelectedFilter] = useState('Today');
-    const [filteredStatuses, updateFilteredStatuses] = useState(['Open', 'In Progress', 'Fulfilled']);
+    const [filteredStatuses, updateFilteredStatuses] = useState(['Open', 'In Progress']);
 
     useEffect(() => {
         getOrders();
+        socket.emit('join page');
+        socket.on('updated orders', async data => {
+            handleFilter(data);
+            toast('New Order Received', { className: 'lime' });
+        })
         // eslint-disable-next-line
     }, [filteredStatuses]);
 
@@ -168,6 +176,7 @@ export default function Status(props) {
                 {mapStatuses()}
                 {mapOrders()}
                 <Footer />
+                {Toast}
             </div>
         </Loading>
     )

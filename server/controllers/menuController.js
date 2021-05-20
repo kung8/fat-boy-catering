@@ -40,16 +40,16 @@ module.exports = {
     },
     checkout: async (req, res) => {
         const db = req.app.get('db');
-        let { name, department, phone, cartItems } = req.body;
-        const [newOrder] = await db.orders.add_order({ name, department, phone });
+        let { name, department, phone, cartItems, status } = req.body;
+        const [newOrder] = await db.orders.add_order({ name, department, phone, status });
         const order_id = newOrder.id;
 
         const date = Date.now();
 
         await cartItems.forEach(async item => {
-            let { instructions, selections: ingredients, menu_item_id } = item;
+            let { instructions, selections: ingredients, menu_item_id, qty } = item;
             if (instructions === '') instructions = null;
-            await db.orders.add_line_item({ order_id, menu_item_id, ingredients, instructions, date });
+            await db.orders.add_line_item({ order_id, menu_item_id, ingredients, instructions, date, qty });
         });
         return res.sendStatus(200);
     }

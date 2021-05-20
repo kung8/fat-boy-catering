@@ -1,3 +1,3 @@
-INSERT INTO orders (name, department, phone)
-VALUES (${name}, ${department}, ${phone})
+INSERT INTO orders (name, department, phone, status)
+VALUES (${name}, ${department}, ${phone}, ${status})
 RETURNING *;

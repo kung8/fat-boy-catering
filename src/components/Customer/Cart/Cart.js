@@ -5,6 +5,7 @@ import CartItem from './CartItem';
 import Footer from '../../_Global/Footer';
 import Toast from '../../_Global/Toast';
 import { toast } from 'react-toastify';
+import socket from '../../_Global/Socket';
 
 export default function Cart(props) {
     const { checkHeight, updateCartNum } = props;
@@ -23,7 +24,7 @@ export default function Cart(props) {
         if (cart) {
             cart = Object.values(JSON.parse(cart));
             let values = cart.filter(item => item.qty > 0);
-            sessionStorage.setItem('cart', JSON.stringify(values));            
+            sessionStorage.setItem('cart', JSON.stringify(values));
             let newCart = [];
             for (let key in cart) {
                 if (cart[key].qty > 0) {
@@ -84,9 +85,10 @@ export default function Cart(props) {
     }
 
     const handleCheckOut = async () => {
-        const data = { name, department, phone, cartItems };
+        const data = { name, department, phone, cartItems, status: 'Open' };
         if (name !== '' && department !== '' && phone !== '' && cartItems.length > 0) {
             await axios.post('/api/cart', data);
+            await socket.emit('update orders');
             updateFormData({ name: '', department: '', phone: '' });
             sessionStorage.removeItem('cart');
             updateCartNum(0);

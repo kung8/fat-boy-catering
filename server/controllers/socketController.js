@@ -1,4 +1,5 @@
 let room = 'menu page';
+const { formatOrder } = require('./adminController');
 
 module.exports = {
     socketListeners: async (socket, db, io) => {
@@ -22,6 +23,23 @@ module.exports = {
 
         socket.on('delete category data', async id => {
             io.in(room).emit('deleted category data', id);
+        });
+
+        socket.on('update orders', async () => {
+            let date = new Date();
+            let month = date.getMonth();
+            let year = date.getFullYear();
+            let day = date.getDate();
+            if (month < 10) month = '0' + month;
+            if (day < 10) day = '0' + day;
+            date = year + '-' + month + '-' + day;
+
+            let start = new Date(date + 'T00:00:00.000Z').getTime().toString();
+            let end = new Date(date + 'T23:59:59.999Z').getTime().toString();
+
+            const orders = await db.orders.get_orders({ start, end });
+            const formattedOrders = await formatOrder(orders);
+            io.in(room).emit('updated orders', formattedOrders);
         });
     }
 }
