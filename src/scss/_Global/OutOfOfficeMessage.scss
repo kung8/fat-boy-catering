@@ -1,0 +1,20 @@
+.out-of-office-message-container {
+    position: fixed;
+    top: 130px;
+    width: calc(70% - 8px);
+    height: 100px;
+    background: $dark-grey;
+    margin-left: 4px;
+    margin-right: 4px;
+    @include down($tablet) {
+        width: calc(90% - 8px);
+    }
+    @include down($mini) {
+        top: 65px;
+        width: calc(100% - 8px);
+    }
+    p {
+        padding: 8px;
+        color: $pearl;
+    }
+}

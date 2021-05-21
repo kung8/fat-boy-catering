@@ -37,4 +37,5 @@ massive(CONNECTION_STRING).then(db => {
     app.get('/api/orders', adminCtrl.getOrders);
     app.put('/api/order/:id', adminCtrl.updateOrderStatus);
     app.post('/api/delay', adminCtrl.updateDelay);
+    app.post('/api/message', adminCtrl.updateOutOfOfficeMessage);
 })

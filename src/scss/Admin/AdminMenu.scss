@@ -396,4 +396,28 @@
             }
         }
     }
+    .admin-out-of-office-message-container {
+        margin-top: 24px;
+        width: 90%;
+        .out-of-office-message-label {
+            font-size: 14px;
+        }
+        @import '../Admin/RadioToggle';
+        .out-of-office-message-heading {
+            margin-bottom: 6px;
+        }
+        .out-of-office-message-input {
+            margin-bottom: 24px;
+            width: 100%;
+            padding: 8px;
+            font-size: 12px;
+            outline: none; 
+            min-width: 100%;
+            max-width: 100%;
+            min-height: 60px;
+            max-height: 60px;
+            border: 1px solid $stone;
+            background: lightgrey;
+        }
+    }
 }

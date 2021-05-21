@@ -2,10 +2,11 @@ const adminCtrl = {
     getAdminMenuPage: async (req, res) => {
         const db = req.app.get('db');
         const items = await db.categories.get_categories_with_menu_items();
+        const [messageObj] = await db.message.get_out_of_office_message();
         const [heroInstance] = await db.hero.get_hero();
         const [delay] = await db.delay.get_delay();
         const finalMenu = await adminCtrl.loopThroughItems(items);
-        res.send({ menu: finalMenu, hero: heroInstance.hero, time: delay });
+        res.send({ menu: finalMenu, hero: heroInstance.hero, time: delay, message: messageObj });
     },
 
     updateHero: async (req, res) => {
@@ -320,6 +321,13 @@ const adminCtrl = {
         const db = req.app.get('db');
         const { delay } = req.body;
         await db.delay.update_delay({ delay });
+        res.sendStatus(200);
+    },
+
+    updateOutOfOfficeMessage: async (req, res) => {
+        const db = req.app.get('db');
+        const { message, enabled } = req.body;
+        await db.message.update_out_of_office_message({ message, enabled });
         res.sendStatus(200);
     }
 }

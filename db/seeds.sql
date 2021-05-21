@@ -10,6 +10,7 @@ DROP TABLE orders;
 DROP TABLE line_items;
 DROP TABLE hero;
 DROP TABLE delays;
+DROP TABLE messages;
 
 -- CREATION OF TABLES -- 
 CREATE TABLE users (
@@ -91,6 +92,12 @@ CREATE TABLE hero (
 CREATE TABLE delays (
     id serial primary key, 
     delay integer
+);
+
+CREATE TABLE messages (
+    id serial primary key, 
+    message varchar, 
+    enabled boolean
 );
 
 -- INITIALIZE TABLES --  
@@ -394,3 +401,6 @@ VALUES  ('1PslYKPq4VhxmDxjSufWgGophGsPWSF0w');
 
 INSERT INTO delays (delay)
 VALUES (0);
+
+INSERT INTO messages (message, enabled)
+VALUES ('', false);

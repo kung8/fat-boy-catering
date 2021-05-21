@@ -1,8 +1,9 @@
-const hero = './assets/background-menu-placeholder.png';
-
 module.exports = {
     getMenuPage: async (req, res) => {
         const db = req.app.get('db');
+        const [hero] = await db.hero.get_hero();
+        const [delayObj] = await db.delay.get_delay();
+        const [messageObj] = await db.message.get_out_of_office_message();
         const categories = await db.categories.get_categories();
         const catWithMenuItems = await categories.map(async cat => {
             const menuItems = await db.menu_items.get_menu_items_by_category({ id: cat.id });
@@ -11,7 +12,7 @@ module.exports = {
         });
 
         Promise.all(catWithMenuItems).then(menu => {
-            res.send({ menu, hero });
+            res.send({ menu, hero: hero.hero, delay: delayObj.delay, message: messageObj });
         });
     },
     getMenuItem: async (req, res) => {

@@ -18,7 +18,9 @@ export default function AdminMenu(props) {
     const [showMenuItemModal, updateShowMenuItemModal] = useState(false);
     const [menuItemModalData, updateMenuItemModalData] = useState({});
     const [showHero, updateShowHero] = useState(true);
-    const [delay, updateDelay] = useState(0);
+    const [delay, updateDelay] = useState(null);
+    const [outOfOfficeMessageEnabled, updateOutOfOfficeMessageEnabled] = useState(false);
+    const [message, updateMessage] = useState('');
 
     useEffect(() => {
         getAdminMenuPageData();
@@ -29,10 +31,12 @@ export default function AdminMenu(props) {
 
     const getAdminMenuPageData = async () => {
         const { data } = await axios.get('/api/menu/admin');
-        const { hero, menu, time } = data;
+        const { hero, menu, time, message } = data;
         updateHero(hero);
         await updateMenu(menu);
         updateDelay(time.delay);
+        updateMessage(message.message);
+        updateOutOfOfficeMessageEnabled(message.enabled);
         socket.emit('update menu data', menu);
         await updateIsLoaded(true);
     }
@@ -152,6 +156,23 @@ export default function AdminMenu(props) {
         socket.emit('update delay', value);
     }
 
+    const handleOutOfOfficeMessageEnabled = async (value) => {
+        if (value && message !== '') {
+            socket.emit('update out of office message', message);
+            updateOutOfOfficeMessageEnabled(value);
+        } else {
+            socket.emit('update out of office message', null);
+            updateOutOfOfficeMessageEnabled(false);
+        }
+        await axios.post('/api/message', { message, enabled: value });
+    }
+
+    const handleMessageUpdate = (value) => {
+        updateOutOfOfficeMessageEnabled(false);
+        socket.emit('update out of office message', null);
+        updateMessage(value);
+    }
+
     return (
         <Loading loaded={isLoaded} checkHeight={checkHeight} image=".hero" showMenuItemModal={showMenuItemModal}>
             <div className="admin-menu-page menu-page col align-ctr">
@@ -196,6 +217,24 @@ export default function AdminMenu(props) {
                         <button onClick={() => handleDelayUpdate(15)} className={`15-min-delay-btn ${delay === 15 && 'selected'}`}>15</button>
                         <button onClick={() => handleDelayUpdate(20)} className={`20-min-delay-btn ${delay === 20 && 'selected'}`}>20</button>
                     </div>
+                </div>
+                <hr className="separating-line" />
+                <div className="admin-out-of-office-message-container">
+                    <div className="out-of-office-message-heading align-ctr flex-btwn">
+                        <h4 className="out-of-office-message-label">Out of Office Message:</h4>
+                        <div
+                            className={`radio-toggle-button out-of-office-message-btn align-ctr flex-btwn ${!outOfOfficeMessageEnabled && 'reversed'}`}
+                            onClick={() => handleOutOfOfficeMessageEnabled(!outOfOfficeMessageEnabled)}>
+                            <span className="button-text">{outOfOfficeMessageEnabled ? 'ON' : 'OFF'}</span>
+                            <div className="circle-button"></div>
+                        </div>
+                    </div>
+                    <textarea
+                        className="out-of-office-message-input"
+                        type="text"
+                        value={message}
+                        onChange={(e) => handleMessageUpdate(e.target.value)}
+                    />
                 </div>
                 <hr className="separating-line" />
                 <Footer />

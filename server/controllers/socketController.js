@@ -44,6 +44,10 @@ module.exports = {
 
         socket.on('update delay', delay => {
             io.in(room).emit('updated delay', delay);
+        });
+        
+        socket.on('update out of office message', message => {
+            io.in(room).emit('updated out of office message', message);
         })
     }
 }

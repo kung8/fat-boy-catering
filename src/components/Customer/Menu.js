@@ -3,6 +3,7 @@ import axios from 'axios';
 import Footer from '../_Global/Footer';
 import Loading from '../_Global/Loading';
 import socket from '../_Global/Socket';
+import OutOfOfficeMessage from '../_Global/OutOfOfficeMessage';
 
 export default function Menu(props) {
     const { checkHeight, updateCartNum } = props;
@@ -14,6 +15,9 @@ export default function Menu(props) {
     const [isLoaded, updateIsLoaded] = useState(false);
     const googleDriveURL = 'https://drive.google.com/uc?export=view&id=';
     const [room, updateRoom] = useState(null);
+    const [outOfOfficeMessage, updateOutOfOfficeMessage] = useState(null);
+    const [outOfOfficeMessageEnabled, updateOutOfOfficeMessageEnabled] = useState(false);
+    const [delay, updateDelay] = useState(0);
 
     useEffect(() => {
         getSessionStorage();
@@ -40,6 +44,9 @@ export default function Menu(props) {
                 await updateMenu(copy);
                 initialization();
             });
+            socket.on('updated out of office message', async message => {
+                updateOutOfOfficeMessage(message);
+            });
         }
         // eslint-disable-next-line
     }, [screenSize]);
@@ -53,7 +60,7 @@ export default function Menu(props) {
 
     const getSessionStorage = async () => {
         let cart = await sessionStorage.getItem('cart');
-        
+
         if (cart) {
             cart = Object.values(JSON.parse(cart));
             let values = cart.filter(item => item.qty > 0);
@@ -65,9 +72,12 @@ export default function Menu(props) {
 
     const getMenuPageData = async () => {
         const { data } = await axios.get('/api/menu');
-        const { hero, menu } = data;
+        const { hero, menu, delay, message } = data;
         updateHero(hero);
         await updateMenu(menu);
+        updateDelay(delay);
+        updateOutOfOfficeMessage(message.message);
+        updateOutOfOfficeMessageEnabled(message.enabled);
         await updateIsLoaded(true);
     }
 
@@ -164,9 +174,10 @@ export default function Menu(props) {
     return (
         <Loading loaded={isLoaded} checkHeight={checkHeight} image='.hero'>
             <div className="menu-page">
-                <img src={hero} alt="hero" className="hero" />
+                <img src={googleDriveURL + hero} alt="hero" className="hero" />
                 {mapMenu()}
                 <Footer />
+                {outOfOfficeMessageEnabled && outOfOfficeMessage && <OutOfOfficeMessage message={outOfOfficeMessage} />}
             </div>
         </Loading>
     )
