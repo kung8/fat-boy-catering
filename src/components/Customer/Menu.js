@@ -17,7 +17,6 @@ export default function Menu(props) {
     const [room, updateRoom] = useState(null);
     const [outOfOfficeMessage, updateOutOfOfficeMessage] = useState(null);
     const [outOfOfficeMessageEnabled, updateOutOfOfficeMessageEnabled] = useState(false);
-    const [delay, updateDelay] = useState(0);
 
     useEffect(() => {
         getSessionStorage();
@@ -74,10 +73,9 @@ export default function Menu(props) {
 
     const getMenuPageData = async () => {
         const { data } = await axios.get('/api/menu');
-        const { hero, menu, delay, message } = data;
+        const { hero, menu, message } = data;
         updateHero(hero);
         await updateMenu(menu);
-        updateDelay(delay);
         if (!sessionStorage.getItem('seen-out-of-office-message')) {
             updateOutOfOfficeMessage(message.message);
             updateOutOfOfficeMessageEnabled(message.enabled);

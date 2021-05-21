@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Footer from '../../_Global/Footer';
 import Loading from '../../_Global/Loading';
+import socket from '../../_Global/Socket';
 
 export default function EditMenuItem(props) {
     const { checkHeight, updateCartNum } = props;
@@ -12,7 +13,6 @@ export default function EditMenuItem(props) {
     const [isLoaded, updateIsLoaded] = useState(false);
     const [instructions, updateInstructions] = useState('');
     const googleDriveURL = 'https://drive.google.com/uc?export=view&id=';
-    const [selectedCartItem, updateSelectedCartItem] = useState({});
     const [cartItems, updateCartItems] = useState({});
     const [selectedIndex, updateSelectedIndex] = useState(null);
     const [delay, updateDelay] = useState(0);
@@ -22,6 +22,10 @@ export default function EditMenuItem(props) {
         if (menuItem && Object.keys(menuItem).length === 0) {
             getMenuItemData(selectedItem);
         }
+        socket.emit('join item page');
+        socket.on('joined item successfully', async () => await getMenuItemData());
+        socket.on('updated menu data', async () => await getMenuItemData());
+        socket.on('updated delay', time => updateDelay(time));
         // eslint-disable-next-line
     }, [])
 
@@ -33,7 +37,6 @@ export default function EditMenuItem(props) {
             cart = JSON.parse(cart);
             updateCartItems(cart);
             updateSelectedIndex(selectedIndex);
-            updateSelectedCartItem(cart[selectedIndex]);
             updateCartNum(Object.keys(cart).length);
             updateQty(cart[selectedIndex].qty);
             updateInstructions(cart[selectedIndex].instructions);
@@ -46,6 +49,7 @@ export default function EditMenuItem(props) {
         let { data } = await axios.get('/api/menu/' + id);
         let { item, delayObj } = data;
         await updateMenuItem(item);
+        updateDelay(delayObj.delay);
         await updateIsLoaded(true);
         createSelection(item.selections, selectedItem);
     }
