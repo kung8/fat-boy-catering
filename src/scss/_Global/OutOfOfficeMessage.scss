@@ -2,8 +2,7 @@
     position: fixed;
     top: 130px;
     width: calc(70% - 8px);
-    height: 100px;
-    background: $dark-grey;
+    background: indianred;
     margin-left: 4px;
     margin-right: 4px;
     @include down($tablet) {
@@ -13,8 +12,18 @@
         top: 65px;
         width: calc(100% - 8px);
     }
-    p {
-        padding: 8px;
+    .close-btn {
+        position: absolute;
+        right: 10px;
+        top: 10px;
         color: $pearl;
+        background: transparent;
+        border: none; 
+        outline: none;
+    }
+    p {
+        padding: 20px;
+        color: $pearl;
+        font-size: 20px;
     }
 }

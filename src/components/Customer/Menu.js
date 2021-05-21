@@ -45,7 +45,9 @@ export default function Menu(props) {
                 initialization();
             });
             socket.on('updated out of office message', async message => {
-                updateOutOfOfficeMessage(message);
+                if (!sessionStorage.getItem('seen-out-of-office-message')) {
+                    updateOutOfOfficeMessage(message);
+                }
             });
         }
         // eslint-disable-next-line
@@ -76,8 +78,10 @@ export default function Menu(props) {
         updateHero(hero);
         await updateMenu(menu);
         updateDelay(delay);
-        updateOutOfOfficeMessage(message.message);
-        updateOutOfOfficeMessageEnabled(message.enabled);
+        if (!sessionStorage.getItem('seen-out-of-office-message')) {
+            updateOutOfOfficeMessage(message.message);
+            updateOutOfOfficeMessageEnabled(message.enabled);
+        }
         await updateIsLoaded(true);
     }
 

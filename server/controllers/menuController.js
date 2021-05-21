@@ -18,6 +18,7 @@ module.exports = {
     getMenuItem: async (req, res) => {
         const db = req.app.get('db');
         const { id } = req.params;
+        const [delayObj] = await db.delay.get_delay();
         const [item] = await db.menu_items.get_menu_item({ id });
 
         let range = 0;
@@ -36,8 +37,13 @@ module.exports = {
         });
         Promise.all(selectionsWithIngredients).then(() => {
             item.selections = selections;
-            res.send(item);
+            res.send({ item, delayObj });
         });
+    },
+    getMessaging: async (req, res) => {
+        const db = req.app.get('db');
+        const [messageObj] = await db.message.get_out_of_office_message();
+        res.send(messageObj);
     },
     checkout: async (req, res) => {
         const db = req.app.get('db');

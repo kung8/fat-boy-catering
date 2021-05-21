@@ -38,9 +38,11 @@ export default function MenuItem(props) {
     const getMenuItemData = async () => {
         let id = props.match.params.id;
         let { data } = await axios.get('/api/menu/' + id);
-        await updateMenuItem(data);
+        let { item, delayObj } = data;
+        await updateMenuItem(item);
+        updateDelay(delayObj.delay);
         await updateIsLoaded(true);
-        createSelection(data.selections);
+        createSelection(item.selections);
     }
 
     const createSelection = async (arr) => {
@@ -134,13 +136,13 @@ export default function MenuItem(props) {
                                     const boolean = selected && selected[index] && selected[index] === ingredientName;
                                     return (
                                         <div key={ingredientId} className="ingredient-item radio-type align-ctr">
-                                            <input 
-                                                className={`${boolean && 'checked'}`} 
-                                                type="radio" 
-                                                name={id} 
-                                                id={ingredientId} 
-                                                checked={boolean} 
-                                                value={ingredientId} 
+                                            <input
+                                                className={`${boolean && 'checked'}`}
+                                                type="radio"
+                                                name={id}
+                                                id={ingredientId}
+                                                checked={boolean}
+                                                value={ingredientId}
                                                 onChange={() => handleSelection(index, ingredientName, true)} />
                                             <label htmlFor={ingredientId}>{ingredientName}</label>
                                         </div>

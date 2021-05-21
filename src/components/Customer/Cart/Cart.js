@@ -6,6 +6,7 @@ import Footer from '../../_Global/Footer';
 import Toast from '../../_Global/Toast';
 import { toast } from 'react-toastify';
 import socket from '../../_Global/Socket';
+import OutOfOfficeMessage from '../../_Global/OutOfOfficeMessage';
 
 export default function Cart(props) {
     const { checkHeight, updateCartNum } = props;
@@ -13,9 +14,17 @@ export default function Cart(props) {
     const [cartItems, updateCartItems] = useState([]);
     const [formData, updateFormData] = useState({ name: '', department: '', phone: '' });
     const { name, department, phone } = formData;
+    const [outOfOfficeMessage, updateOutOfOfficeMessage] = useState(null);
+    const [outOfOfficeMessageEnabled, updateOutOfOfficeMessageEnabled] = useState(false);
 
     useEffect(() => {
         getCart();
+        getMessaging();
+        socket.on('updated out of office message', async message => {
+            if (!sessionStorage.getItem('seen-out-of-office-message')) {
+                updateOutOfOfficeMessage(message);
+            }
+        });
         // eslint-disable-next-line
     }, []);
 
@@ -35,6 +44,14 @@ export default function Cart(props) {
             await updateCartNum(newCart.length);
         }
         updateIsLoaded(true);
+    }
+
+    const getMessaging = async () => {
+        const { data } = await axios.get('/api/messaging');
+        if (!sessionStorage.getItem('seen-out-of-office-message')) {
+            updateOutOfOfficeMessageEnabled(data.enabled);
+            updateOutOfOfficeMessage(data.message);
+        }
     }
 
     const editCartItem = (id, index) => {
@@ -160,6 +177,7 @@ export default function Cart(props) {
                 </div>
                 <Footer />
                 {Toast}
+                {outOfOfficeMessageEnabled && outOfOfficeMessage && <OutOfOfficeMessage message={outOfOfficeMessage} />}
             </div>
         </Loading>
     )
