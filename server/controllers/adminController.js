@@ -3,8 +3,9 @@ const adminCtrl = {
         const db = req.app.get('db');
         const items = await db.categories.get_categories_with_menu_items();
         const [heroInstance] = await db.hero.get_hero();
+        const [delay] = await db.delay.get_delay();
         const finalMenu = await adminCtrl.loopThroughItems(items);
-        res.send({ menu: finalMenu, hero: heroInstance.hero });
+        res.send({ menu: finalMenu, hero: heroInstance.hero, time: delay });
     },
 
     updateHero: async (req, res) => {
@@ -313,6 +314,13 @@ const adminCtrl = {
         const updatedOrder = await db.orders.update_status({ id, status });
         const [order] = await adminCtrl.formatOrder(updatedOrder);
         res.send(order);
+    },
+
+    updateDelay: async (req, res) => {
+        const db = req.app.get('db');
+        const { delay } = req.body;
+        await db.delay.update_delay({ delay });
+        res.sendStatus(200);
     }
 }
 

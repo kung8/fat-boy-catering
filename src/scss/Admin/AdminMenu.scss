@@ -358,6 +358,42 @@
         outline: none;
         padding: 8px 10px;
         border: none;
+        margin-bottom: 24px;
     }
     @import './MenuItemModal';
+    .separating-line {
+        width: 100%;
+    }
+    .delay-section {
+        width: 90%;
+        margin-top: 24px;
+        .delay-label {
+            margin-bottom: 6px;
+            font-size: 14px;
+        }   
+        .delay-toggle-container {
+            margin-bottom: 24px;
+            button {
+                border: none;
+                outline: none;
+                background: $stone;
+                color: $pearl;
+                padding: 12px 40px;
+                border-radius: 24px;
+                @include down($mini) {
+                    padding: 8px 32px;
+                    border-radius: 16px;
+                }
+                @include down($mobile) {
+                    padding: 8px 20px;
+                }
+                @include down($small) {
+                    padding: 8px 16px;
+                }
+                &.selected {
+                    background: $cerulean;
+                }
+            }
+        }
+    }
 }

@@ -41,5 +41,9 @@ module.exports = {
             const formattedOrders = await formatOrder(orders);
             io.in(room).emit('updated orders', formattedOrders);
         });
+
+        socket.on('update delay', delay => {
+            io.in(room).emit('updated delay', delay);
+        })
     }
 }

@@ -9,6 +9,7 @@ DROP TABLE ingredients;
 DROP TABLE orders;
 DROP TABLE line_items;
 DROP TABLE hero;
+DROP TABLE delays;
 
 -- CREATION OF TABLES -- 
 CREATE TABLE users (
@@ -85,6 +86,11 @@ CREATE TABLE line_items (
 CREATE TABLE hero (
     id serial primary key, 
     hero varchar
+);
+
+CREATE TABLE delays (
+    id serial primary key, 
+    delay integer
 );
 
 -- INITIALIZE TABLES --  
@@ -385,3 +391,6 @@ VALUES  ('white'),
 
 INSERT INTO hero (hero)
 VALUES  ('1PslYKPq4VhxmDxjSufWgGophGsPWSF0w');
+
+INSERT INTO delays (delay)
+VALUES (0);

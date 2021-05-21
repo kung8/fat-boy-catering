@@ -1,0 +1,2 @@
+SELECT delay 
+FROM delays;

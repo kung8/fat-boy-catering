@@ -20,8 +20,9 @@ export default function MenuItem(props) {
         socket.emit('join item page');
         socket.on('joined item successfully', async () => await getMenuItemData());
         socket.on('updated menu data', async () => await getMenuItemData());
+        socket.on('updated delay', time => updateDelay(time));
         // eslint-disable-next-line
-    }, [])
+    }, [delay])
 
     const getSessionStorage = async () => {
         let cart = await sessionStorage.getItem('cart');

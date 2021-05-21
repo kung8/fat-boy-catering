@@ -18,6 +18,7 @@ export default function AdminMenu(props) {
     const [showMenuItemModal, updateShowMenuItemModal] = useState(false);
     const [menuItemModalData, updateMenuItemModalData] = useState({});
     const [showHero, updateShowHero] = useState(true);
+    const [delay, updateDelay] = useState(0);
 
     useEffect(() => {
         getAdminMenuPageData();
@@ -28,9 +29,10 @@ export default function AdminMenu(props) {
 
     const getAdminMenuPageData = async () => {
         const { data } = await axios.get('/api/menu/admin');
-        const { hero, menu } = data;
+        const { hero, menu, time } = data;
         updateHero(hero);
         await updateMenu(menu);
+        updateDelay(time.delay);
         socket.emit('update menu data', menu);
         await updateIsLoaded(true);
     }
@@ -144,6 +146,12 @@ export default function AdminMenu(props) {
         }
     }
 
+    const handleDelayUpdate = (value) => {
+        updateDelay(value);
+        axios.post('/api/delay', { delay: value });
+        socket.emit('update delay', value);
+    }
+
     return (
         <Loading loaded={isLoaded} checkHeight={checkHeight} image=".hero" showMenuItemModal={showMenuItemModal}>
             <div className="admin-menu-page menu-page col align-ctr">
@@ -178,6 +186,18 @@ export default function AdminMenu(props) {
                         menuItemToggleFromAdmin={handleToggle}
                     />
                 }
+                <hr className="separating-line" />
+                <div className="delay-section">
+                    <h4 className="delay-label">Delay:</h4>
+                    <div className="delay-toggle-container flex-btwn">
+                        <button onClick={() => handleDelayUpdate(0)} className={`0-min-delay-btn ${delay === 0 && 'selected'}`}>0</button>
+                        <button onClick={() => handleDelayUpdate(5)} className={`5-min-delay-btn ${delay === 5 && 'selected'}`}>5</button>
+                        <button onClick={() => handleDelayUpdate(10)} className={`10-min-delay-btn ${delay === 10 && 'selected'}`}>10</button>
+                        <button onClick={() => handleDelayUpdate(15)} className={`15-min-delay-btn ${delay === 15 && 'selected'}`}>15</button>
+                        <button onClick={() => handleDelayUpdate(20)} className={`20-min-delay-btn ${delay === 20 && 'selected'}`}>20</button>
+                    </div>
+                </div>
+                <hr className="separating-line" />
                 <Footer />
             </div>
         </Loading>
