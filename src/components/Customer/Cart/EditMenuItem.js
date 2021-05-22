@@ -31,7 +31,6 @@ export default function EditMenuItem(props) {
 
     const getSessionStorage = () => {
         let cart = sessionStorage.getItem('cart');
-        console.log(cart);
         let selectedIndex = sessionStorage.getItem('selectedIndex');
         if (cart) {
             cart = JSON.parse(cart);

@@ -5,6 +5,7 @@ import Loading from '../../_Global/Loading';
 import Category from './Category';
 import MenuItemModal from '../MenuItemModal/MenuItemModal';
 import socket from '../../_Global/Socket';
+import Login from './Login';
 
 export default function AdminMenu(props) {
     const { checkHeight } = props;
@@ -21,6 +22,7 @@ export default function AdminMenu(props) {
     const [delay, updateDelay] = useState(null);
     const [outOfOfficeMessageEnabled, updateOutOfOfficeMessageEnabled] = useState(false);
     const [message, updateMessage] = useState('');
+    const [user, updateUser] = useState(null);
 
     useEffect(() => {
         getAdminMenuPageData();
@@ -173,6 +175,10 @@ export default function AdminMenu(props) {
         updateMessage(value);
     }
 
+    const handleUserUpdate = async (user) => {
+        await updateUser(user);
+    }
+
     return (
         <Loading loaded={isLoaded} checkHeight={checkHeight} image=".hero" showMenuItemModal={showMenuItemModal}>
             <div className="admin-menu-page menu-page col align-ctr">
@@ -238,6 +244,7 @@ export default function AdminMenu(props) {
                 </div>
                 <hr className="separating-line" />
                 <Footer />
+                {!user && <Login handleUserUpdate={handleUserUpdate} user={user} />}
             </div>
         </Loading>
     )

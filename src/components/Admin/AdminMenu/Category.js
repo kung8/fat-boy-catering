@@ -196,7 +196,7 @@ export default function Category(props) {
                     className="category-name"
                     type="text"
                     name="name"
-                    id="category-name"
+                    id={`category-name-${id}`}
                     placeholder="Enter Category Name..."
                     value={name}
                     onClick={() => { if (collapsed) { handleCollapse(false) } }}

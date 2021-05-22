@@ -6,6 +6,7 @@ import Footer from '../../_Global/Footer';
 import socket from '../../_Global/Socket';
 import Toast from '../../_Global/Toast';
 import { toast } from 'react-toastify';
+import Login from '../AdminMenu/Login';
 
 export default function Status(props) {
     const { checkHeight } = props;
@@ -16,6 +17,7 @@ export default function Status(props) {
     const statuses = [{ color: '#B38CFA', label: 'Open' }, { color: '#ffcc99', label: 'In Progress' }, { color: '#FA6F65', label: 'Fulfilled' }];
     // const [selectedFilter, updateSelectedFilter] = useState('Today');
     const [filteredStatuses, updateFilteredStatuses] = useState(['Open', 'In Progress']);
+    const [user, updateUser] = useState(null);
 
     useEffect(() => {
         getOrders();
@@ -167,6 +169,10 @@ export default function Status(props) {
         await handleFilter(copy);
     }
 
+    const handleUserUpdate = async (user) => {
+        await updateUser(user);
+    }
+
     return (
         <Loading loaded={isLoaded} checkHeight={checkHeight} image={'.top-section'}>
             <div className="status-page align-ctr col">
@@ -177,6 +183,7 @@ export default function Status(props) {
                 {mapOrders()}
                 <Footer />
                 {Toast}
+                {!user && <Login handleUserUpdate={handleUserUpdate} user={user} />}
             </div>
         </Loading>
     )

@@ -1,0 +1,70 @@
+.login-wrapper {
+    position: fixed;
+    top: 0;
+    background: $dark-grey;
+    height: 100vh;
+    width: 100%;
+    z-index: 11;
+    .login-modal-container {
+        background: $pearl;
+        position: fixed;
+        top: 50%;
+        transform: translate(0, -50%);
+        width: 55%;
+        height: 300px;
+        @include down($mini) {
+            width: 90%;
+            height: 320px;
+        }
+        .login-header {
+            padding: 10px;
+            margin-top: -24px;
+            font-size: 24px;
+            @include down($mini) {
+                margin-top: -32px;
+                font-size: 22px;
+            }
+        }
+        input {
+            border: 1px solid $smoke;
+            outline: none;
+            background: transparent;
+            padding: 12px;
+            width: 65%;
+            font-size: 14px;
+            @include down($mini) {
+                padding: 8px;
+                width: 85%;
+            }
+        }
+        input[type="password"],
+        input[type="password"] {
+            font: small-caption;
+            font-size: 14px;
+            padding: 8px 12px;
+            line-height: none;
+            @include down($mini) {
+                padding: 8px;
+            }
+
+            &::-webkit-input-placeholder,
+            &::-moz-placeholder,
+            &:-ms-input-placeholder,
+            &:-moz-placeholder {
+                font-size: 12px;
+            }
+        }
+        button {
+            border-radius: 50px;
+            padding: 10px 32px;
+            border: none;
+            outline: none;
+            background: $lime;
+            cursor: pointer;
+            &.transparentize {
+                opacity: 0.25;
+                cursor: unset;
+            }
+        }
+    }
+}

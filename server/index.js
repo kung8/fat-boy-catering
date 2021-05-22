@@ -11,7 +11,7 @@ const catCtrl = require('./controllers/admin/categoryController');
 const menuItemCtrl = require('./controllers/admin/menuItemController');
 const orderCtrl = require('./controllers/admin/orderController');
 const msgCtrl = require('./controllers/admin/msgController');
-const menuCtrl = require('./controllers/menuController');
+const customerCtrl = require('./controllers/customerController');
 const socketCtrl = require('./controllers/socketController');
 
 const app = express();
@@ -32,6 +32,7 @@ massive(CONNECTION_STRING).then(db => {
     //ADMIN PAGE
     app.get('/api/menu/admin', adminCtrl.getAdminMenuPage);
     app.put('/api/menu/hero', adminCtrl.updateHero);
+    app.post('/api/user', adminCtrl.login);
 
     //CATEGORY
     app.put('/api/category/:id', catCtrl.updateCategory);
@@ -42,10 +43,10 @@ massive(CONNECTION_STRING).then(db => {
     app.put('/api/menu/:id', menuItemCtrl.updateMenuItem);
     
     //CUSTOMER PAGES
-    app.get('/api/menu/:id', menuCtrl.getMenuItem);
-    app.get('/api/menu', menuCtrl.getMenuPage);
-    app.get('/api/messaging', menuCtrl.getMessaging);
-    app.post('/api/cart', menuCtrl.checkout);
+    app.get('/api/menu/:id', customerCtrl.getMenuItem);
+    app.get('/api/menu', customerCtrl.getMenuPage);
+    app.get('/api/messaging', customerCtrl.getMessaging);
+    app.post('/api/cart', customerCtrl.checkout);
 
     //ORDER
     app.get('/api/orders', orderCtrl.getOrders);
