@@ -8,7 +8,7 @@ import socket from '../../_Global/Socket';
 import Login from './Login';
 
 export default function AdminMenu(props) {
-    const { checkHeight } = props;
+    const { checkHeight, updateIsAdmin } = props;
     const [hero, updateHero] = useState('');
     const [menu, updateMenu] = useState([]);
     const mini = 700;
@@ -26,6 +26,7 @@ export default function AdminMenu(props) {
 
     useEffect(() => {
         getAdminMenuPageData();
+        getUser();
         getScreenWidth();
         handleScreenResize();
         // eslint-disable-next-line
@@ -41,6 +42,14 @@ export default function AdminMenu(props) {
         updateOutOfOfficeMessageEnabled(message.enabled);
         socket.emit('update menu data', menu);
         await updateIsLoaded(true);
+    }
+
+    const getUser = () => {
+        let user = sessionStorage.getItem('user');
+        if (user) {
+            updateUser(user);
+            updateIsAdmin(true);
+        }
     }
 
     const getScreenWidth = async () => {
@@ -177,6 +186,7 @@ export default function AdminMenu(props) {
 
     const handleUserUpdate = async (user) => {
         await updateUser(user);
+        updateIsAdmin(true);
     }
 
     return (

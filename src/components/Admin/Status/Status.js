@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import Login from '../AdminMenu/Login';
 
 export default function Status(props) {
-    const { checkHeight } = props;
+    const { checkHeight, updateIsAdmin } = props;
     const [orders, updateOrders] = useState([]);
     const [isLoaded, updateIsLoaded] = useState(false);
     // const filters = ['Today', 'Date Period'];
@@ -21,6 +21,7 @@ export default function Status(props) {
 
     useEffect(() => {
         getOrders();
+        getUser();
         socket.emit('join page');
         socket.on('updated orders', async data => {
             handleFilter(data);
@@ -35,6 +36,14 @@ export default function Status(props) {
         let end = new Date(date + 'T23:59:59.999Z').getTime().toString();
         let { data } = await axios.get(`/api/orders?start=${start}&end=${end}`);
         handleFilter(data);
+    }
+
+    const getUser = () => {
+        let user = sessionStorage.getItem('user');
+        if (user) {
+            updateUser(user);
+            updateIsAdmin(true);
+        }
     }
 
     const handleFilter = async (orderData) => {
@@ -171,6 +180,7 @@ export default function Status(props) {
 
     const handleUserUpdate = async (user) => {
         await updateUser(user);
+        updateIsAdmin(true);
     }
 
     return (
