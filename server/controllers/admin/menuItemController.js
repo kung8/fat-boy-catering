@@ -1,36 +1,4 @@
-const smsController = require('./smsController');
-
-const adminCtrl = {
-    getAdminMenuPage: async (req, res) => {
-        const db = req.app.get('db');
-        const items = await db.categories.get_categories_with_menu_items();
-        const [messageObj] = await db.message.get_out_of_office_message();
-        const [heroInstance] = await db.hero.get_hero();
-        const [delay] = await db.delay.get_delay();
-        const finalMenu = await adminCtrl.loopThroughItems(items);
-        res.send({ menu: finalMenu, hero: heroInstance.hero, time: delay, message: messageObj });
-    },
-
-    updateHero: async (req, res) => {
-        const db = req.app.get('db');
-        const { hero } = req.body;
-        await db.hero.update_hero({ hero });
-        res.sendStatus(200);
-    },
-
-    deleteCategory: async (req, res) => {
-        const db = req.app.get('db');
-        let { id } = req.params;
-        id = Number(id);
-        const menuItems = await db.menu_items.get_menu_items_by_category({ id });
-        menuItems.forEach(async item => {
-            const { id: menu_item_id } = item;
-            await db.selections.delete_selections_by_menu_item({ menu_item_id });
-        });
-        await db.categories.delete_category({ id });
-        res.status(200);
-    },
-
+module.exports = {
     loopThroughItems: async (items) => {
         const existingCategory = [];
         const finalMenu = [];
@@ -125,7 +93,6 @@ const adminCtrl = {
 
         return finalMenu;
     },
-
     updateMenuItemEnabled: async (req, res) => {
         const db = req.app.get('db');
         const { item } = req.body;
@@ -243,99 +210,4 @@ const adminCtrl = {
             res.send(menuItem);
         }
     },
-    updateCategory: async (req, res) => {
-        const db = req.app.get('db');
-        const { name, image } = req.body;
-        let { id } = req.params;
-        let category;
-
-        if (!id.includes('FPO-')) {
-            id = Number(id);
-            await db.categories.update_category({ id, name, image });
-            const items = await db.categories.get_single_category({ id });
-            let [newCategory] = await adminCtrl.loopThroughItems(items);
-            category = newCategory;
-        } else {
-            let [newCategory] = await db.categories.add_new_category({ name, image });
-            newCategory.menuItems = [];
-            category = newCategory;
-        }
-        res.send(category);
-    },
-
-    getOrders: async (req, res) => {
-        const db = req.app.get('db');
-        const orders = await db.orders.get_orders();
-        const organizedOrders = await adminCtrl.formatOrder(orders);
-        res.send(organizedOrders);
-    },
-
-    formatOrder: async (orders) => {
-        const organizedOrders = [];
-        const existing = [];
-        await orders.forEach(async order => {
-            const { line_item_id, qty, menu_item_id, toppings, instructions, date, order_id, name, phone, department, status, menu_item_name } = order;
-
-            const orderObj = {
-                order_id,
-                name,
-                phone,
-                department,
-                date,
-                status
-            }
-
-            const lineItem = {
-                line_item_id,
-                menu_item_id,
-                ingredients: toppings,
-                instructions,
-                menu_item_name,
-                qty
-            }
-
-            if (!existing.includes(order_id)) {
-                existing.push(order_id);
-                if (!orderObj.lineItems) {
-                    orderObj.lineItems = [];
-                }
-                orderObj.lineItems.push(lineItem);
-                organizedOrders.push(orderObj);
-            } else {
-                let index = organizedOrders.findIndex(item => item.order_id === order_id);
-                if (index > -1) organizedOrders[index].lineItems.push(lineItem);
-            }
-        });
-
-        return organizedOrders;
-    },
-
-    updateOrderStatus: async (req, res) => {
-        const db = req.app.get('db');
-        const { id } = req.params;
-        const { status, phone } = req.body;
-        const updatedOrder = await db.orders.update_status({ id, status });
-        if (status === 'Fulfilled') {
-            const formattedNumber = '+1' + phone.replace(/[^0-9.]/gi, '');
-            smsController.sendSMS(formattedNumber);
-        }
-        const [order] = await adminCtrl.formatOrder(updatedOrder);
-        res.send(order);
-    },
-
-    updateDelay: async (req, res) => {
-        const db = req.app.get('db');
-        const { delay } = req.body;
-        await db.delay.update_delay({ delay });
-        res.sendStatus(200);
-    },
-
-    updateOutOfOfficeMessage: async (req, res) => {
-        const db = req.app.get('db');
-        const { message, enabled } = req.body;
-        await db.message.update_out_of_office_message({ message, enabled });
-        res.sendStatus(200);
-    }
 }
-
-module.exports = adminCtrl;

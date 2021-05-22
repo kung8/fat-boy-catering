@@ -6,8 +6,12 @@ const massive = require('massive');
 const socket = require('socket.io');
 const express = require('express');
 
+const adminCtrl = require('./controllers/admin/adminController');
+const catCtrl = require('./controllers/admin/categoryController');
+const menuItemCtrl = require('./controllers/admin/menuItemController');
+const orderCtrl = require('./controllers/admin/orderController');
+const msgCtrl = require('./controllers/admin/msgController');
 const menuCtrl = require('./controllers/menuController');
-const adminCtrl = require('./controllers/adminController');
 const socketCtrl = require('./controllers/socketController');
 
 const app = express();
@@ -25,18 +29,29 @@ massive(CONNECTION_STRING).then(db => {
         socketCtrl.socketListeners(socket, db, io);
     });
     
+    //ADMIN PAGE
     app.get('/api/menu/admin', adminCtrl.getAdminMenuPage);
     app.put('/api/menu/hero', adminCtrl.updateHero);
-    app.put('/api/category/:id', adminCtrl.updateCategory);
-    app.delete('/api/category/:id', adminCtrl.deleteCategory);
-    app.put('/api/menu/:id/enabled', adminCtrl.updateMenuItemEnabled);
-    app.put('/api/menu/:id', adminCtrl.updateMenuItem);
+
+    //CATEGORY
+    app.put('/api/category/:id', catCtrl.updateCategory);
+    app.delete('/api/category/:id', catCtrl.deleteCategory);
+
+    //MENU ITEM
+    app.put('/api/menu/:id/enabled', menuItemCtrl.updateMenuItemEnabled);
+    app.put('/api/menu/:id', menuItemCtrl.updateMenuItem);
+    
+    //CUSTOMER PAGES
     app.get('/api/menu/:id', menuCtrl.getMenuItem);
     app.get('/api/menu', menuCtrl.getMenuPage);
-    app.post('/api/cart', menuCtrl.checkout);
-    app.get('/api/orders', adminCtrl.getOrders);
-    app.put('/api/order/:id', adminCtrl.updateOrderStatus);
-    app.post('/api/delay', adminCtrl.updateDelay);
-    app.post('/api/message', adminCtrl.updateOutOfOfficeMessage);
     app.get('/api/messaging', menuCtrl.getMessaging);
+    app.post('/api/cart', menuCtrl.checkout);
+
+    //ORDER
+    app.get('/api/orders', orderCtrl.getOrders);
+    app.put('/api/order/:id', orderCtrl.updateOrderStatus);
+
+    //MESSAGES
+    app.post('/api/delay', msgCtrl.updateDelay);
+    app.post('/api/message', msgCtrl.updateOutOfOfficeMessage);
 })
