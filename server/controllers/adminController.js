@@ -1,3 +1,5 @@
+const smsController = require('./smsController');
+
 const adminCtrl = {
     getAdminMenuPage: async (req, res) => {
         const db = req.app.get('db');
@@ -311,8 +313,12 @@ const adminCtrl = {
     updateOrderStatus: async (req, res) => {
         const db = req.app.get('db');
         const { id } = req.params;
-        const { status } = req.body;
+        const { status, phone } = req.body;
         const updatedOrder = await db.orders.update_status({ id, status });
+        if (status === 'Fulfilled') {
+            const formattedNumber = '+1' + phone.replace(/[^0-9.]/gi, '');
+            smsController.sendSMS(formattedNumber);
+        }
         const [order] = await adminCtrl.formatOrder(updatedOrder);
         res.send(order);
     },

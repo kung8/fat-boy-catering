@@ -37,9 +37,11 @@ export default function OrderCard(props) {
     status = status.toLowerCase().replace(' ', '-');
 
     const handleSelection = async (value) => {
-        await updateSelected(value);
-        const { data } = await axios.put('/api/order/' + order_id, { status: value });
-        await updateOrder(data);
+        if (value !== selected) {
+            await updateSelected(value);
+            const { data } = await axios.put('/api/order/' + order_id, { status: value, phone });
+            await updateOrder(data);
+        }
     }
 
     return (
