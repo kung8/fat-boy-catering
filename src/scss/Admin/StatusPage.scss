@@ -111,10 +111,15 @@
                         text-transform: uppercase;
                     }
                     .status-label {
-                        background: transparent;
                         text-align-last: right;
                         border: none;
                         outline: none;
+                        background: transparent;
+                        @supports (-webkit-appearance: none) and (stroke-color: transparent) {
+                            & {
+                                background: white;
+                            }
+                        }
                     }
                 }
                 .line-item-card {
