@@ -93,13 +93,13 @@
                 padding: 8px;
                 margin-bottom: 12px;
                 &.open {
-                    background: #B38CFA;
+                    background: #b38cfa;
                 }
                 &.in-progress {
                     background: #ffcc99;
                 }
                 &.fulfilled {
-                    background: #FA6F65;
+                    background: #fa6f65;
                 }
                 * {
                     color: $hitam;
@@ -107,8 +107,8 @@
                 .order-heading {
                     margin-bottom: 4px;
                     .order-id {
-                        font-size: 14px;
-                        text-decoration: underline;
+                        font-size: 12px;
+                        text-transform: uppercase;
                     }
                     .status-label {
                         background: transparent;
@@ -118,30 +118,44 @@
                     }
                 }
                 .line-item-card {
-                    margin-bottom: 16px;
+                    margin-bottom: 24px;
                     .line-item-heading {
-                        margin-bottom: 2px;
+                        margin-bottom: 6px;
                     }
                     .menu-item-name {
-                        font-size: 12px;
+                        font-size: 16px;
+                        font-style: italic;
+                        text-decoration: underline;
+                        text-underline-position: below;
+                    }
+                    .qty {
+                        font-size: 14px;
                     }
                     .ingredients {
+                        margin-bottom: 6px;
                         span {
-                            font-size: 10px;
+                            font-size: 16px;
+                            display: inline-block;
+                            margin-right: 4px;
                         }
                     }
                     .instructions {
-                        font-size: 12px;
+                        font-size: 16px;
+                        display: inline-block;
+                        margin-right: 4px;
                     }
                 }
                 .contact-info-container {
                     .name-and-department {
-                        font-size: 12px;
+                        font-size: 14px;
                         margin-bottom: 4px;
                     }
                     .phone-and-date {
-                        h4 {
-                            font-size: 12px;
+                        .phone {
+                            font-size: 14px;
+                        }
+                        .date {
+                            font-size: 14px;
                         }
                     }
                 }

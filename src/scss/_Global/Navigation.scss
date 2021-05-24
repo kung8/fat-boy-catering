@@ -63,6 +63,7 @@
             text-align: center;
             @include down($mini) {
                 top: 0;
+                opacity: 1;
             }
         }
     }

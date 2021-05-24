@@ -13,13 +13,13 @@ export default function OrderCard(props) {
             lineItems.map(item => {
                 const { line_item_id, qty, ingredients, instructions, menu_item_name } = item;
                 return (
-                    <div key={order_id + '-' + line_item_id} className="line-item-card">
-                        <div className="line-item-heading flex-btwn align-ctr">
+                    <div key={order_id + '-' + line_item_id} className="line-item-card flex col">
+                        <div className="line-item-heading flex-btwn">
                             <h3 className="menu-item-name">{menu_item_name}</h3>
                             <span className="qty">Qty: {qty}</span>
                         </div>
                         {ingredients && ingredients.length > 0 && <p className="ingredients">{mapIngredients(ingredients)}</p>}
-                        {instructions && instructions.length > 0 && <p className="instructions">{instructions}</p>}
+                        {instructions && instructions.length > 0 && <p className="instructions">Note: {instructions}</p>}
                     </div>
                 )
             })
@@ -60,8 +60,8 @@ export default function OrderCard(props) {
             <div className="contact-info-container">
                 <h3 className="name-and-department">{name}, {department}</h3>
                 <div className="phone-and-date flex-btwn align-ctr">
-                    <h4>{phone}</h4>
-                    <h4>{DateFormatter(date)}</h4>
+                    <h4 className="phone">{phone}</h4>
+                    <h4 className="date">{DateFormatter(date)}</h4>
                 </div>
             </div>
         </div>

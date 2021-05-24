@@ -205,7 +205,7 @@ export default function MenuItem(props) {
                 </div>
                 <div className="special-instructions-container">
                     <h2 className="special-instructions-text">Special Instructions</h2>
-                    <textarea className="special-instructions" placeholder="e.g. No peppers, allergies to peanuts, etc." name="instructions" id="instructions" value={instructions} onChange={(e) => updateInstructions(e.target.value)}></textarea>
+                    <textarea className="special-instructions" placeholder="e.g. Allergies to peanuts, specify preferred time to place the order, etc." name="instructions" id="instructions" value={instructions} onChange={(e) => updateInstructions(e.target.value)}></textarea>
                 </div>
                 <div className="quantity-container">
                     <h2 className="quantity-text">Quantity</h2>
