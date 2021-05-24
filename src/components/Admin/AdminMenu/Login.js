@@ -70,7 +70,7 @@ export default function Login(props) {
                 <h2 className="login-header">Fat Boy Catering</h2>
                 <input id="username" type="text" placeholder="Username" onChange={e => updateUsername(e.target.value)} />
                 <input id="password" type="password" placeholder="Password" onChange={e => updatePassword(e.target.value)} />
-                <button className={`${disabled && 'transparentize'}`} disabled={disabled} onClick={handleLogin}>Login</button>
+                <button className={`${disabled && 'disabled'}`} disabled={disabled} onClick={handleLogin}>Login</button>
             </div>
             {Toast}
         </div>

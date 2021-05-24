@@ -49,3 +49,8 @@
 .none {
     display: none;
 }
+
+.disabled {
+    opacity: 0.25;
+    cursor: unset;
+}

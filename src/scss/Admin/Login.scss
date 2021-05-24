@@ -61,10 +61,6 @@
             outline: none;
             background: $lime;
             cursor: pointer;
-            &.transparentize {
-                opacity: 0.25;
-                cursor: unset;
-            }
         }
     }
 }

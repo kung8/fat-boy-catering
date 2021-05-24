@@ -48,8 +48,8 @@ export default function Cart(props) {
 
     const getMessaging = async () => {
         const { data } = await axios.get('/api/messaging');
+        updateOutOfOfficeMessageEnabled(data.enabled);
         if (!sessionStorage.getItem('seen-out-of-office-message')) {
-            updateOutOfOfficeMessageEnabled(data.enabled);
             updateOutOfOfficeMessage(data.message);
         }
     }
@@ -173,7 +173,7 @@ export default function Cart(props) {
                 <div className="cart-and-checkout-container col align-ctr">
                     {displayCart()}
                     {displayCheckoutForm()}
-                    <button onClick={() => handleCheckOut()} className="checkout-btn">Place Order</button>
+                    <button disabled={outOfOfficeMessageEnabled} onClick={() => handleCheckOut()} className={`checkout-btn ${outOfOfficeMessageEnabled && 'disabled'}`}>Place Order</button>
                 </div>
                 <Footer />
                 {Toast}
