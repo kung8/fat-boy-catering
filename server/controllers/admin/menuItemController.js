@@ -1,4 +1,4 @@
-module.exports = {
+const menuItemController = {
     loopThroughItems: async (items) => {
         const existingCategory = [];
         const finalMenu = [];
@@ -210,4 +210,14 @@ module.exports = {
             res.send(menuItem);
         }
     },
+    deleteMenuItem: async (req, res) => {
+        const db = req.app.get('db');
+        const { category_id, menu_item_id } = req.params;
+        await db.menu_items.delete_menu_item({ menu_item_id, category_id });
+        const items = await db.categories.get_single_category({ id: category_id });
+        let [newCategory] = await menuItemController.loopThroughItems(items);
+        res.send(newCategory);
+    }
 }
+
+module.exports = menuItemController;

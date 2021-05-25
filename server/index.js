@@ -40,6 +40,7 @@ massive(CONNECTION_STRING).then(db => {
     app.delete('/api/category/:id', catCtrl.deleteCategory);
 
     //MENU ITEM
+    app.delete('/api/category/:category_id/menu/:menu_item_id', menuItemCtrl.deleteMenuItem);
     app.put('/api/menu/:id/enabled', menuItemCtrl.updateMenuItemEnabled);
     app.put('/api/menu/:id', menuItemCtrl.updateMenuItem);
     

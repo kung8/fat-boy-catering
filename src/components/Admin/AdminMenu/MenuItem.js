@@ -6,7 +6,7 @@ import Toast from '../../_Global/Toast';
 import { toast } from 'react-toastify';
 
 export default function MenuItem(props) {
-    const { index, item, catIndex, catCollapsed, menuItemToggleFromAdmin, screenSize, mini, updateMenuItemModal } = props;
+    const { index, item, catIndex, catId, catCollapsed, menuItemToggleFromAdmin, screenSize, mini, updateMenuItemModal } = props;
     const [collapsed, updateCollasped] = useState(true);
     const [editedItem, updateEditedItem] = useState(cloneDeep(item));
     const { enabled } = item;
@@ -49,7 +49,7 @@ export default function MenuItem(props) {
                 await arrow.classList.remove('right-side-up');
             } else {
                 updateShowArrow(false);
-                if (name === '' || !image || image === '') {
+                if (name === '') {
                     updateShowX(true)
                     updateShowSave(false);
                 } else {
@@ -73,7 +73,7 @@ export default function MenuItem(props) {
         copy[prop] = value;
         await updateEditedItem(copy);
 
-        if (value === '' || name === '' || image === '' || !image) {
+        if (prop === 'name' && value === '') {
             updateShowSave(false);
             updateShowX(true);
         } else {
@@ -88,10 +88,10 @@ export default function MenuItem(props) {
         const deleted = {};
         const created = {};
 
-        if (copy.name === '' && original.name) {
+        if (copy.name === '' && original.name && showSave) {
             copy.name = original.name;
         } else if (copy.name === '' || !copy.name) {
-            await menuItemToggleFromAdmin({ id, index: catIndex, menuItemIndex: index });
+            await menuItemToggleFromAdmin({ id, index: catIndex, menuItemIndex: index, catId }, true);
             return;
         }
 
@@ -217,7 +217,7 @@ export default function MenuItem(props) {
             }
         }
 
-        if (copy.name && copy.image) {
+        if (copy.name !== '') {
             let newItem = typeof id !== 'number';
             const { data } = await axios.put('/api/menu/' + id, { item: copy, deleted, created });
             await menuItemToggleFromAdmin(data);

@@ -96,6 +96,7 @@ export default function Category(props) {
                     screenSize={screenSize}
                     mini={mini}
                     updateMenuItemModal={updateMenuItemModal}
+                    catId={id}
                 />
             )
         })

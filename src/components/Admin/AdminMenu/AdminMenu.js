@@ -71,9 +71,13 @@ export default function AdminMenu(props) {
     }
 
     const handleToggle = async (data, reload) => {
-        if (Object.keys(data).length === 3) {
+        if (Object.keys(data).length === 4) {
             const copy = [...menu];
             copy[data.index].menuItems.splice(data.menuItemIndex, 1);
+            if (typeof data.id === 'number') {
+                const { data: updatedCategory } = await axios.delete(`/api/category/${data.catId}/menu/${data.id}`);
+                copy[data.index] = updatedCategory;
+            }
             await updateMenu(copy);
             await socket.emit('update menu data', copy);
         } else {
