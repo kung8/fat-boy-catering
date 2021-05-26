@@ -91,7 +91,12 @@ export default function MenuItem(props) {
         if (copy.name === '' && original.name && showSave) {
             copy.name = original.name;
         } else if (copy.name === '' || !copy.name) {
-            await menuItemToggleFromAdmin({ id, index: catIndex, menuItemIndex: index, catId }, true);
+            await menuItemToggleFromAdmin({
+                id,
+                index: catIndex,
+                menuItemIndex: index,
+                catId
+            }, true);
             return;
         }
 
@@ -278,7 +283,12 @@ export default function MenuItem(props) {
         if (screenSize < mini) {
             handleItemCollapse(collapsed);
         } else {
-            updateMenuItemModal(true, editedItem);
+            updateMenuItemModal(true, {
+                ...editedItem,
+                index: catIndex,
+                menuItemIndex: index,
+                catId
+            });
         }
     }
 
