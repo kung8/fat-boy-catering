@@ -1,5 +1,5 @@
 let room = 'menu page';
-const { formatOrder } = require('./admin/adminController');
+const { formatOrder } = require('../controllers/admin/orderController');
 
 module.exports = {
     socketListeners: async (socket, db, io) => {
