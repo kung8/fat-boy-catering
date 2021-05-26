@@ -27,6 +27,9 @@ export default function Status(props) {
             handleFilter(data);
             toast('New Order Received', { className: 'lime' });
         })
+        socket.on('updated orders admin', async data => {
+            handleFilter(data);
+        })
         // eslint-disable-next-line
     }, [filteredStatuses]);
 

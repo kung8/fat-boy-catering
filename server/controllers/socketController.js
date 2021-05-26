@@ -26,6 +26,16 @@ module.exports = {
         });
 
         socket.on('update orders', async () => {
+            const formattedOrders = await getFormattedOrders();
+            io.in(room).emit('updated orders', formattedOrders);
+        });
+
+        socket.on('update orders admin', async () => {
+            const formattedOrders = await getFormattedOrders();
+            io.in(room).emit('updated orders admin', formattedOrders);
+        });
+
+        const getFormattedOrders = async () => {
             let date = new Date();
             let month = date.getMonth();
             let year = date.getFullYear();
@@ -39,13 +49,13 @@ module.exports = {
 
             const orders = await db.orders.get_orders({ start, end });
             const formattedOrders = await formatOrder(orders);
-            io.in(room).emit('updated orders', formattedOrders);
-        });
+            return formattedOrders;
+        }
 
         socket.on('update delay', delay => {
             io.in(room).emit('updated delay', delay);
         });
-        
+
         socket.on('update out of office message', message => {
             io.in(room).emit('updated out of office message', message);
         })

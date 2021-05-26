@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DateFormatter from '../../_Global/DateFormatter';
 import axios from 'axios';
+import socket from '../../_Global/Socket';
 
 export default function OrderCard(props) {
     const { order, updateOrder } = props;
     let { lineItems, date, order_id, name, phone, department, status } = order;
     const statuses = ['Open', 'In Progress', 'Fulfilled'];
     const [selected, updateSelected] = useState(status);
+
+    useEffect(() => {
+        socket.emit('join page');
+    }, [])
 
     const mapLineItems = () => {
         return (
@@ -41,6 +46,7 @@ export default function OrderCard(props) {
             await updateSelected(value);
             const { data } = await axios.put('/api/order/' + order_id, { status: value, phone });
             await updateOrder(data);
+            socket.emit('update orders admin');
         }
     }
 
