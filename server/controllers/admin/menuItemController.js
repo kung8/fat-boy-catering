@@ -107,17 +107,17 @@ const menuItemController = {
     updateMenuItem: async (req, res) => {
         const db = req.app.get('db');
         const { deleted, created, item } = req.body;
-        const { description, image, name, selections, range, category_id } = item;
+        const { description, image, name, selections, range, category_id, enabled } = item;
         let { id } = req.params;
         let menuItem;
 
         if (id.includes('FPO-')) {
-            let [newItem] = await db.menu_items.add_menu_item({ description, image, name, range, category_id });
+            let [newItem] = await db.menu_items.add_menu_item({ description, image, name, range, category_id, enabled });
             menuItem = newItem;
             id = newItem.id;
         } else {
             id = Number(id);
-            let [updateItem] = await db.menu_items.update_menu_item({ id, description, image, name, range });
+            let [updateItem] = await db.menu_items.update_menu_item({ id, description, image, name, range, enabled });
             menuItem = updateItem;
         }
 

@@ -239,7 +239,9 @@ export default function MenuItem(props) {
 
         if (copy.name !== '') {
             await axios.put('/api/menu/' + id, { item: copy, deleted, created });
-            await window.location.reload();
+            setTimeout(async () => {
+                await window.location.reload();
+            }, 100);
         }
     }
 
