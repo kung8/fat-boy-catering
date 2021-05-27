@@ -17,28 +17,32 @@ module.exports = {
     },
     getMenuItem: async (req, res) => {
         const db = req.app.get('db');
-        const { id } = req.params;
+        let { id } = req.params;
         const [delayObj] = await db.delay.get_delay();
+        id = Number(id);
         const [item] = await db.menu_items.get_menu_item({ id });
-
-        let range = 0;
-
-        if (item.range === 1) {
-            range = 1;
+        if (item) {
+            let range = 0;
+    
+            if (item.range === 1) {
+                range = 1;
+            }
+    
+            item.range = range;
+    
+            let selections = await db.selections.get_selections_by_menu_item({ id });
+            let selectionsWithIngredients = await selections.map(async group => {
+                const ingredients = await db.ingredients.get_ingredients_by_selection({ id: group.id });
+                group.ingredients = ingredients;
+                return group;
+            });
+            Promise.all(selectionsWithIngredients).then(() => {
+                item.selections = selections;
+                res.send({ item, delayObj });
+            });
+        } else {
+            res.sendStatus(400);
         }
-
-        item.range = range;
-
-        let selections = await db.selections.get_selections_by_menu_item({ id });
-        let selectionsWithIngredients = await selections.map(async group => {
-            const ingredients = await db.ingredients.get_ingredients_by_selection({ id: group.id });
-            group.ingredients = ingredients;
-            return group;
-        });
-        Promise.all(selectionsWithIngredients).then(() => {
-            item.selections = selections;
-            res.send({ item, delayObj });
-        });
     },
     getMessaging: async (req, res) => {
         const db = req.app.get('db');

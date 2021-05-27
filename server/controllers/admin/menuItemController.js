@@ -3,91 +3,94 @@ const menuItemController = {
         const existingCategory = [];
         const finalMenu = [];
         await items.forEach(item => {
-            const { category_id, category_name, category_image, id, name, enabled, description, desc_enabled, range_id, image, selection_id, selection_name, selection_type_id, ingredient_enabled, preset, ingredient_name, ingredient_id } = item
-            const category = {
-                id: category_id,
-                name: category_name,
-                image: category_image,
-                menuItems: []
-            }
+            const { category_id, category_name, category_image, id, name, enabled, description, desc_enabled, range_id, image, selection_id, selection_name, selection_type_id, ingredient_enabled, preset, ingredient_name, ingredient_id } = item;
 
-            let range = 0;
-
-            if (range_id === 1) {
-                range = 1;
-            }
-
-            let selectionType = selection_type_id === 1 ? 'radio' : 'check';
-
-            const menuItem = {
-                id,
-                name,
-                enabled,
-                description,
-                desc_enabled: desc_enabled === 'true' ? true : false,
-                range,
-                image
-            }
-            const selections = {
-                id: selection_id,
-                name: selection_name,
-                selectionType,
-                ingredients: []
-            }
-            const ingredient = {
-                id: ingredient_id,
-                name: ingredient_name,
-                preset,
-                enabled: ingredient_enabled
-            }
-
-            if (existingCategory.includes(category_id)) {
-                const catIndex = finalMenu.findIndex(catItem => catItem.id === category_id);
-                let currentCategory = finalMenu[catIndex];
-                let menuItemIndex = currentCategory.menuItems.findIndex(meal => meal.id === id);
-                let currentMenuItem;
-
-                if (id && name) {
-                    if (menuItemIndex > -1) {
-                        currentMenuItem = currentCategory.menuItems[menuItemIndex];
-                    } else {
-                        if (currentCategory.menuItems) {
-                            currentCategory.menuItems.push(menuItem);
-                            menuItemIndex = currentCategory.menuItems.length - 1;
+            if (category_id) {
+                const category = {
+                    id: category_id,
+                    name: category_name,
+                    image: category_image,
+                    menuItems: []
+                }
+    
+                let range = 0;
+    
+                if (range_id === 1) {
+                    range = 1;
+                }
+    
+                let selectionType = selection_type_id === 1 ? 'radio' : 'check';
+    
+                const menuItem = {
+                    id,
+                    name,
+                    enabled,
+                    description,
+                    desc_enabled: desc_enabled === 'true' ? true : false,
+                    range,
+                    image
+                }
+                const selections = {
+                    id: selection_id,
+                    name: selection_name,
+                    selectionType,
+                    ingredients: []
+                }
+                const ingredient = {
+                    id: ingredient_id,
+                    name: ingredient_name,
+                    preset,
+                    enabled: ingredient_enabled
+                }
+    
+                if (existingCategory.includes(category_id)) {
+                    const catIndex = finalMenu.findIndex(catItem => catItem.id === category_id);
+                    let currentCategory = finalMenu[catIndex];
+                    let menuItemIndex = currentCategory.menuItems.findIndex(meal => meal.id === id);
+                    let currentMenuItem;
+    
+                    if (id && name) {
+                        if (menuItemIndex > -1) {
                             currentMenuItem = currentCategory.menuItems[menuItemIndex];
                         } else {
-                            currentCategory.menuItems = [menuItem];
-                            menuItemIndex = 0;
-                            currentMenuItem = currentCategory.menuItems[0];
+                            if (currentCategory.menuItems) {
+                                currentCategory.menuItems.push(menuItem);
+                                menuItemIndex = currentCategory.menuItems.length - 1;
+                                currentMenuItem = currentCategory.menuItems[menuItemIndex];
+                            } else {
+                                currentCategory.menuItems = [menuItem];
+                                menuItemIndex = 0;
+                                currentMenuItem = currentCategory.menuItems[0];
+                            }
                         }
-                    }
-                    if (selection_id) {
-                        if (currentMenuItem.selections) {
-                            let selectionIndex = finalMenu[catIndex].menuItems[menuItemIndex].selections.findIndex(element => element.id === selection_id);
-                            if (selectionIndex > -1) {
-                                currentMenuItem.selections[selectionIndex].ingredients.push(ingredient);
+                        if (selection_id) {
+                            if (currentMenuItem.selections) {
+                                let selectionIndex = finalMenu[catIndex].menuItems[menuItemIndex].selections.findIndex(element => element.id === selection_id);
+                                if (selectionIndex > -1) {
+                                    currentMenuItem.selections[selectionIndex].ingredients.push(ingredient);
+                                } else {
+                                    selections.ingredients = [ingredient];
+                                    currentMenuItem.selections.push(selections);
+                                }
                             } else {
                                 selections.ingredients = [ingredient];
-                                currentMenuItem.selections.push(selections);
+                                currentMenuItem.selections = [selections];
                             }
-                        } else {
-                            selections.ingredients = [ingredient];
-                            currentMenuItem.selections = [selections];
                         }
                     }
+    
+                    finalMenu[catIndex].menuItems[menuItemIndex] = currentMenuItem;
+                } else {
+                    if (selection_id && ingredient_id) {
+                        selections.ingredients.push(ingredient);
+                        menuItem.selections = [selections];
+                    }
+                    if (id && name) {
+                        category.menuItems.push(menuItem);
+                    }
+                    existingCategory.push(category_id);
+                    finalMenu.push(category);
                 }
-
-                finalMenu[catIndex].menuItems[menuItemIndex] = currentMenuItem;
-            } else {
-                if (selection_id && ingredient_id) {
-                    selections.ingredients.push(ingredient);
-                    menuItem.selections = [selections];
-                }
-                if (id && name) {
-                    category.menuItems.push(menuItem);
-                }
-                existingCategory.push(category_id);
-                finalMenu.push(category);
             }
         })
 
@@ -96,8 +99,8 @@ const menuItemController = {
     updateMenuItemEnabled: async (req, res) => {
         const db = req.app.get('db');
         const { item } = req.body;
-        const { id } = req.params;
-
+        let { id } = req.params;
+        id = Number(id);
         const [updatedItem] = await db.menu_items.update_menu_item_enabled({ id, enabled: item.enabled });
         res.send(updatedItem);
     },
@@ -111,6 +114,7 @@ const menuItemController = {
         if (id.includes('FPO-')) {
             let [newItem] = await db.menu_items.add_menu_item({ description, image, name, range, category_id });
             menuItem = newItem;
+            id = newItem.id;
         } else {
             id = Number(id);
             let [updateItem] = await db.menu_items.update_menu_item({ id, description, image, name, range });
@@ -164,46 +168,7 @@ const menuItemController = {
                 }
             });
 
-            const updatedSelections = await db.selections.get_selections_and_ingredients({ id });
-
-            let uniqueSelectionId = [];
-            let selection = [];
-
-            const mappedSelections = await updatedSelections.map(instance => {
-                const { selection_id, selection_name, selection_type_id, enabled: ingredient_enabled, preset, ingredient_id, ingredient_name } = instance;
-                const newObj = {
-                    id: selection_id,
-                    name: selection_name,
-                    selectionType: selection_type_id === 1 ? 'radio' : 'check'
-                }
-
-                const ingredient = {
-                    id: ingredient_id,
-                    preset,
-                    enabled: ingredient_enabled,
-                    name: ingredient_name
-                }
-
-                if (!uniqueSelectionId.includes(selection_id)) {
-                    uniqueSelectionId.push(selection_id);
-                    newObj.ingredients = [ingredient];
-                    selection.push(newObj);
-                } else {
-                    let foundIndex = selection.findIndex(item => item.id === selection_id);
-                    if (foundIndex > -1) {
-                        selection[foundIndex].ingredients.push(ingredient);
-                    }
-                }
-
-                return instance;
-            })
-
-            Promise.all(mappedSelections).then(() => {
-                menuItem.range = menuItem.range_id;
-                delete menuItem.range_id;
-                menuItem.selections = selection;
-                res.send(menuItem);
-            })
+            res.send(menuItem);
         } else {
             menuItem.range = menuItem.range_id;
             delete menuItem.range_id;

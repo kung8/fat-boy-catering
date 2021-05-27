@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Selection from './Selection';
 import cloneDeep from 'lodash.clonedeep';
-import Toast from '../../_Global/Toast';
-import { toast } from 'react-toastify';
 
 export default function MenuItem(props) {
     const { index, item, catIndex, catId, catCollapsed, menuItemToggleFromAdmin, screenSize, mini, updateMenuItemModal } = props;
@@ -240,16 +238,8 @@ export default function MenuItem(props) {
         }
 
         if (copy.name !== '') {
-            let newItem = typeof id !== 'number';
-            const { data } = await axios.put('/api/menu/' + id, { item: copy, deleted, created });
-            await menuItemToggleFromAdmin(data);
-            await updateEditedItem(data);
-            handleItemCollapse(boolean);
-            if (newItem) {
-                toast(`Added ${name}!`, { className: 'lime' });
-            } else {
-                toast(`Updated ${name} successfully!`, { className: 'lime' });
-            }
+            await axios.put('/api/menu/' + id, { item: copy, deleted, created });
+            await window.location.reload();
         }
     }
 
@@ -386,7 +376,6 @@ export default function MenuItem(props) {
                     </div>
                 </div>
             </div>
-            {(showSave || showX) && Toast}
         </div>
     )
 }
