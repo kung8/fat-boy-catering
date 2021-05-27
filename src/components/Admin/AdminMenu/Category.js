@@ -32,7 +32,7 @@ export default function Category(props) {
             await updateCollapsed(true);
             updateShowArrow(true);
         } else {
-            if (name === '' || image === '' || !image) {
+            if (name === '' || name === undefined || image === '' || !image) {
                 updateShowX(true);
                 updateShowSave(false);
             } else {
@@ -61,7 +61,7 @@ export default function Category(props) {
                 if (arrow) await arrow.classList.remove('right-side-up');
             } else {
                 updateShowArrow(false);
-                if (name === '' || !image || image === '') {
+                if (name === '' || name === undefined || !image || image === '') {
                     await updateShowX(true);
                     await updateShowSave(false);
                 } else {
@@ -139,8 +139,7 @@ export default function Category(props) {
             }
         }
 
-
-        if (value === '' || name === '' || image === '' || !image) {
+        if (value === '' || name === '' || name === undefined || image === '' || !image) {
             await updateShowX(true);
             await updateShowSave(false);
         } else {
@@ -151,6 +150,7 @@ export default function Category(props) {
         if (prop === 'name' && showArrow) {
             handleCollapse(true);
         }
+        
         const copy = { ...editedCategory };
 
         if ((isPaste && hit) || (!isPaste && !hit) || prop !== 'image') {
