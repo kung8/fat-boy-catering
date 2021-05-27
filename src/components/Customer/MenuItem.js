@@ -184,7 +184,7 @@ export default function MenuItem(props) {
     }
 
     return (
-        <Loading loaded={isLoaded} checkHeight={checkHeight} image=".item-image">
+        <Loading loaded={isLoaded} checkHeight={checkHeight} image="#item-image">
             <div className="menu-item-page">
                 {
                     image ?

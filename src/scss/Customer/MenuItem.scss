@@ -1,9 +1,11 @@
 .menu-item-page {
     width: 100%;
     .placeholder {
-        height: 250px;
-        @include down($mobile) {
-            height: 200px;
+        height: 80px;
+        opacity: 0.3;
+        background: $wood;
+        @include down($mini) {
+            height: 65px;
         }
     }
     .menu-item-name-container {
