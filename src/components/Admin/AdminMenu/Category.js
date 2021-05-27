@@ -17,6 +17,8 @@ export default function Category(props) {
     const [showArrow, updateShowArrow] = useState(true);
     const [showSave, updateShowSave] = useState(false);
     const [showX, updateShowX] = useState(false);
+    const [isPaste, updateIsPaste] = useState(true);
+    const [hit, updateHit] = useState(false);
 
     useEffect(() => {
         handleCollapseWithResize();
@@ -123,7 +125,21 @@ export default function Category(props) {
         updateMenuItemNum(menuItemNum + 1);
     }
 
-    const editCategory = async (prop, value) => {
+    const editCategory = async (prop, value, type) => {
+        if (prop === 'image') {
+            if (type === 'paste') {
+                await updateIsPaste(true);
+                await updateHit(true);
+            } else {
+                updateHit(false);
+            }
+            
+            if (hit && type === 'change') {
+                updateIsPaste(false);
+            }
+        }
+
+
         if (value === '' || name === '' || image === '' || !image) {
             await updateShowX(true);
             await updateShowSave(false);
@@ -136,8 +152,12 @@ export default function Category(props) {
             handleCollapse(true);
         }
         const copy = { ...editedCategory };
-        copy[prop] = value;
-        await updateEditedCategory(copy);
+
+        if ((isPaste && hit) || (!isPaste && !hit) || prop !== 'image') {
+            copy[prop] = value;
+            await updateEditedCategory(copy);
+            updateIsPaste(false);
+        }
     }
 
     const saveCategory = async () => {
@@ -225,8 +245,8 @@ export default function Category(props) {
                                 </button>
                             </div>
                             <input
-                                onChange={(e) => editCategory('image', e.target.value)}
-                                onPaste={(e) => editCategory('image', e.clipboardData.getData('text/plain'))}
+                                onChange={(e) => editCategory('image', e.target.value, 'change')}
+                                onPaste={(e) => editCategory('image', e.clipboardData.getData('text/plain'), 'paste')}
                                 className="item-image-input"
                                 placeholder="Hosted Image URL..."
                                 type="text"

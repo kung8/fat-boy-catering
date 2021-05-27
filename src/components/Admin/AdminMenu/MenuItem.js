@@ -17,6 +17,8 @@ export default function MenuItem(props) {
     const [showArrow, updateShowArrow] = useState(true);
     const [showSave, updateShowSave] = useState(false);
     const [showX, updateShowX] = useState(false);
+    const [isPaste, updateIsPaste] = useState(true);
+    const [hit, updateHit] = useState(false);
 
     useEffect(() => {
         updateCollapsedWithCatChange();
@@ -68,17 +70,32 @@ export default function MenuItem(props) {
         }
     }
 
-    const handleEdit = async (prop, value) => {
-        const copy = Object.assign({}, editedItem);
-        copy[prop] = value;
-        await updateEditedItem(copy);
+    const handleEdit = async (prop, value, type) => {
+        if (prop === 'image') {
+            if (type === 'paste') {
+                await updateIsPaste(true);
+                await updateHit(true);
+            } else {
+                updateHit(false);
+            }
+            
+            if (hit && type === 'change') {
+                updateIsPaste(false);
+            }
+        }
+        if ((isPaste && hit) || (!isPaste && !hit) || prop !== 'image') {
+            const copy = Object.assign({}, editedItem);
+            copy[prop] = value;
+            await updateEditedItem(copy);
 
-        if (prop === 'name' && value === '') {
-            updateShowSave(false);
-            updateShowX(true);
-        } else {
-            updateShowX(false);
-            updateShowSave(true);
+            if (prop === 'name' && value === '') {
+                updateShowSave(false);
+                updateShowX(true);
+            } else {
+                updateShowX(false);
+                updateShowSave(true);
+            }
+            updateIsPaste(false);
         }
     }
 
@@ -336,8 +353,8 @@ export default function MenuItem(props) {
                                 </button>
                             </div>
                             <input
-                                onPaste={(e) => handleEdit('image', e.clipboardData.getData('text/plain'))}
-                                onChange={(e) => handleEdit('image', e.target.value)}
+                                onPaste={(e) => handleEdit('image', e.clipboardData.getData('text/plain'), 'paste')}
+                                onChange={(e) => handleEdit('image', e.target.value, 'change')}
                                 className="item-image-input"
                                 placeholder="Hosted Image URL..."
                                 type="text"
