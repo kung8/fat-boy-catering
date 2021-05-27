@@ -258,7 +258,7 @@ export default function AdminMenu(props) {
                 </div>
                 <hr className="separating-line" />
                 <Footer />
-                {!user && <Login handleUserUpdate={handleUserUpdate} user={user} />}
+                {!user && <Login handleUserUpdate={handleUserUpdate} />}
             </div>
         </Loading>
     )

@@ -196,7 +196,7 @@ export default function Status(props) {
                 {mapOrders()}
                 <Footer />
                 {Toast}
-                {!user && <Login handleUserUpdate={handleUserUpdate} user={user} />}
+                {!user && <Login handleUserUpdate={handleUserUpdate} />}
             </div>
         </Loading>
     )
