@@ -4,7 +4,7 @@ import Toast from '../../_Global/Toast';
 import { toast } from 'react-toastify';
 
 export default function Login(props) {
-    const { handleUserUpdate, user } = props;
+    const { handleUserUpdate } = props;
     const [username, updateUsername] = useState('');
     const [password, updatePassword] = useState('');
     const [numberOfAttempts, updateNumberOfAttempts] = useState(1);
