@@ -92,7 +92,7 @@
             width: 100%;
             .category-highlighted-img {
                 width: auto;
-                max-height: 225px;
+                max-height: 275px;
                 @include up($mini) {
                     margin-bottom: 4px;
                     width: 49%;
