@@ -136,15 +136,17 @@ export default function MenuItem(props) {
                                     const boolean = selected && selected[index] && selected[index] === ingredientName;
                                     return (
                                         <div key={ingredientId} className="ingredient-item radio-type align-ctr">
-                                            <input
-                                                className={`${boolean && 'checked'}`}
-                                                type="radio"
-                                                name={id}
-                                                id={ingredientId}
-                                                checked={boolean}
-                                                value={ingredientId}
-                                                onChange={() => handleSelection(index, ingredientName, true)} />
-                                            <label htmlFor={ingredientId}>{ingredientName}</label>
+                                            <label htmlFor={ingredientId}>
+                                                <div className={`radio-button ${boolean && 'checked'}`}></div>
+                                                <input
+                                                    className={`${boolean && 'checked'}`}
+                                                    type="radio"
+                                                    name={id}
+                                                    id={ingredientId}
+                                                    checked={boolean}
+                                                    value={ingredientId}
+                                                    onChange={() => handleSelection(index, ingredientName, true)} />
+                                                {ingredientName}</label>
                                         </div>
                                     )
                                 } else {
