@@ -211,18 +211,18 @@
                     .category-chevron-arrow {
                         position: absolute;
                         right: 15px;
-                        height: 10px;
-                        width: 15px;
+                        height: 14px;
+                        width: 14px;
                         @include up($mini) {
                             display: none;
                         }
         
                         &.inverted {
-                            transform: rotate(180deg);
+                            transform: rotate(0deg);
                             animation: rotate 0.25s ease-in-out;
                         }
                         &.right-side-up {
-                            transform: rotate(360deg);
+                            transform: rotate(135deg);
                             animation: back 0.25s ease-in-out;
                         }
                         @keyframes rotate {
@@ -230,15 +230,15 @@
                                 transform: rotate(0deg);
                             }
                             100% {
-                                transform: rotate(180deg);
+                                transform: rotate(135deg);
                             }
                         }
                         @keyframes back {
                             0% {
-                                transform: rotate(180deg);
+                                transform: rotate(135deg);
                             }
                             100% {
-                                transform: rotate(360deg);
+                                transform: rotate(0deg);
                             }
                         }
                     }
