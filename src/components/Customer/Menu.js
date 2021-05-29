@@ -17,9 +17,11 @@ export default function Menu(props) {
     const [room, updateRoom] = useState(null);
     const [outOfOfficeMessage, updateOutOfOfficeMessage] = useState(null);
     const [outOfOfficeMessageEnabled, updateOutOfOfficeMessageEnabled] = useState(false);
+    const [user, updateUser] = useState(null);
 
     useEffect(() => {
-        getSessionStorage();
+        getSessionStorageCart();
+        getSessionStorageUser();
         initialization();
         if (!room) {
             socket.emit('join page');
@@ -59,7 +61,7 @@ export default function Menu(props) {
         await handleScreenResize();
     }
 
-    const getSessionStorage = async () => {
+    const getSessionStorageCart = async () => {
         let cart = await sessionStorage.getItem('cart');
 
         if (cart) {
@@ -68,6 +70,14 @@ export default function Menu(props) {
             sessionStorage.setItem('cart', JSON.stringify(values));
             cart = values;
             await updateCartNum(cart.length);
+        }
+    }
+
+    const getSessionStorageUser = async () => {
+        let user = await sessionStorage.getItem('user');
+        
+        if (user) {
+            updateUser(user);
         }
     }
 
@@ -176,11 +186,25 @@ export default function Menu(props) {
         )
     }
 
+    const backToAdminPageContainer = () => {
+        if (user) {
+            return (
+                <>
+                    <button className="preview-customer-page" onClick={() => props.history.push('/admin')}>Back to Admin Page</button>
+                    <hr className="separating-line" />
+                </>
+            )
+        } else {
+            return null;
+        }
+    }
+
     return (
         <Loading loaded={isLoaded} checkHeight={checkHeight} image='.hero'>
             <div className="menu-page col align-ctr">
                 <img src={googleDriveURL + hero} alt="hero" className="hero" />
                 {mapMenu()}
+                {backToAdminPageContainer()}
                 <Footer />
                 {outOfOfficeMessageEnabled && outOfOfficeMessage && <OutOfOfficeMessage message={outOfOfficeMessage} />}
             </div>

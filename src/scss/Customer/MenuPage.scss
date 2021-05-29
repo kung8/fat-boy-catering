@@ -150,4 +150,24 @@
             }
         }
     }
+
+    .separating-line {
+        width: 100%;
+    }
+
+    .preview-customer-page {
+        margin-top: 24px;
+        margin-bottom: 24px;
+        background: $sunshine;
+        color: $pearl;
+        width: 40%;
+        outline: none;
+        padding: 10px 10px;
+        border: none;
+        margin-bottom: 24px;
+        @include down($mini) {
+            width: 90%;
+            padding: 8px 10px;
+        }
+    }
 }

@@ -8,7 +8,7 @@ import socket from '../../_Global/Socket';
 import Login from './Login';
 
 export default function AdminMenu(props) {
-    const { checkHeight, updateIsAdmin } = props;
+    const { checkHeight, updateIsAdmin, history } = props;
     const [hero, updateHero] = useState('');
     const [menu, updateMenu] = useState([]);
     const mini = 700;
@@ -256,6 +256,8 @@ export default function AdminMenu(props) {
                         onChange={(e) => handleMessageUpdate(e.target.value)}
                     />
                 </div>
+                <hr className="separating-line" />
+                <button className="preview-customer-page" onClick={() => history.push('/')}>Preview Customer Page</button>
                 <hr className="separating-line" />
                 <Footer />
                 {!user && <Login handleUserUpdate={handleUserUpdate} />}
