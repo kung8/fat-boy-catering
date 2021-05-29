@@ -181,7 +181,7 @@
                     .menu-item-name-and-description {
                         width: 100%;
                         @include down($mini) {
-                            width: 75%;
+                            width: 90%;
                         }
                         input.menu-item-name {
                             border: none;
@@ -354,11 +354,15 @@
     .add-category-group-button {
         background: $sunshine;
         color: $pearl;
-        width: 90%;
+        width: 40%;
         outline: none;
-        padding: 8px 10px;
+        padding: 10px 10px;
         border: none;
         margin-bottom: 24px;
+        @include down($mini) {
+            width: 90%;
+            padding: 8px 10px;
+        }
     }
     @import './MenuItemModal';
     .separating-line {
@@ -373,6 +377,9 @@
         }   
         .delay-toggle-container {
             margin-bottom: 24px;
+            @include up($desktop) {
+                width: 85%;
+            }
             button {
                 border: none;
                 outline: none;
