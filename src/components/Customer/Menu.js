@@ -49,6 +49,9 @@ export default function Menu(props) {
                 if (!sessionStorage.getItem('seen-out-of-office-message')) {
                     updateOutOfOfficeMessage(message);
                 }
+                if (!message && sessionStorage.getItem('seen-out-of-office-message')) {
+                    sessionStorage.removeItem('seen-out-of-office-message');
+                }
             });
         }
         // eslint-disable-next-line

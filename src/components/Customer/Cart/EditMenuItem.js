@@ -23,8 +23,8 @@ export default function EditMenuItem(props) {
             getMenuItemData(selectedItem);
         }
         socket.emit('join item page');
-        socket.on('joined item successfully', async () => await getMenuItemData());
-        socket.on('updated menu data', async () => await getMenuItemData());
+        socket.on('joined item successfully', async () => await getMenuItemData(selectedItem));
+        socket.on('updated menu data', async () => await getMenuItemData(selectedItem));
         socket.on('updated delay', time => updateDelay(time));
         // eslint-disable-next-line
     }, [])
@@ -137,8 +137,17 @@ export default function EditMenuItem(props) {
                                     const boolean = selected && selected[index] && selected[index] === ingredientName;
                                     return (
                                         <div key={ingredientId} className="ingredient-item radio-type align-ctr">
-                                            <input className={`${boolean && 'checked'}`} type="radio" name={id} id={ingredientId} checked={boolean} value={ingredientId} onChange={() => handleSelection(index, ingredientName, true)} />
-                                            <label htmlFor={ingredientId}>{ingredientName}</label>
+                                            <label htmlFor={ingredientId}>
+                                                <div className={`radio-button ${boolean && 'checked'}`}></div>
+                                                <input
+                                                    className={`${boolean && 'checked'}`}
+                                                    type="radio"
+                                                    name={id}
+                                                    id={ingredientId}
+                                                    checked={boolean}
+                                                    value={ingredientId}
+                                                    onChange={() => handleSelection(index, ingredientName, true)} />
+                                                {ingredientName}</label>
                                         </div>
                                     )
                                 } else {
