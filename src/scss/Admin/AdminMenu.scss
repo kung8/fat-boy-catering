@@ -151,9 +151,6 @@
                     @include down($mini) {
                         font-size: 12px;
                     }
-                    @include down($mobile) {
-                        font-size: 10px;
-                    }
                 }
                 .preview-btn {
                     height: 100%;
@@ -195,9 +192,6 @@
                             }
                             @include down($tablet) {
                                 font-size: 12px;
-                            }
-                            @include down($mobile) {
-                                font-size: 10px;
                             }
                         }
                     }

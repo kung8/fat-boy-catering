@@ -58,16 +58,10 @@
                         @include down($mini) {
                             font-size: 12px;
                         }
-                        @include down($mobile) {
-                            font-size: 10px;
-                        }
                     }
                     .qty {
                         margin-right: 6px;
                         font-size: 12px;
-                        @include down($mini) {
-                            font-size: 10px;
-                        }
                     }
                     .edit-pencil {
                         width: 12px;
@@ -78,15 +72,9 @@
                     margin-bottom: 8px;
                     text-transform: capitalize;
                     font-size: 12px;
-                    @include down($mini) {
-                        font-size: 10px;
-                    }
                 }
                 .special-instructions {
                     font-size: 12px;
-                    @include down($mini) {
-                        font-size: 10px;
-                    }
                 }
             }
         }

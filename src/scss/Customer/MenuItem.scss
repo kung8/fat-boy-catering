@@ -56,9 +56,6 @@
                 font-size: 12px;
                 font-style: italic;
                 text-align: right;
-                @include down($mobile) {
-                    font-size: 10px;
-                }
             }
         }
     }

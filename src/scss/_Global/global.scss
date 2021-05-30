@@ -77,9 +77,6 @@ p {
     @include down($mini) {
         font-size: 12px;
     }
-    @include down($mobile) {
-        font-size: 10px;
-    }
 }
 
 img {
