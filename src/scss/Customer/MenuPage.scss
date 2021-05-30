@@ -22,7 +22,7 @@
         .menu {
             width: 100%;
             margin-top: -5px;
-        } 
+        }
     }
 
     .category-card {
@@ -32,7 +32,7 @@
         }
         @include down($mini) {
             &.collapsed-card {
-                border-bottom: 1px solid #C8C8C8;
+                border-bottom: 1px solid #c8c8c8;
             }
         }
         .category-name-container {

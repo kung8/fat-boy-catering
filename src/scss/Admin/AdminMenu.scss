@@ -216,7 +216,7 @@
                         @include up($mini) {
                             display: none;
                         }
-        
+
                         &.inverted {
                             transform: rotate(0deg);
                             animation: rotate 0.25s ease-in-out;
@@ -322,9 +322,9 @@
                         }
                     }
                 }
-                @import './Range';
-                @import './RadioToggle';
-                @import './Selections';
+                @import "./Range";
+                @import "./RadioToggle";
+                @import "./Selections";
             }
             .add-item-button {
                 background: $sunshine;
@@ -364,7 +364,7 @@
             padding: 8px 10px;
         }
     }
-    @import './MenuItemModal';
+    @import "./MenuItemModal";
     .separating-line {
         width: 100%;
     }
@@ -374,7 +374,7 @@
         .delay-label {
             margin-bottom: 6px;
             font-size: 14px;
-        }   
+        }
         .delay-toggle-container {
             margin-bottom: 24px;
             @include up($desktop) {
@@ -410,7 +410,7 @@
         .out-of-office-message-label {
             font-size: 14px;
         }
-        @import '../Admin/RadioToggle';
+        @import "../Admin/RadioToggle";
         .out-of-office-message-heading {
             margin-bottom: 6px;
         }
@@ -419,7 +419,7 @@
             width: 100%;
             padding: 8px;
             font-size: 12px;
-            outline: none; 
+            outline: none;
             min-width: 100%;
             max-width: 100%;
             min-height: 60px;

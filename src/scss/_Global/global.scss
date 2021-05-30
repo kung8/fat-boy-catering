@@ -8,7 +8,11 @@
     color: $hitam;
 }
 
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
     color: $hitam;
 }
 
@@ -62,10 +66,11 @@ h5 {
     }
 }
 
-span, p {
+span,
+p {
     color: $charcoal;
     font-size: 16px;
-    display: inline-block; 
+    display: inline-block;
     @include down($tablet) {
         font-size: 14px;
     }

@@ -29,7 +29,7 @@
                 font-size: 16px;
                 color: $pearl;
                 background: transparent;
-                border: none; 
+                border: none;
                 outline: none;
                 width: 75%;
                 text-transform: capitalize;
@@ -39,7 +39,7 @@
             }
             .close-menu-item-modal {
                 background: transparent;
-                border: none; 
+                border: none;
                 outline: none;
             }
         }
@@ -72,8 +72,8 @@
                     background: transparent;
                 }
             }
-            @import './RadioToggle';
-            @import './Selections';
+            @import "./RadioToggle";
+            @import "./Selections";
             .selections-container {
                 margin-top: 16px;
                 width: 65%;
@@ -90,7 +90,7 @@
                 margin-top: 12px;
                 width: 65%;
             }
-            @import './Range';
+            @import "./Range";
             .range-container {
                 width: 65%;
                 font-size: 14px;
