@@ -26,7 +26,7 @@ export default function Menu(props) {
         if (!room) {
             socket.emit('join page');
             socket.on('joined successfully', async roomName => await updateRoom(roomName));
-            initializeCollapse();
+            initializeCollapse(menu);
             socket.on('updated menu data', async data => {
                 await updateMenu(data);
                 initialization();
@@ -58,9 +58,9 @@ export default function Menu(props) {
     }, [screenSize]);
 
     const initialization = async () => {
-        await getMenuPageData();
+        let menuData = await getMenuPageData();
         await getScreenWidth();
-        await initializeCollapse();
+        await initializeCollapse(menuData);
         await handleScreenResize();
     }
 
@@ -87,13 +87,14 @@ export default function Menu(props) {
     const getMenuPageData = async () => {
         const { data } = await axios.get('/api/menu');
         const { hero, menu, message } = data;
-        updateHero(hero);
+        await updateHero(hero);
         await updateMenu(menu);
         if (!sessionStorage.getItem('seen-out-of-office-message')) {
             updateOutOfOfficeMessage(message.message);
             updateOutOfOfficeMessageEnabled(message.enabled);
         }
         await updateIsLoaded(true);
+        return menu;
     }
 
     const getScreenWidth = async () => {
@@ -101,8 +102,8 @@ export default function Menu(props) {
         await updateScreenSize(width);
     }
 
-    const initializeCollapse = async () => {
-        let arrLength = menu.length;
+    const initializeCollapse = async (menuData) => {
+        let arrLength = menuData.length;
         let newIsCollapsedArr = [...isCollapsedArr];
         let bool = screenSize < mini;
         for (let num = 0; num < arrLength; num++) {
@@ -114,7 +115,7 @@ export default function Menu(props) {
     const handleScreenResize = () => {
         window.addEventListener('resize', async () => {
             await getScreenWidth();
-            await initializeCollapse();
+            await initializeCollapse(menu);
         });
     }
 
