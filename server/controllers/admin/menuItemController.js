@@ -12,15 +12,15 @@ const menuItemController = {
                     image: category_image,
                     menuItems: []
                 }
-    
+
                 let range = 0;
-    
+
                 if (range_id === 1) {
                     range = 1;
                 }
-    
+
                 let selectionType = selection_type_id === 1 ? 'radio' : 'check';
-    
+
                 const menuItem = {
                     id,
                     name,
@@ -42,13 +42,13 @@ const menuItemController = {
                     preset,
                     enabled: ingredient_enabled
                 }
-    
+
                 if (existingCategory.includes(category_id)) {
                     const catIndex = finalMenu.findIndex(catItem => catItem.id === category_id);
                     let currentCategory = finalMenu[catIndex];
                     let menuItemIndex = currentCategory.menuItems.findIndex(meal => meal.id === id);
                     let currentMenuItem;
-    
+
                     if (id && name) {
                         if (menuItemIndex > -1) {
                             currentMenuItem = currentCategory.menuItems[menuItemIndex];
@@ -78,7 +78,7 @@ const menuItemController = {
                             }
                         }
                     }
-    
+
                     finalMenu[catIndex].menuItems[menuItemIndex] = currentMenuItem;
                 } else {
                     if (selection_id && ingredient_id) {

@@ -11,7 +11,7 @@ export default function Ingredient(props) {
 
     const updateIngredient = async (prop, value) => {
         const copy = Object.assign({}, editedItem);
-        const selections =[...copy.selections];
+        const selections = [...copy.selections];
         selections[selIndex].ingredients[index][prop] = value;
         await handleEdit('selections', selections);
     }

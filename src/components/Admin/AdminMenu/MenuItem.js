@@ -76,7 +76,7 @@ export default function MenuItem(props) {
             } else {
                 updateHit(false);
             }
-            
+
             if (hit && type === 'change') {
                 updateIsPaste(false);
             }

@@ -23,13 +23,13 @@ module.exports = {
         const [item] = await db.menu_items.get_menu_item({ id });
         if (item) {
             let range = 0;
-    
+
             if (item.range === 1) {
                 range = 1;
             }
-    
+
             item.range = range;
-    
+
             let selections = await db.selections.get_selections_by_menu_item({ id });
             let selectionsWithIngredients = await selections.map(async group => {
                 const ingredients = await db.ingredients.get_ingredients_by_selection({ id: group.id });

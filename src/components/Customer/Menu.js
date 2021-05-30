@@ -78,7 +78,7 @@ export default function Menu(props) {
 
     const getSessionStorageUser = async () => {
         let user = await sessionStorage.getItem('user');
-        
+
         if (user) {
             updateUser(user);
         }

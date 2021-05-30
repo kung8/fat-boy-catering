@@ -17,7 +17,7 @@ const socketCtrl = require('./controllers/socketController');
 const app = express();
 app.use(express.json());
 app.use(express.static(__dirname + '/../public/assets'));
-app.use(express.static( `${__dirname}/../build` ) );
+app.use(express.static(`${__dirname}/../build`));
 
 massive(CONNECTION_STRING).then(db => {
     app.set('db', db);
@@ -29,7 +29,7 @@ massive(CONNECTION_STRING).then(db => {
     io.on('connection', socket => {
         socketCtrl.socketListeners(socket, db, io);
     });
-    
+
     //ADMIN PAGE
     app.get('/api/menu/admin', adminCtrl.getAdminMenuPage);
     app.put('/api/menu/hero', adminCtrl.updateHero);
@@ -43,7 +43,7 @@ massive(CONNECTION_STRING).then(db => {
     app.delete('/api/category/:category_id/menu/:menu_item_id', menuItemCtrl.deleteMenuItem);
     app.put('/api/menu/:id/enabled', menuItemCtrl.updateMenuItemEnabled);
     app.put('/api/menu/:id', menuItemCtrl.updateMenuItem);
-    
+
     //CUSTOMER PAGES
     app.get('/api/menu/:id', customerCtrl.getMenuItem);
     app.get('/api/menu', customerCtrl.getMenuPage);

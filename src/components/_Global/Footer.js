@@ -2,7 +2,7 @@ import React from 'react';
 
 function Footer() {
 
-    return(
+    return (
         <div className="footer flex-ctr">
             <div className="trademark-container col">
                 <h5>Fat boy Catering & Craft Services</h5>

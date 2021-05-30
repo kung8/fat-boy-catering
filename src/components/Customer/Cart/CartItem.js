@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function CartItem(props) {
     const { item, index, editCartItem } = props;
-    const { menu_item_id, name, qty, instructions, selections } = item; 
+    const { menu_item_id, name, qty, instructions, selections } = item;
 
     const displayIngredients = () => {
         return selections.map((ingredient, num) => {

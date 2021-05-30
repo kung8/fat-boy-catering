@@ -19,6 +19,7 @@ export default function Cart(props) {
 
     useEffect(() => {
         getCart();
+        initializeForm();
         getMessaging();
         socket.on('updated out of office message', async message => {
             if (!sessionStorage.getItem('seen-out-of-office-message')) {
@@ -47,6 +48,13 @@ export default function Cart(props) {
             await updateCartNum(newCart.length);
         }
         updateIsLoaded(true);
+    }
+
+    const initializeForm = () => {
+        let data = sessionStorage.getItem('cart-user');
+        if (!data) data = { name: '', department: '', phone: '' };
+        else data = JSON.parse(data);
+        updateFormData(data);
     }
 
     const getMessaging = async () => {
@@ -91,6 +99,8 @@ export default function Cart(props) {
         const data = { ...formData };
         data[prop] = value;
         await updateFormData(data);
+        let formattedData = JSON.stringify(data);
+        sessionStorage.setItem('cart-user', formattedData);
     }
 
     const handlePhoneUpdate = async (value) => {

@@ -1,12 +1,12 @@
 import React from 'react';
 
 export default function Ingredient(props) {
-    const { selectionType, ingredient, selIndex, index, handleEdit, editedItem} = props;
+    const { selectionType, ingredient, selIndex, index, handleEdit, editedItem } = props;
     const { id, preset, name, enabled } = ingredient;
 
     const updateIngredient = async (prop, value) => {
         const copy = Object.assign({}, editedItem);
-        const selections =[...copy.selections];
+        const selections = [...copy.selections];
         selections[selIndex].ingredients[index][prop] = value;
         await handleEdit('selections', selections);
     }
