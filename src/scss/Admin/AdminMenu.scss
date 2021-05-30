@@ -371,6 +371,9 @@
         }
         .delay-toggle-container {
             margin-bottom: 24px;
+            @include up($mini) {
+                width: 95%;
+            }
             @include up($desktop) {
                 width: 85%;
             }
@@ -405,6 +408,9 @@
             font-size: 14px;
         }
         @import "../Admin/RadioToggle";
+        .radio-toggle-button {
+            margin-right: 0;
+        }
         .out-of-office-message-heading {
             margin-bottom: 6px;
         }
