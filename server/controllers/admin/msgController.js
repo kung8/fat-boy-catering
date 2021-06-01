@@ -16,7 +16,7 @@ module.exports = {
     },
 
     sendSMS: (phone) => {
-        const message = 'Your order is ready for pick up. Thank you for letting FatBoy Catering serve you!';
+        const message = 'AUTOMATED MESSAGE:\nYour order is ready for pick up. Thank you for letting FatBoy Catering serve you!\n\nPlease text me at 801-310-4575 for any questions!';
         const accountSid = TWILIO_ACCOUNT_SECRET_ID;
         const authToken = TWILIO_AUTH_TOKEN; //declaring these as these variables or you could just put them directly as the arguments in the invocation below
 
