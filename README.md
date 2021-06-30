@@ -19,28 +19,28 @@
 | property | context | datatype | description | example |
 | -------- | ------- | -------- | ----------- | ------- |
 | location | root | string | Unlike the non-cart AOV Pages, it should just be the 'cart' instead of referencing the folders in the global-data/products. | location: cart |
-| specificAovsPerProduct | root | object | | |
-| items | root | array | | |
-| id | items | string | | id: mattress-protector |
-| name | items | string | | name: Mattress Protector |
-| img | items | string | | img: https://cdn.purple.com/image/upload/products/mattress-protector/mattress-protector-nav-transparent.png |
-| modal | items | string | | modal: mattress-protector |
-| requiresMattress | items | boolean | | requiresMattress: true |
-| matchMattressSize | items | boolean | | matchMattressSize: true |
-| lowerText | items | string | | lowerText: Protect your premium mattress without sacrificing comfort. |
-| hideModel | items | boolean | | hideModel: true |
-| additionalDiscount | items | integer | | additionalDiscount: .10 |
-| allowToAddEachAgain | items | boolean | | allowToAddEachAgain: true |
+| items | root | array | List of AOV items |  |
+| id | items | string | References folder name within global-data/products to pull the correct variants information. | id: mattress-protector |
+| name | items | string | Name that will show in the AOV. | name: Mattress Protector |
+| img | items | string | Image that will show in the AOV. | img: https://cdn.purple.com/image/upload/products/mattress-protector/mattress-protector-nav-transparent.png |
+| modal | items | string | References file name within global-data/product-modals/modals and pulls information from that file. | modal: mattress-protector |
+| requiresMattress | items | boolean | It'll only show in cart if a mattress is in the cart (and this is set to true). Default is false. | requiresMattress: true |
+| matchMattressSize | items | boolean | It'll match the size of the first mattress in the cart (which will be the most expensive one). Default should be the first variant for that particular AOV item. | matchMattressSize: true |
+| lowerText | items | string | Text that will show in AOV towards the bottom. It'll be centered and in our grey font color. | lowerText: Protect your premium mattress without sacrificing comfort. |
+| hideModel | items | boolean | Hides the model text underneath the product name inside the AOV item. Shows by default. | hideModel: true |
+| additionalDiscount | items | integer | On top of discounts that are already applied, this is offering an additional discount. Use decimal. | additionalDiscount: .10 |
+| allowToAddEachAgain | items | boolean | When the non-main bundle AOV item exist and you try to add the bundle AOV items, this property means that you will be able to re-add that non-main buncel AOV item as well. For example, double + back cushion bundle cart AOV and you have the back cushion already in the cart (non-main product in that bundle since it is the additional product). This means that it will add the double and back cushion to the cart when adding the bundle. Default is it only would add the main product (and this AOV will only show if the main product isn't already a cart item). | allowToAddEachAgain: true |
 | discountType | items | string | Defines the discount type (fixed vs percentage). Percentage is the default if not defined. | discountType: percentage |
-| modalLinkText | items | string | | modalLinkText: Change Height |
-| requiresProductId | items | | | requiresMattress: false |
-| bundleAov | items | boolean | | bundleAov: true |
-| variantOnly | items | boolean | | variantOnly: true |
-| additionalItemsToAdd | items | object | | additionalItemsToAdd:<br/>&nbsp;&nbsp;&nbsp;&nbsp;- variantId: 39819396612285<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;productId: 6718679220413<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;qty: 1<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id: harmony-pillow |
-| variantId | additionalItemsToAdd | integer | | variantId: 39819396612285 |
-| productId | additionalItemsToAdd | integer | | productId: 6718679220413 |
-| qty | additionalItemsToAdd | integer | | qty: 1 |
-| id | additionalItemsToAdd | string | | id: harmony-pillow |
+| modalLinkText | items | string | Text that will trigger the modal on click. | modalLinkText: Change Height |
+| additionalItemsToAdd | items | object | Contains the information for the additional item that will be added. | additionalItemsToAdd:<br/>&nbsp;&nbsp;&nbsp;&nbsp;- variantId: 39819396612285<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;productId: 6718679220413<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;qty: 1<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id: harmony-pillow |
+| variantId | additionalItemsToAdd | integer | Shopify Variant ID that will be added. This is what is referenced inside the actual add to cart. | variantId: 39819396612285 |
+| productId | additionalItemsToAdd | integer | Shopify Product ID of the product that will be added. | productId: 6718679220413 |
+| qty | additionalItemsToAdd | integer | Number of this item to add to the cart. | qty: 1 |
+| id | additionalItemsToAdd | string | References folder name within global-data/products to pull the correct variants information. | id: harmony-pillow |
+| bundleAov | items | boolean | (optional), not needed. | bundleAov: true |
+<!-- | variantOnly | items | boolean | | variantOnly: true | -->
+<!-- | requiresProductId | items | boolean |   | requiresMattress: false | -->
+<!-- | specificAovsPerProduct | root | object | | | -->
 <br/>
 <br/>
 <br/>
