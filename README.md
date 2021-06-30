@@ -28,7 +28,6 @@
 | variantUnit | root | string | Specifies any particular unit to use especially when we don't want to display options for other unit types. Only can have one unit selected through this route. | variantUnit: Sheet Set |
 | discountMessage | root | string | Message in AOV driver to invoke promo discount messaging (i.e. pink font color). | discountMessage: 20% Off the Purple Duvet |
 | buyMoreSaveMore | root | string | Qualifies AOV item toward BMSM count and will activate discounts accordingly. | buyMoreSaveMore: true |
-<!-- | harmonyPillowSize | root | string |  | harmonyPillowSize: Standard | -->
 | lowerText | root | string | Message in AOV driver to add any special messaging (i.e. centered, grey messaging). | lowerText: Not eligible for accessory sale |
 | variants | root | array | List of all the different variants mainly to show different images. | variants:<br/>&nbsp;&nbsp;&nbsp;&nbsp;- id: Lightweight<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;label: LIGHTWEIGHT<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;img: https://cdn.purple.com/image/upload/v1580946150/products/Foundation/frame_foundation_slate_2x3.png |
 | id | variants | string | References the toggle type's options to display a different defined image. | id: Lightweight |
