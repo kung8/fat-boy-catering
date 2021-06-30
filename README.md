@@ -1,4 +1,4 @@
-**AOV Pages:**
+**AOV Pages (non-cart):**
 
 | property | context | datatype | description | example |
 | -------- | ------- | -------- | ----------- | ------- |
@@ -9,6 +9,35 @@
 | product | items | array | A list of AOV driver. | - product:<br/>&nbsp;&nbsp;&nbsp;&nbsp;- handle: harmony-pillow-additional-qty | 
 | handle | product | string | References file name within global-data/aov-drivers/drivers. | handle: harmony-pillow-additional-qty |
 | showOnVariants | product | object | A list of variant ids on this product page that will show this particular AOV item. | showOnVariants:<br/>&nbsp;&nbsp;&nbsp;&nbsp;32037233360943: true |
+| [variantId] | showOnVariants | boolean | When defined, if the Shopify variant ID's is contained in this list it will show this particuar AOV item. It will error out if you forget to include a variant ID under any of these lists (per AOV instance). | 32037233360943: true |
+
+**Cart AOV**
+
+| property | context | datatype | description | example |
+| -------- | ------- | -------- | ----------- | ------- |
+| location | root | string | Unlike the non-cart AOV Pages, it should just be the 'cart' instead of referencing the folders in the global-data/products. | location: cart |
+| specificAovsPerProduct | root | object | | |
+| items | root | array | | |
+| id | items | string | | id: mattress-protector |
+| name | items | string | | name: Mattress Protector |
+| img | items | string | | img: https://cdn.purple.com/image/upload/products/mattress-protector/mattress-protector-nav-transparent.png |
+| modal | items | string | | modal: mattress-protector |
+| requiresMattress | items | boolean | | requiresMattress: true |
+| matchMattressSize | items | boolean | | matchMattressSize: true |
+| lowerText | items | string | | lowerText: Protect your premium mattress without sacrificing comfort. |
+| hideModel | items | boolean | | hideModel: true |
+| additionalDiscount | items | integer | | additionalDiscount: .10 |
+| allowToAddEachAgain | items | boolean | | allowToAddEachAgain: true |
+| discountType | items | string | Defines the discount type (fixed vs percentage). Percentage is the default if not defined. | discountType: percentage |
+| modalLinkText | items | string | | modalLinkText: Change Height |
+| requiresProductId | items | | | requiresMattress: false |
+| bundleAov | items | boolean | | bundleAov: true |
+| variantOnly | items | boolean | | variantOnly: true |
+| additionalItemsToAdd | items | object | | additionalItemsToAdd:<br/>&nbsp;&nbsp;&nbsp;&nbsp;- variantId: 39819396612285<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;productId: 6718679220413<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;qty: 1<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id: harmony-pillow |
+| variantId | additionalItemsToAdd | integer | | variantId: 39819396612285 |
+| productId | additionalItemsToAdd | integer | | productId: 6718679220413 |
+| qty | additionalItemsToAdd | integer | | qty: 1 |
+| id | additionalItemsToAdd | string | | id: harmony-pillow |
 
 **AOV Drivers:**
 
@@ -38,6 +67,7 @@
 | topLabel | additionalQty | string | Top line text that shows next to additional qty checkbox.  | topLabel: Save an additional $32 |
 | bottomLabel | additionalQty | string | Bottom line text that shows next to additional qty checkbox. | bottomLabel: When you buy a second Harmony Pillow |
 | discountType | additionalQty | string | Defined discount type (fixed vs percent). Logic default is percent (leave blank if you want to use percent). | discountType: fixed |
-| discount | additionalQty | string | Defined discount amount (use whole number not decimal). | discount: 16 |
+| discount | additionalQty | integer | Defined discount amount (use whole number not decimal). | discount: 16 |
 | toggleLabel | additionalQty | string | Label above the second additional toggle decisions. | toggleLabel: Second Pillow Height |
 | bmsmTopLabel | additionalQty | string | Label that will replace the topLabel (and bottomLabel, indirectly). This will be turned on when buyMoreSaveMore is enabled. This will show up next to the additional qty checkbox. | bmsmTopLabel: Second Harmony Pillow |
+<!-- | harmonyPillowSize | root | string |  | harmonyPillowSize: Standard | -->
