@@ -11,6 +11,9 @@
 | showOnVariants | product | object | A list of variant ids on this product page that will show this particular AOV item. | showOnVariants:<br/>&nbsp;&nbsp;&nbsp;&nbsp;32037233360943: true |
 | [variantId] | showOnVariants | boolean | When defined, if the Shopify variant ID's is contained in this list it will show this particuar AOV item. It will error out if you forget to include a variant ID under any of these lists (per AOV instance). | 32037233360943: true |
 
+
+
+
 **Cart AOV**
 
 | property | context | datatype | description | example |
@@ -38,6 +41,9 @@
 | productId | additionalItemsToAdd | integer | | productId: 6718679220413 |
 | qty | additionalItemsToAdd | integer | | qty: 1 |
 | id | additionalItemsToAdd | string | | id: harmony-pillow |
+
+
+
 
 **AOV Drivers:**
 
