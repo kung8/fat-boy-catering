@@ -19,7 +19,7 @@
 | property | context | datatype | description | example |
 | -------- | ------- | -------- | ----------- | ------- |
 | location | root | string | Unlike the non-cart AOV Pages, it should just be the 'cart' instead of referencing the folders in the global-data/products. | location: cart |
-| items | root | array | List of AOV items |  |
+| items | root | array | List of AOV items | items:<br/>&nbsp;&nbsp;&nbsp;&nbsp;-id: mattress-protector<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name: Mattress Protector |
 | id | items | string | References folder name within global-data/products to pull the correct variants information. | id: mattress-protector |
 | name | items | string | Name that will show in the AOV. | name: Mattress Protector |
 | img | items | string | Image that will show in the AOV. | img: https://cdn.purple.com/image/upload/products/mattress-protector/mattress-protector-nav-transparent.png |
@@ -37,7 +37,7 @@
 | productId | additionalItemsToAdd | integer | Shopify Product ID of the product that will be added. | productId: 6718679220413 |
 | qty | additionalItemsToAdd | integer | Number of this item to add to the cart. | qty: 1 |
 | id | additionalItemsToAdd | string | References folder name within global-data/products to pull the correct variants information. | id: harmony-pillow |
-| bundleAov | items | boolean | (optional), not needed. | bundleAov: true |
+| bundleAov | items | boolean | (optional) Not needed since its not doing anything for the actual logic, instead use the additionalItemsToAdd property. | bundleAov: true |
 <!-- | variantOnly | items | boolean | | variantOnly: true | -->
 <!-- | requiresProductId | items | boolean |   | requiresMattress: false | -->
 <!-- | specificAovsPerProduct | root | object | | | -->
