@@ -135,6 +135,8 @@ export default function Menu(props) {
         props.history.push('/' + id);
     }
 
+    const roundToEven = (num) => num % 2 !== 0 ? num + 1 : num;
+
     const mapMenu = () => {
         return (
             <div className="menu">
@@ -153,7 +155,8 @@ export default function Menu(props) {
                         const twoLiners = menuItems.filter(item => item.description.length > 40 && item.description.length < 80).length;
                         const oneLiner = menuItems.filter(item => item.description.length && item.description.length < 40).length;
                         let noDesc = numOfItems - threeLiners - twoLiners - oneLiner;
-                        height = (imageHeight + (noDesc * 65) + (oneLiner * 80) + (twoLiners * 100) + (threeLiners * 120)) / 2;
+                        const totalHeight = (imageHeight + 4) + (noDesc * 66) + (oneLiner * 80) + (twoLiners * 100) + (threeLiners * 120);
+                        height = roundToEven(totalHeight / 2);
                         if (height < imageHeight) height = imageHeight;
                     }
 
@@ -161,7 +164,7 @@ export default function Menu(props) {
                         return (
                             <div key={categoryId} className={`category-card ${collapsed && 'collapsed-card'}`}>
                                 <button className="category-name-container flex-btwn align-ctr" onClick={() => handleCollapse(index, !isCollapsedArr[index], categoryId)} disabled={screenSize > mini}>
-                                    <h3 className="category-name">{name}</h3>
+                                    <h3 className="category-name">{name.replace("`", "'")}</h3>
                                     <svg id={`arrow-` + categoryId} className={`category-chevron-arrow ${collapsed && 'inverted'}`} viewBox="0 0 448 448" xmlns="http://www.w3.org/2000/svg"><path fill="#ffffff" d="m408 184h-136c-4.417969 0-8-3.582031-8-8v-136c0-22.089844-17.910156-40-40-40s-40 17.910156-40 40v136c0 4.417969-3.582031 8-8 8h-136c-22.089844 0-40 17.910156-40 40s17.910156 40 40 40h136c4.417969 0 8 3.582031 8 8v136c0 22.089844 17.910156 40 40 40s40-17.910156 40-40v-136c0-4.417969 3.582031-8 8-8h136c22.089844 0 40-17.910156 40-40s-17.910156-40-40-40zm0 0" /></svg>
                                 </button>
                                 <div className={`category-img-and-menu col wrap ${collapsed && 'none'}`} style={{ height: !collapsed && height }}>
