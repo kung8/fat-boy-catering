@@ -64,6 +64,16 @@ export default function Login(props) {
         }
     }
 
+    // const handleRegister = async () => {
+    //     try {
+    //         const { data } = await axios.post('/api/register', { username, password });
+    //         await handleUserUpdate(data);
+    //     } catch {
+    //         toast.dismiss();
+    //         toast('Error registering.');
+    //     }
+    // }
+
     return (
         <div className="login-wrapper flex-all-ctr">
             <div className="login-modal-container col flex-evenly align-ctr">
@@ -71,6 +81,7 @@ export default function Login(props) {
                 <input id="username" type="text" placeholder="Username" onChange={e => updateUsername(e.target.value)} />
                 <input id="password" type="password" placeholder="Password" onChange={e => updatePassword(e.target.value)} />
                 <button className={`${disabled && 'disabled'}`} disabled={disabled} onClick={handleLogin}>Login</button>
+                {/* <button className={`${disabled && 'disabled'}`} disabled={disabled} onClick={handleRegister}>Register</button> */}
             </div>
             {Toast}
         </div>

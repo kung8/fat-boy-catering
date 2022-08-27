@@ -168,13 +168,13 @@ export default function Category(props) {
             updateShowImage(true);
             socket.emit('update category data', data);
             await toast.dismiss();
-            toast(`Updated ${name}!`, { className: 'lime' });
+            toast(`Updated ${name.replace("`", "'")}!`, { className: 'lime' });
         } else {
             if (typeof id === 'number') {
                 await axios.delete('/api/category/' + id);
                 socket.emit('delete category data', id);
                 await toast.dismiss();
-                toast(`Removed ${name} successfully!`, { className: 'lime' });
+                toast(`Removed ${name.replace("`", "'")} successfully!`, { className: 'lime' });
             } else {
                 await toast.dismiss();
                 toast(`Removed successfully!`, { className: 'lime' });

@@ -34,6 +34,7 @@ massive(CONNECTION_STRING).then(db => {
     app.get('/api/menu/admin', adminCtrl.getAdminMenuPage);
     app.put('/api/menu/hero', adminCtrl.updateHero);
     app.post('/api/user', adminCtrl.login);
+    app.post('/api/register', adminCtrl.register);
 
     //CATEGORY
     app.put('/api/category/:id', catCtrl.updateCategory);
