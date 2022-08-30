@@ -16,7 +16,7 @@ export default function MenuItem(props) {
     const [delay, updateDelay] = useState(0);
 
     useEffect(() => {
-        getSessionStorage();
+        getLocalStorage();
         socket.emit('join item page');
         socket.on('joined item successfully', async () => await getMenuItemData());
         socket.on('updated menu data', async () => await getMenuItemData());
@@ -24,12 +24,12 @@ export default function MenuItem(props) {
         // eslint-disable-next-line
     }, [delay])
 
-    const getSessionStorage = async () => {
-        let cart = await sessionStorage.getItem('cart');
+    const getLocalStorage = async () => {
+        let cart = await localStorage.getItem('cart');
         if (cart) {
             cart = Object.values(JSON.parse(cart));
             let values = cart.filter(item => item.qty > 0);
-            sessionStorage.setItem('cart', JSON.stringify(values));
+            localStorage.setItem('cart', JSON.stringify(values));
             cart = values;
             await updateCartNum(cart.length);
         }
@@ -85,7 +85,7 @@ export default function MenuItem(props) {
     }
 
     const addToCart = async () => {
-        let cart = sessionStorage.getItem('cart');
+        let cart = localStorage.getItem('cart');
         cart = JSON.parse(cart);
 
         if (!cart) {
@@ -104,7 +104,7 @@ export default function MenuItem(props) {
 
         cart[num] = item;
         cart = JSON.stringify(cart);
-        sessionStorage.setItem('cart', cart);
+        localStorage.setItem('cart', cart);
 
         props.history.push('/');
     }

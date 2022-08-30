@@ -22,22 +22,22 @@ export default function Cart(props) {
         initializeForm();
         getMessaging();
         socket.on('updated out of office message', async message => {
-            if (!sessionStorage.getItem('seen-out-of-office-message')) {
+            if (!localStorage.getItem('seen-out-of-office-message')) {
                 updateOutOfOfficeMessage(message);
             }
-            if (!message && sessionStorage.getItem('seen-out-of-office-message')) {
-                sessionStorage.removeItem('seen-out-of-office-message');
+            if (!message && localStorage.getItem('seen-out-of-office-message')) {
+                localStorage.removeItem('seen-out-of-office-message');
             }
         });
         // eslint-disable-next-line
     }, []);
 
     const getCart = async () => {
-        let cart = sessionStorage.getItem('cart');
+        let cart = localStorage.getItem('cart');
         if (cart) {
             cart = Object.values(JSON.parse(cart));
             let values = cart.filter(item => item.qty > 0);
-            sessionStorage.setItem('cart', JSON.stringify(values));
+            localStorage.setItem('cart', JSON.stringify(values));
             let newCart = [];
             for (let key in cart) {
                 if (cart[key].qty > 0) {
@@ -51,7 +51,7 @@ export default function Cart(props) {
     }
 
     const initializeForm = () => {
-        let data = sessionStorage.getItem('cart-user');
+        let data = localStorage.getItem('cart-user');
         if (!data) data = { name: '', department: '', phone: '' };
         else data = JSON.parse(data);
         updateFormData(data);
@@ -60,13 +60,13 @@ export default function Cart(props) {
     const getMessaging = async () => {
         const { data } = await axios.get('/api/messaging');
         updateOutOfOfficeMessageEnabled(data.enabled);
-        if (!sessionStorage.getItem('seen-out-of-office-message')) {
+        if (!localStorage.getItem('seen-out-of-office-message')) {
             updateOutOfOfficeMessage(data.message);
         }
     }
 
     const editCartItem = (id, index) => {
-        sessionStorage.setItem('selectedIndex', index);
+        localStorage.setItem('selectedIndex', index);
         props.history.push('/cart/' + id);
     }
 
@@ -100,7 +100,7 @@ export default function Cart(props) {
         data[prop] = value;
         await updateFormData(data);
         const formattedData = JSON.stringify(data);
-        sessionStorage.setItem('cart-user', formattedData);
+        localStorage.setItem('cart-user', formattedData);
     }
 
     const handlePhoneUpdate = async (value) => {
@@ -111,7 +111,7 @@ export default function Cart(props) {
             phone = `(${match[1]}${match[2] ? ') ' : ''}${match[2]}${match[3] ? ' - ' : ''}${match[3]}`;
         }
         data.phone = phone;
-        handleFormDataUpdate('phone', value);
+        handleFormDataUpdate('phone', phone);
     }
 
     const handleCheckOut = async () => {
@@ -120,7 +120,7 @@ export default function Cart(props) {
             await axios.post('/api/cart', data);
             await socket.emit('update orders');
             updateFormData({ name: '', department: '', phone: '' });
-            sessionStorage.removeItem('cart');
+            localStorage.removeItem('cart');
             updateCartNum(0);
             props.history.push('/');
         } else {

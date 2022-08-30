@@ -45,7 +45,7 @@ export default function AdminMenu(props) {
     }
 
     const getUser = () => {
-        let user = sessionStorage.getItem('user');
+        let user = localStorage.getItem('user');
         if (user) {
             updateUser(user);
             updateIsAdmin(true);

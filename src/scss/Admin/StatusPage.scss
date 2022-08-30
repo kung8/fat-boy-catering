@@ -24,6 +24,13 @@
                 font-size: 14px;
             }
         }
+        .status-fraction {
+            margin-bottom: 4px;
+            font-size: 16px;
+            @include down($mobile) {
+                font-size: 14px;
+            }
+        }
         .filter-btn {
             padding: 8px 15px;
             background: $platinum;
@@ -61,6 +68,10 @@
                 border: none;
                 outline: none;
                 cursor: pointer;
+                margin-top: 4px;
+                margin-bottom: 4px;
+                padding-left: 6px;
+                padding-right: 6px;
                 &.not-included {
                     .status-name {
                         text-decoration: line-through;
@@ -89,92 +100,115 @@
             }
         }
         &.order-cards-container {
-            .order-card {
-                padding: 8px;
-                margin-bottom: 12px;
-                &.open {
-                    background: #b38cfa;
-                }
-                &.in-progress {
-                    background: #ffcc99;
-                }
-                &.fulfilled {
-                    background: #fa6f65;
-                }
-                * {
-                    color: $hitam;
-                }
-                .order-heading {
-                    margin-bottom: 4px;
-                    .order-id {
-                        font-size: 12px;
-                        text-transform: uppercase;
+            .orders-background-container {
+                background: $burnt;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                overflow-y: scroll;
+                max-height: calc(100vh - 200px);
+                .order-card {
+                    padding: 8px;
+                    margin-bottom: 8px;
+                    width: 96%;
+                    &:first-of-type {
+                        margin-top: 8px;
                     }
-                    .status-label {
-                        text-align-last: right;
-                        border: none;
-                        outline: none;
-                        background: transparent;
-                        @supports (-webkit-appearance: none) and (stroke-color: transparent) {
-                            & {
-                                background: white;
+                    &.open {
+                        background: #abf7b1;
+                    }
+                    &.in-progress {
+                        background: #ffcc99;
+                    }
+                    &.fulfilled {
+                        background: #fa6f65;
+                    }
+                    &.cancelled {
+                        background: #add8e6;
+                    }
+                    * {
+                        color: $hitam;
+                    }
+                    .order-heading {
+                        margin-bottom: 4px;
+                        .order-id {
+                            font-size: 12px;
+                            text-transform: uppercase;
+                        }
+                        .status-label {
+                            text-align-last: right;
+                            border: none;
+                            outline: none;
+                            background: transparent;
+                            cursor: pointer;
+                            @supports (-webkit-appearance: none) and (stroke-color: transparent) {
+                                & {
+                                    background: white;
+                                }
                             }
                         }
                     }
-                }
-                .line-item-card {
-                    margin-bottom: 24px;
-                    .line-item-heading {
-                        margin-bottom: 6px;
-                    }
-                    .menu-item-name {
-                        font-size: 16px;
-                        font-style: italic;
-                        text-decoration: underline;
-                        text-underline-position: below;
-                    }
-                    .qty {
-                        font-size: 14px;
-                    }
-                    .ingredients {
-                        margin-bottom: 6px;
-                        span {
+                    .line-item-card {
+                        margin-bottom: 24px;
+                        .line-item-heading {
+                            margin-bottom: 6px;
+                        }
+                        .menu-item-name {
+                            font-size: 16px;
+                            font-style: italic;
+                            text-decoration: underline;
+                            text-underline-position: below;
+                        }
+                        .qty {
+                            font-size: 14px;
+                        }
+                        .ingredients {
+                            margin-bottom: 6px;
+                            span {
+                                font-size: 16px;
+                                display: inline-block;
+                                margin-right: 4px;
+                            }
+                        }
+                        .instructions {
                             font-size: 16px;
                             display: inline-block;
                             margin-right: 4px;
                         }
                     }
-                    .instructions {
-                        font-size: 16px;
-                        display: inline-block;
-                        margin-right: 4px;
-                    }
-                }
-                .contact-info-container {
-                    .name-and-department {
-                        font-size: 14px;
-                        margin-bottom: 4px;
-                    }
-                    .phone-and-date {
-                        .phone {
+                    .contact-info-container {
+                        .name-and-department {
                             font-size: 14px;
+                            margin-bottom: 4px;
                         }
-                        .date {
-                            font-size: 14px;
+                        .phone-and-date {
+                            .phone {
+                                font-size: 14px;
+                            }
+                            .date {
+                                font-size: 14px;
+                            }
                         }
                     }
                 }
             }
         }
         &.empty-orders-container {
-            p {
+            .orders-background-container {
                 background: $burnt;
-                color: $pearl;
-                padding-top: 75px;
-                padding-bottom: 75px;
-                font-size: 16px;
-                @include down($mini) {
-                    font-size: 12px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                p {
+                    background: $burnt;
+                    color: $pearl;
+                    padding-top: 75px;
+                    padding-bottom: 75px;
+                    font-size: 16px;
+                    width: 96%;
+                    @include down($mini) {
+                        font-size: 12px;
+                    }
                 }
             }
         }

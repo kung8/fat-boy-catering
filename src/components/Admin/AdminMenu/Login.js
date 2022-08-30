@@ -44,7 +44,7 @@ export default function Login(props) {
             if (username !== '' && password !== '') {
                 const { data } = await axios.post('/api/user', { username, password });
                 await handleUserUpdate(data);
-                sessionStorage.setItem('user', data);
+                localStorage.setItem('user', data);
             }
         } catch {
             toast.dismiss();

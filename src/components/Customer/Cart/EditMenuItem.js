@@ -18,7 +18,7 @@ export default function EditMenuItem(props) {
     const [delay, updateDelay] = useState(0);
 
     useEffect(() => {
-        let selectedItem = getSessionStorage();
+        let selectedItem = getLocalStorage();
         if (menuItem && Object.keys(menuItem).length === 0) {
             getMenuItemData(selectedItem);
         }
@@ -29,9 +29,9 @@ export default function EditMenuItem(props) {
         // eslint-disable-next-line
     }, [])
 
-    const getSessionStorage = () => {
-        let cart = sessionStorage.getItem('cart');
-        let selectedIndex = sessionStorage.getItem('selectedIndex');
+    const getLocalStorage = () => {
+        let cart = localStorage.getItem('cart');
+        let selectedIndex = localStorage.getItem('selectedIndex');
         if (cart) {
             cart = JSON.parse(cart);
             updateCartItems(cart);
@@ -105,7 +105,7 @@ export default function EditMenuItem(props) {
         cart[selectedIndex] = item;
         updateCartItems(cart);
         cart = JSON.stringify(cart);
-        sessionStorage.setItem('cart', cart);
+        localStorage.setItem('cart', cart);
 
         props.history.push('/cart');
     }

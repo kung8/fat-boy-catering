@@ -5,7 +5,7 @@ export default function OutOfOfficeMessage(props) {
     const [closed, updateClosed] = useState(false);
 
     const handleClose = () => {
-        sessionStorage.setItem('seen-out-of-office-message', true);
+        localStorage.setItem('seen-out-of-office-message', true);
         updateClosed(true);
     }
 

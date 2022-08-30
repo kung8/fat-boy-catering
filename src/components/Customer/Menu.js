@@ -20,8 +20,8 @@ export default function Menu(props) {
     const [user, updateUser] = useState(null);
 
     useEffect(() => {
-        getSessionStorageCart();
-        getSessionStorageUser();
+        getLocalStorageCart();
+        getLocalStorageUser();
         initialization();
         if (!room) {
             socket.emit('join page');
@@ -46,11 +46,11 @@ export default function Menu(props) {
                 initialization();
             });
             socket.on('updated out of office message', async message => {
-                if (!sessionStorage.getItem('seen-out-of-office-message')) {
+                if (!localStorage.getItem('seen-out-of-office-message')) {
                     updateOutOfOfficeMessage(message);
                 }
-                if (!message && sessionStorage.getItem('seen-out-of-office-message')) {
-                    sessionStorage.removeItem('seen-out-of-office-message');
+                if (!message && localStorage.getItem('seen-out-of-office-message')) {
+                    localStorage.removeItem('seen-out-of-office-message');
                 }
             });
         }
@@ -64,20 +64,20 @@ export default function Menu(props) {
         await handleScreenResize();
     }
 
-    const getSessionStorageCart = async () => {
-        let cart = await sessionStorage.getItem('cart');
+    const getLocalStorageCart = async () => {
+        let cart = await localStorage.getItem('cart');
 
         if (cart) {
             cart = Object.values(JSON.parse(cart));
             let values = cart.filter(item => item.qty > 0);
-            sessionStorage.setItem('cart', JSON.stringify(values));
+            localStorage.setItem('cart', JSON.stringify(values));
             cart = values;
             await updateCartNum(cart.length);
         }
     }
 
-    const getSessionStorageUser = async () => {
-        let user = await sessionStorage.getItem('user');
+    const getLocalStorageUser = async () => {
+        let user = await localStorage.getItem('user');
 
         if (user) {
             updateUser(user);
@@ -89,7 +89,7 @@ export default function Menu(props) {
         const { hero, menu, message } = data;
         await updateHero(hero);
         await updateMenu(menu);
-        if (!sessionStorage.getItem('seen-out-of-office-message')) {
+        if (!localStorage.getItem('seen-out-of-office-message')) {
             updateOutOfOfficeMessage(message.message);
             updateOutOfOfficeMessageEnabled(message.enabled);
         }

@@ -14,7 +14,12 @@ export default function Status(props) {
     const [isLoaded, updateIsLoaded] = useState(false);
     // const filters = ['Today', 'Date Period'];
     // const filters = ['Today'];
-    const statuses = [{ color: '#B38CFA', label: 'Open' }, { color: '#ffcc99', label: 'In Progress' }, { color: '#FA6F65', label: 'Fulfilled' }];
+    const statuses = [
+        { color: '#abf7b1', label: 'Open' },
+        { color: '#ffcc99', label: 'In Progress' },
+        { color: '#FA6F65', label: 'Fulfilled' },
+        { color: '#ADD8E6', label: 'Cancelled' },
+    ];
     // const [selectedFilter, updateSelectedFilter] = useState('Today');
     const [filteredStatuses, updateFilteredStatuses] = useState(['Open', 'In Progress']);
     const [user, updateUser] = useState(null);
@@ -42,7 +47,7 @@ export default function Status(props) {
     }
 
     const getUser = () => {
-        let user = sessionStorage.getItem('user');
+        let user = localStorage.getItem('user');
         if (user) {
             updateUser(user);
             updateIsAdmin(true);
@@ -108,7 +113,7 @@ export default function Status(props) {
         return (
             <div className="statuses-container container">
                 <h3 className="section-label">Showing:</h3>
-                <div className="status-btn-container flex-btwn">
+                <div className="status-btn-container wrap flex-btwn">
                     {statuses.map((status, index) => {
                         const { color, label } = status;
                         const included = filteredStatuses.includes(label);
@@ -131,23 +136,31 @@ export default function Status(props) {
 
     const mapOrders = () => {
         if (orders.length > 0) {
+            const displayedOrder = orders.length;
             return (
                 <div className="order-cards-container container">
-                    <h3 className="section-label">Orders:</h3>
-                    {orders.map(order => (
-                        <OrderCard
-                            key={order.order_id}
-                            order={order}
-                            updateOrder={updateOrder}
-                        />
-                    ))}
+                    <div className="flex-btwn align-ctr">
+                        <h3 className="section-label">Orders:</h3>
+                        <h3 className="status-fraction">Displaying <span className="underline">{displayedOrder}</span> Orders</h3>
+                    </div>
+                    <div className="orders-background-container">
+                        {orders.map(order => (
+                            <OrderCard
+                                key={order.order_id}
+                                order={order}
+                                updateOrder={updateOrder}
+                            />
+                        ))}
+                    </div>
                 </div>
             )
         } else {
             return (
                 <div className="empty-orders-container container">
                     <h3 className="section-label">Orders:</h3>
-                    <p className="flex-ctr">There are no orders to display.</p>
+                    <div className="orders-background-container">
+                        <p className="flex-ctr">There are no orders to display.</p>
+                    </div>
                 </div>
             )
         }

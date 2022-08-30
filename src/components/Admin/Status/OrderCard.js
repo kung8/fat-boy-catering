@@ -6,7 +6,7 @@ import socket from '../../_Global/Socket';
 export default function OrderCard(props) {
     const { order, updateOrder } = props;
     let { lineItems, date, order_id, name, phone, department, status } = order;
-    const statuses = ['Open', 'In Progress', 'Fulfilled'];
+    const statuses = ['Open', 'In Progress', 'Fulfilled', 'Cancelled'];
     const [selected, updateSelected] = useState(status);
 
     useEffect(() => {
