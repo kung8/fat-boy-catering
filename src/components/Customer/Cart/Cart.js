@@ -99,7 +99,7 @@ export default function Cart(props) {
         const data = { ...formData };
         data[prop] = value;
         await updateFormData(data);
-        let formattedData = JSON.stringify(data);
+        const formattedData = JSON.stringify(data);
         sessionStorage.setItem('cart-user', formattedData);
     }
 
@@ -111,7 +111,7 @@ export default function Cart(props) {
             phone = `(${match[1]}${match[2] ? ') ' : ''}${match[2]}${match[3] ? ' - ' : ''}${match[3]}`;
         }
         data.phone = phone;
-        updateFormData(data);
+        handleFormDataUpdate('phone', value);
     }
 
     const handleCheckOut = async () => {
