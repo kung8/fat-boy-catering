@@ -21,7 +21,6 @@ export default function DateFormatter(num) {
 
     let leapDays = Math.floor(year / 4);
     days -= leapDays;
-    days -= 1;
 
     let month;
     for (let index = 0; index < daysArr.length; index++) {
