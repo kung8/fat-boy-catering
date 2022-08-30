@@ -116,6 +116,7 @@
             border: none;
             outline: none;
             margin-bottom: 24px;
+            cursor: pointer;
             @include down($mini) {
                 width: 90%;
             }

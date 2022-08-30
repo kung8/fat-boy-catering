@@ -41,6 +41,7 @@
                 background: transparent;
                 border: none;
                 outline: none;
+                cursor: pointer;
             }
         }
         .menu-item-body-container {
@@ -89,6 +90,7 @@
             .add-selection-group-btn {
                 margin-top: 12px;
                 width: 65%;
+                cursor: pointer;
             }
             @import "./Range";
             .range-container {
@@ -106,6 +108,7 @@
                 padding: 6px 8px;
                 font-size: 20px;
                 color: $pearl;
+                cursor: pointer;
             }
             .delete-menu-item-btn {
                 width: 40%;
@@ -115,6 +118,7 @@
                 padding: 6px 8px;
                 font-size: 20px;
                 color: $pearl;
+                cursor: pointer;
             }
         }
     }

@@ -134,15 +134,13 @@ export default function Status(props) {
             return (
                 <div className="order-cards-container container">
                     <h3 className="section-label">Orders:</h3>
-                    {orders.map(order => {
-                        return (
-                            <OrderCard
-                                key={order.order_id}
-                                order={order}
-                                updateOrder={updateOrder}
-                            />
-                        )
-                    })}
+                    {orders.map(order => (
+                        <OrderCard
+                            key={order.order_id}
+                            order={order}
+                            updateOrder={updateOrder}
+                        />
+                    ))}
                 </div>
             )
         } else {

@@ -327,6 +327,7 @@
                 outline: none;
                 padding: 12px;
                 font-size: 20px;
+                cursor: pointer;
                 @include down($mobile) {
                     font-size: 16px;
                 }
@@ -353,6 +354,7 @@
         padding: 10px 10px;
         border: none;
         margin-bottom: 24px;
+        cursor: pointer;
         @include down($mini) {
             width: 90%;
             padding: 8px 10px;
@@ -438,6 +440,7 @@
         padding: 10px 10px;
         border: none;
         margin-bottom: 24px;
+        cursor: pointer;
         @include down($mini) {
             width: 90%;
             padding: 8px 10px;
