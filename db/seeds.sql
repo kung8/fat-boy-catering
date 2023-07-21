@@ -78,7 +78,7 @@ CREATE TABLE line_items (
     id serial primary key,
     order_id integer, 
     menu_item_id integer, 
-    toppings varchar[],
+    ingredients varchar[],
     instructions varchar, 
     date varchar, 
     qty integer

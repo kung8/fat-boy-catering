@@ -35,20 +35,31 @@ export default function MenuItem(props) {
         }
     }
 
+    // using the database data
+    // const getMenuItemData = async () => {
+    //     let id = props.match.params.id;
+    //     let { data } = await axios.get('/api/menu/' + id);
+    //     let { item, delayObj } = data;
+    //     await updateMenuItem(item);
+    //     updateDelay(delayObj.delay);
+    //     await updateIsLoaded(true);
+    //     createSelection(item.selections);
+    // }
+
     const getMenuItemData = async () => {
         let id = props.match.params.id;
         let { data } = await axios.get('/api/menu/' + id);
-        let { item, delayObj } = data;
-        await updateMenuItem(item);
-        updateDelay(delayObj.delay);
+        await updateMenuItem(data?.item);
+        updateDelay(data?.delay);
         await updateIsLoaded(true);
-        createSelection(item.selections);
+        createSelection(data.item.selections);
     }
 
     const createSelection = async (arr) => {
         let selectionObj = {};
         arr.forEach((selection, index) => {
-            let type = selection.selection_type_id;
+            // let type = selection.selection_type_id;
+            let type = selection.selectionTypeId;
             let newArr = [];
             selection.ingredients.forEach(item => {
                 if (item.preset) {
@@ -95,7 +106,8 @@ export default function MenuItem(props) {
         let num = Object.keys(cart).length;
 
         let item = {
-            menu_item_id: id,
+            // menu_item_id: id,
+            menuItemId: id,
             name,
             selections: loopThroughSelection(),
             qty,
@@ -124,15 +136,17 @@ export default function MenuItem(props) {
 
     const displaySelections = () => {
         return selections.map((obj, index) => {
-            const { id, name, ingredients, selection_type_id: selectionType } = obj;
+            // const { id, name, ingredients, selection_type_id: selectionType } = obj;
+            const { id, name, ingredients, selectionTypeId } = obj;
             return (
                 <div key={id} className="selection-container">
                     <h3 className="selection-name">{name}</h3>
                     <div className="selector-list">
                         {ingredients.map(item => {
-                            const { ingredient_id: ingredientId, enabled, name: ingredientName } = item;
+                            // const { ingredient_id: ingredientId, enabled, name: ingredientName } = item;
+                            const { ingredientId, enabled, name: ingredientName } = item;
                             if (enabled) {
-                                if (selectionType === 1) {
+                                if (selectionTypeId === 1) {
                                     const boolean = selected && selected[index] && selected[index] === ingredientName;
                                     return (
                                         <div key={ingredientId} className="ingredient-item radio-type align-ctr">
@@ -190,7 +204,7 @@ export default function MenuItem(props) {
             <div className="menu-item-page">
                 {
                     image ?
-                        <img id="item-image" className="item-image" src={googleDriveURL + image} alt={name} /> :
+                        <img id="item-image" className="item-image" src={image.includes('.jpg') || image.includes('.png') ? image : googleDriveURL + image} alt={name} /> :
                         <div id="item-image" className="placeholder"></div>
                 }
                 <div className="menu-item-name-container align-ctr flex-btwn" onClick={() => props.history.push('/')}>

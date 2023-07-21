@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import dayjs from 'dayjs';
 import OrderCard from './OrderCard';
 import axios from 'axios';
 import Loading from '../../_Global/Loading';
@@ -39,9 +40,12 @@ export default function Status(props) {
     }, [filteredStatuses]);
 
     const getOrders = async () => {
-        let date = getDate();
-        let start = new Date(date + 'T00:00:00.000Z').getTime().toString();
-        let end = new Date(date + 'T23:59:59.999Z').getTime().toString();
+        // let date = getDate();
+        // let start = new Date(date + 'T00:00:00.000Z').getTime().toString();
+        // let end = new Date(date + 'T23:59:59.999Z').getTime().toString();
+        const today = dayjs();
+        let start = today.startOf('day').format('MM/DD/YYYY HH:mm:ss');
+        let end = today.endOf('day').format('MM/DD/YYYY HH:mm:ss');
         let { data } = await axios.get(`/api/orders?start=${start}&end=${end}`);
         handleFilter(data);
     }
@@ -60,15 +64,17 @@ export default function Status(props) {
         await updateIsLoaded(true);
     }
 
-    const getDate = () => {
-        let date = new Date();
-        let month = date.getMonth();
-        let year = date.getFullYear();
-        let day = date.getDate();
-        if (month < 10) month = '0' + month;
-        if (day < 10) day = '0' + day;
-        return year + '-' + month + '-' + day;
-    }
+    // format date from dB
+    // const getDate = () => {
+    //     let date = new Date();
+    //     let month = date.getMonth();
+    //     let year = date.getFullYear();
+    //     let day = date.getDate();
+    //     if (month < 10) month = '0' + month;
+    //     if (day < 10) day = '0' + day;
+    //     return year + '-' + month + '-' + day;
+    // }
+    // end of format date from dB
 
     // const mapFilters = () => {
     //     return (
@@ -146,7 +152,7 @@ export default function Status(props) {
                     <div className="orders-background-container">
                         {orders.map(order => (
                             <OrderCard
-                                key={order.order_id}
+                                key={order.orderId}
                                 order={order}
                                 updateOrder={updateOrder}
                             />

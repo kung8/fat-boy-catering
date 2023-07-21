@@ -1,8 +1,9 @@
 let room = 'menu page';
-const { formatOrder } = require('../controllers/admin/orderController');
+const { formatOrder } = require('../hard-coded-controllers/admin/orderController');
+const hooks = require('./hooks');
 
 module.exports = {
-    socketListeners: async (socket, io, db) => {
+    socketListeners: async (socket, io) => {
         socket.join(room);
 
         socket.on('join page', () => {
@@ -36,18 +37,10 @@ module.exports = {
         });
 
         const getFormattedOrders = async () => {
-            let date = new Date();
-            let month = date.getMonth();
-            let year = date.getFullYear();
-            let day = date.getDate();
-            if (month < 10) month = '0' + month;
-            if (day < 10) day = '0' + day;
-            date = year + '-' + month + '-' + day;
-
-            let start = new Date(date + 'T00:00:00.000Z').getTime().toString();
-            let end = new Date(date + 'T23:59:59.999Z').getTime().toString();
-
-            const orders = await db.orders.get_orders({ start, end });
+            const today = dayjs();
+            let start = today.startOf('day').format('MM/DD/YYYY HH:mm:ss');
+            let end = today.endOf('day').format('MM/DD/YYYY HH:mm:ss');
+            const orders = await hooks.getOrders({ start, end });
             const formattedOrders = await formatOrder(orders);
             return formattedOrders;
         }

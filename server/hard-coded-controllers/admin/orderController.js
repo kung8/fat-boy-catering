@@ -1,9 +1,9 @@
+const hooks = require('../hooks');
 const { sendSMS } = require('./msgController');
 
 const orderCtrl = {
-    getOrders: async (req, res) => {
-        const db = req.app.get('db');
-        const orders = await db.orders.get_orders();
+    getOrders: async (_req, res) => {
+        const orders = hooks.getOrders();
         const organizedOrders = await orderCtrl.formatOrder(orders);
         res.send(organizedOrders);
     },
@@ -12,10 +12,10 @@ const orderCtrl = {
         const organizedOrders = [];
         const existing = [];
         await orders.forEach(async order => {
-            const { line_item_id, qty, menu_item_id, ingredients, instructions, date, order_id, name, phone, department, status, menu_item_name } = order;
+            const { lineItemId, qty, menuItemId, ingredients, instructions, date, orderId, name, phone, department, status, menuItemName } = order;
 
             const orderObj = {
-                order_id,
+                orderId,
                 name,
                 phone,
                 department,
@@ -24,23 +24,23 @@ const orderCtrl = {
             }
 
             const lineItem = {
-                line_item_id,
-                menu_item_id,
+                lineItemId,
+                menuItemId,
                 ingredients,
                 instructions,
-                menu_item_name,
+                menuItemName,
                 qty
             }
 
-            if (!existing.includes(order_id)) {
-                existing.push(order_id);
+            if (!existing.includes(orderId)) {
+                existing.push(orderId);
                 if (!orderObj.lineItems) {
                     orderObj.lineItems = [];
                 }
                 orderObj.lineItems.push(lineItem);
                 organizedOrders.push(orderObj);
             } else {
-                let index = organizedOrders.findIndex(item => item.order_id === order_id);
+                let index = organizedOrders.findIndex(item => item.orderId === orderId);
                 if (index > -1) organizedOrders[index].lineItems.push(lineItem);
             }
         });
@@ -55,7 +55,8 @@ const orderCtrl = {
         const updatedOrder = await db.orders.update_status({ id, status });
         if (status === 'Fulfilled') {
             const formattedNumber = '+1' + phone.replace(/[^0-9.]/gi, '');
-            sendSMS(formattedNumber);
+            console.log('this has been fulfilled: ', formattedNumber);
+            // sendSMS(formattedNumber);
         }
         const [order] = await orderCtrl.formatOrder(updatedOrder);
         res.send(order);

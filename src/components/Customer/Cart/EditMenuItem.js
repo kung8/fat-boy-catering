@@ -191,7 +191,7 @@ export default function EditMenuItem(props) {
             <div className="menu-item-page">
                 {
                     image ?
-                        <img id="item-image" className="item-image" src={googleDriveURL + image} alt={name} /> :
+                        <img id="item-image" className="item-image" src={image.includes('.jpg') || image.includes('.png') ? image : googleDriveURL + image} alt={name} /> :
                         <div id="item-image" className="placeholder"></div>
                 }
                 <div className="menu-item-name-container align-ctr flex-btwn" onClick={() => props.history.push('/')}>

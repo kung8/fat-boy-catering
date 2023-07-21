@@ -128,8 +128,7 @@ export default function MenuItem(props) {
         }
 
         if (copy.selections && copy.selections.length > 0) {
-            let selectionIds = Object.keys(old)
-            selectionIds = selectionIds.map(id => Number(id));
+            let selectionIds = Object.keys(old).map(id => Number(id))
 
             let selections = copy.selections.map((instance, instanceIndex) => {
                 if ((instance.name === "" || !instance.name) && original.selections) {
@@ -215,7 +214,8 @@ export default function MenuItem(props) {
             }).filter(selection => selection);
 
             // Delete ingredients from deleted selections 
-            for (let item of selectionIds) {
+            const filteredSelectionIds = selectionIds.filter(id => !!Number(id));
+            for (let item of filteredSelectionIds) {
                 old[item].forEach(id => {
                     if (!deleted[item]) {
                         deleted[item] = []
@@ -333,7 +333,7 @@ export default function MenuItem(props) {
             <div className={`menu-item-selection-${id} ${collapsed && 'none'} col align-ctr`}>
                 {
                     showImage ?
-                        <div id="item-image" className="item-image" style={{ backgroundImage: `url(${googleDriveURL + image})` }} aria-label={name}>
+                        <div id="item-image" className="item-image" style={{ backgroundImage: `url(${image.includes('.jpg') || image.includes('.png') ? image : googleDriveURL + image})` }} aria-label={name}>
                             <svg onClick={() => updateShowImage(!showImage)} className="edit-pencil" width="12" height="12" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 7.91646V10.0001H2.08362L8.23169 3.85199L6.14806 1.76837L0 7.91646Z" fill="black" /><path d="M9.83745 1.45992L8.54004 0.162522C8.32334 -0.0541741 7.9705 -0.0541741 7.75381 0.162522L6.737 1.17933L8.82062 3.26295L9.83743 2.24614C10.0542 2.02945 10.0542 1.67661 9.83745 1.45992Z" fill="black" /></svg>
                         </div>
                         :
