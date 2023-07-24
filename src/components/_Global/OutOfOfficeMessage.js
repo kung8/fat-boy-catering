@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import { localStorageKeys, setLocalStorageKey } from '../../utils/local-storage';
 
 export default function OutOfOfficeMessage(props) {
     const { message } = props;
     const [closed, updateClosed] = useState(false);
 
     const handleClose = () => {
-        localStorage.setItem('seen-out-of-office-message', true);
+        setLocalStorageKey(localStorageKeys.seenMessage, true)
         updateClosed(true);
     }
 

@@ -3,6 +3,7 @@ import axios from 'axios';
 import Footer from '../_Global/Footer';
 import Loading from '../_Global/Loading';
 import socket from '../_Global/Socket';
+import { getLocalStorageKey, localStorageKeys, setLocalStorageKey } from '../../utils/local-storage';
 
 export default function MenuItem(props) {
     const { checkHeight, updateCartNum } = props;
@@ -19,17 +20,20 @@ export default function MenuItem(props) {
         getLocalStorage();
         socket.emit('join item page');
         socket.on('joined item successfully', async () => await getMenuItemData());
-        socket.on('updated menu data', async () => await getMenuItemData());
+        socket.on('updated menu item ' + id, async (newMenuItem) => {
+            setLocalStorageKey(localStorageKeys.menuItem + '-' + id, newMenuItem);
+            updateMenuItem(newMenuItem);
+        });
         socket.on('updated delay', time => updateDelay(time));
         // eslint-disable-next-line
     }, [delay])
 
     const getLocalStorage = async () => {
-        let cart = await localStorage.getItem('cart');
+        let cart = getLocalStorageKey(localStorageKeys.cart);
         if (cart) {
             cart = Object.values(JSON.parse(cart));
             let values = cart.filter(item => item.qty > 0);
-            localStorage.setItem('cart', JSON.stringify(values));
+            setLocalStorageKey(localStorageKeys.cart, values);
             cart = values;
             await updateCartNum(cart.length);
         }
@@ -48,26 +52,35 @@ export default function MenuItem(props) {
 
     const getMenuItemData = async () => {
         let id = props.match.params.id;
-        let { data } = await axios.get('/api/menu/' + id);
-        await updateMenuItem(data?.item);
-        updateDelay(data?.delay);
-        await updateIsLoaded(true);
-        createSelection(data.item.selections);
+        let menuItem = getLocalStorageKey(localStorageKeys.menuItem + '-' + id);
+        let delay = getLocalStorageKey(localStorageKeys.delay);
+
+        if (!menuItem) {
+            let { data } = await axios.get('/api/menu/' + id);
+            delay = data.delay;
+            menuItem = data?.item;
+            setLocalStorageKey(localStorageKeys.menuItem + '-' + id, data?.item);
+            setLocalStorageKey(localStorageKeys.delay, data?.delay);
+        }
+        updateDelay(delay);
+        updateMenuItem(menuItem);
+        updateIsLoaded(true);
+        createSelection(menuItem?.selections || []);
     }
 
     const createSelection = async (arr) => {
         let selectionObj = {};
         arr.forEach((selection, index) => {
             // let type = selection.selection_type_id;
-            let type = selection.selectionTypeId;
+            let type = selection?.selectionType;
             let newArr = [];
-            selection.ingredients.forEach(item => {
+            selection?.ingredients?.forEach(item => {
                 if (item.preset) {
-                    if (type === 2) {
+                    if (type === 2 || type === 'check') {
                         newArr.push(item.name);
                     }
 
-                    if (type === 1) {
+                    if (type === 1 || type === 'radio') {
                         newArr = item.name;
                     }
                 }
@@ -96,7 +109,7 @@ export default function MenuItem(props) {
     }
 
     const addToCart = async () => {
-        let cart = localStorage.getItem('cart');
+        let cart = getLocalStorageKey(localStorageKeys.cart);
         cart = JSON.parse(cart);
 
         if (!cart) {
@@ -116,7 +129,7 @@ export default function MenuItem(props) {
 
         cart[num] = item;
         cart = JSON.stringify(cart);
-        localStorage.setItem('cart', cart);
+        setLocalStorageKey(localStorageKeys.cart, cart);
 
         props.history.push('/');
     }
@@ -137,19 +150,19 @@ export default function MenuItem(props) {
     const displaySelections = () => {
         return selections.map((obj, index) => {
             // const { id, name, ingredients, selection_type_id: selectionType } = obj;
-            const { id, name, ingredients, selectionTypeId } = obj;
+            const { id, name, ingredients, selectionType } = obj;
             return (
-                <div key={id} className="selection-container">
+                <div key={id + '-' + index} className="selection-container">
                     <h3 className="selection-name">{name}</h3>
                     <div className="selector-list">
-                        {ingredients.map(item => {
+                        {ingredients.map((item, index) => {
                             // const { ingredient_id: ingredientId, enabled, name: ingredientName } = item;
                             const { ingredientId, enabled, name: ingredientName } = item;
                             if (enabled) {
-                                if (selectionTypeId === 1) {
+                                if (selectionType === 'radio' || selectionType === 1) {
                                     const boolean = selected && selected[index] && selected[index] === ingredientName;
                                     return (
-                                        <div key={ingredientId} className="ingredient-item radio-type align-ctr">
+                                        <div key={ingredientId + '-' + index} className="ingredient-item radio-type align-ctr">
                                             <label htmlFor={ingredientId}>
                                                 <div className={`radio-button ${boolean && 'checked'}`}></div>
                                                 <input
@@ -166,7 +179,7 @@ export default function MenuItem(props) {
                                 } else {
                                     const boolean = selected && selected[index] && selected[index].includes(ingredientName);
                                     return (
-                                        <label key={ingredientId} className="ingredient-item checkbox-type align-ctr" htmlFor={ingredientId}>
+                                        <label key={ingredientId + '-' + index} className="ingredient-item checkbox-type align-ctr" htmlFor={ingredientId}>
                                             <input checked={boolean} className={`${boolean && 'checked'}`} type="checkbox" name="checkbox" id={ingredientId} value={ingredientId} onChange={() => handleSelection(index, ingredientName)} />
                                             <span>{ingredientName}</span>
                                         </label>

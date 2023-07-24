@@ -8,7 +8,9 @@ function Navigation(props) {
         if (isAdmin) {
             history.push('/admin');
         } else {
-            history.push('/');
+            if (location.pathname !== '/') {
+                history.push('/');
+            }
         }
     }
 

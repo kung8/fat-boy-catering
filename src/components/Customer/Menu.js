@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import cloneDeep from 'lodash.clonedeep';
 import Footer from '../_Global/Footer';
 import Loading from '../_Global/Loading';
 import socket from '../_Global/Socket';
 import OutOfOfficeMessage from '../_Global/OutOfOfficeMessage';
+import { getLocalStorageKey, localStorageKeys, removeLocalStorageKey, setLocalStorageKey } from '../../utils/local-storage';
 
 export default function Menu(props) {
     const { checkHeight, updateCartNum } = props;
@@ -19,7 +21,7 @@ export default function Menu(props) {
     const [outOfOfficeMessageEnabled, updateOutOfOfficeMessageEnabled] = useState(false);
     const [user, updateUser] = useState(null);
 
-    useEffect(() => {
+    const setUpEverything = () => {
         getLocalStorageCart();
         getLocalStorageUser();
         initialization();
@@ -28,68 +30,99 @@ export default function Menu(props) {
             socket.on('joined successfully', async roomName => await updateRoom(roomName));
             initializeCollapse(menu);
             socket.on('updated menu data', async data => {
+                setLocalStorageKey(localStorageKeys.menu, data);
                 await updateMenu(data);
                 initialization();
             });
             socket.on('updated category data', async data => {
-                let copy = [...menu];
+                let copy = [...cloneDeep(menu)];
                 let catIndex = copy.findIndex(cat => cat.id === data.id);
                 if (catIndex > -1) copy[catIndex] = data;
+                setLocalStorageKey(localStorageKeys.menu, copy);
                 await updateMenu(copy);
                 initialization();
             });
             socket.on('deleted category data', async id => {
-                let copy = [...menu];
+                let copy = [...cloneDeep(menu)];
                 let catIndex = copy.findIndex(cat => cat.id === id);
                 if (catIndex > -1) copy.splice(catIndex, 1);
+                setLocalStorageKey(localStorageKeys.menu, copy);
                 await updateMenu(copy);
                 initialization();
             });
             socket.on('updated out of office message', async message => {
-                if (!localStorage.getItem('seen-out-of-office-message')) {
+                const seenMessage = getLocalStorageKey(localStorageKeys.seenMessage);
+                if (!!message && !seenMessage) {
+                    setLocalStorageKey(localStorageKeys.outOfOfficeMessage, message);
                     updateOutOfOfficeMessage(message);
                 }
-                if (!message && localStorage.getItem('seen-out-of-office-message')) {
-                    localStorage.removeItem('seen-out-of-office-message');
+                if (!message && seenMessage) {
+                    removeLocalStorageKey(localStorageKeys.seenMessage);
                 }
             });
         }
+    }
+
+    useEffect(() => {
+        setUpEverything();
+        // eslint-disable-next-line
+    }, []);
+
+    useEffect(() => {
+        setUpEverything();
         // eslint-disable-next-line
     }, [screenSize]);
 
     const initialization = async () => {
-        let menuData = await getMenuPageData();
+        const menuData = await getMenuPageData();
         await getScreenWidth();
         await initializeCollapse(menuData);
         await handleScreenResize();
     }
 
     const getLocalStorageCart = async () => {
-        let cart = await localStorage.getItem('cart');
-
+        let cart = await getLocalStorageKey(localStorageKeys.cart);
         if (cart) {
             cart = Object.values(JSON.parse(cart));
             let values = cart.filter(item => item.qty > 0);
-            localStorage.setItem('cart', JSON.stringify(values));
+            setLocalStorageKey(localStorageKeys.cart, values)
             cart = values;
             await updateCartNum(cart.length);
         }
     }
 
     const getLocalStorageUser = async () => {
-        let user = await localStorage.getItem('user');
-
-        if (user) {
+        if (getLocalStorageKey(localStorageKeys.admin)) {
             updateUser(user);
         }
     }
 
     const getMenuPageData = async () => {
-        const { data } = await axios.get('/api/menu');
-        const { hero, menu, message } = data;
-        await updateHero(hero);
+        let menu = getLocalStorageKey(localStorageKeys.menu);
+        let hero = getLocalStorageKey(localStorageKeys.hero);
+        let message = getLocalStorageKey(localStorageKeys.outOfOfficeMessage);
+
+        if (!menu) {
+            const { data } = await axios.get('/api/menu');
+            if (!menu) {
+                menu = data.menu;
+                await updateMenu(menu);
+            }
+            if (!hero) {
+                hero = data.hero;
+                await updateHero(data.hero);
+            }
+            if (!message) {
+                message = data.message;
+            }
+            setLocalStorageKey(localStorageKeys.menu, menu);
+            setLocalStorageKey(localStorageKeys.hero, hero);
+            setLocalStorageKey(localStorageKeys.outOfOfficeMessage, message);
+        }
         await updateMenu(menu);
-        if (!localStorage.getItem('seen-out-of-office-message')) {
+        await updateHero(hero);
+
+        if (!getLocalStorageKey(localStorageKeys.seenMessage)) {
             updateOutOfOfficeMessage(message.message);
             updateOutOfOfficeMessageEnabled(message.enabled);
         }
@@ -98,7 +131,7 @@ export default function Menu(props) {
     }
 
     const getScreenWidth = async () => {
-        let width = window.screen.width;
+        let width = window.innerWidth;
         await updateScreenSize(width);
     }
 

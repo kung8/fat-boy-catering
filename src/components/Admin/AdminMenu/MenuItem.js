@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Selection from './Selection';
 import cloneDeep from 'lodash.clonedeep';
+import socket from '../../_Global/Socket';
+import { localStorageKeys, setLocalStorageKey } from '../../../utils/local-storage';
 
 export default function MenuItem(props) {
-    const { index, item, catIndex, catId, catCollapsed, menuItemToggleFromAdmin, screenSize, mini, updateMenuItemModal } = props;
+    const { index, item, catIndex, catId, catCollapsed, menuItemToggleFromAdmin, screenSize, mini, updateMenuItemModal, menu } = props;
     const [collapsed, updateCollasped] = useState(true);
     const [editedItem, updateEditedItem] = useState(cloneDeep(item));
     const { enabled } = item;
@@ -181,7 +183,7 @@ export default function MenuItem(props) {
                     let selectionType = instance.selectionType;
                     let isPreset;
                     let ingredients = instance.ingredients.map(el => {
-                        if (selectionType === 'radio' && el.preset) {
+                        if ((selectionType === 'radio' || selectionType === 1) && el.preset) {
                             isPreset = true;
                         }
                         if (el.name === "" && el.id.includes('FPO-')) {
@@ -197,7 +199,7 @@ export default function MenuItem(props) {
 
                     ingredients = ingredients.filter((i, index) => i.name && ingredients.findIndex(j => j.name === i.name) === index);
 
-                    if (selectionType === 'radio' && !isPreset) {
+                    if ((selectionType === 'radio' || selectionType === 1) && !isPreset) {
                         let ing = [...ingredients]
                         if (!ing[0]) {
                             ing[0] = { id: null, enabled: false, preset: true, name: '' };
@@ -238,10 +240,15 @@ export default function MenuItem(props) {
         }
 
         if (copy.name !== '') {
-            await axios.put('/api/menu/' + id, { item: copy, deleted, created });
-            setTimeout(async () => {
-                await window.location.reload();
-            }, 100);
+            const { data } = await axios.put('/api/menu/' + id, { item: copy, deleted, created });
+            const menuCopy = cloneDeep(menu);
+            menuCopy[catIndex].menuItems[index] = data;
+            setLocalStorageKey(localStorageKeys.adminMenu, menuCopy);
+            updateCollasped(true);
+            updateShowSave(false);
+            updateShowArrow(true);
+            socket.emit('update menu data', menuCopy);
+            socket.emit('update menu item', data);
         }
     }
 

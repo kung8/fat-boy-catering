@@ -149,7 +149,7 @@ export default function MenuItemModal(props) {
                     let selectionType = instance.selectionType;
                     let isPreset;
                     let ingredients = instance.ingredients.map(el => {
-                        if (selectionType === 'radio' && el.preset) {
+                        if ((selectionType === 'radio' || selectionType === 1) && el.preset) {
                             isPreset = true;
                         }
                         if (el.name === "" && el.id.includes('FPO-')) {
@@ -165,7 +165,7 @@ export default function MenuItemModal(props) {
 
                     ingredients = ingredients.filter((i, index) => i.name && ingredients.findIndex(j => j.name === i.name) === index);
 
-                    if (selectionType === 'radio' && !isPreset) {
+                    if ((selectionType === 'radio'|| selectionType === 1) && !isPreset) {
                         let ing = [...ingredients]
                         if (!ing[0]) {
                             ing[0] = { id: null, enabled: false, preset: true, name: '' };

@@ -25,7 +25,7 @@ export default function Ingredient(props) {
                 <div className="preset-container col align-ctr">
                     <span className="preset-text">Preset</span>
                     {
-                        selectionType === 'radio' ?
+                        selectionType === 'radio' || selectionType === 1 ?
                             <input
                                 type="radio"
                                 name={`preset-radio-${selIndex}`}

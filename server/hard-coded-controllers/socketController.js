@@ -14,9 +14,13 @@ module.exports = {
             io.in(room).emit('joined item successfully');
         });
 
-        socket.on('update menu data', async menu => {
+        socket.on('update menu data', async (menu) => {
             io.in(room).emit('updated menu data', menu);
         });
+
+        socket.on('update menu item', async menuItem => {
+            io.in(room).emit('updated menu item ' + menuItem.id, menuItem);
+        })
 
         socket.on('update category data', async category => {
             io.in(room).emit('updated category data', category);

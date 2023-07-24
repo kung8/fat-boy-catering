@@ -8,6 +8,7 @@ import socket from '../../_Global/Socket';
 import Toast from '../../_Global/Toast';
 import { toast } from 'react-toastify';
 import Login from '../AdminMenu/Login';
+import { getLocalStorageKey, localStorageKeys } from '../../../utils/local-storage';
 
 export default function Status(props) {
     const { checkHeight, updateIsAdmin } = props;
@@ -51,7 +52,7 @@ export default function Status(props) {
     }
 
     const getUser = () => {
-        let user = localStorage.getItem('user');
+        const user = getLocalStorageKey(localStorageKeys.admin);
         if (user) {
             updateUser(user);
             updateIsAdmin(true);

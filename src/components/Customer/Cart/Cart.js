@@ -7,6 +7,7 @@ import Toast from '../../_Global/Toast';
 import { toast } from 'react-toastify';
 import socket from '../../_Global/Socket';
 import OutOfOfficeMessage from '../../_Global/OutOfOfficeMessage';
+import { getLocalStorageKey, localStorageKeys, removeLocalStorageKey, setLocalStorageKey } from '../../../utils/local-storage';
 
 export default function Cart(props) {
     const { checkHeight, updateCartNum } = props;
@@ -22,22 +23,23 @@ export default function Cart(props) {
         initializeForm();
         getMessaging();
         socket.on('updated out of office message', async message => {
-            if (!localStorage.getItem('seen-out-of-office-message')) {
+            const seenMessage = getLocalStorageKey(localStorageKeys.seenMessage);
+            if (!seenMessage) {
                 updateOutOfOfficeMessage(message);
             }
-            if (!message && localStorage.getItem('seen-out-of-office-message')) {
-                localStorage.removeItem('seen-out-of-office-message');
+            if (!message && seenMessage) {
+                removeLocalStorageKey(localStorageKeys.seenMessage);
             }
         });
         // eslint-disable-next-line
     }, []);
 
     const getCart = async () => {
-        let cart = localStorage.getItem('cart');
+        let cart = getLocalStorageKey(localStorageKeys.cart);
         if (cart) {
-            cart = Object.values(JSON.parse(cart));
+            cart = Object.values(cart);
             let values = cart.filter(item => item.qty > 0);
-            localStorage.setItem('cart', JSON.stringify(values));
+            setLocalStorageKey(localStorageKeys.cart, values)
             let newCart = [];
             for (let key in cart) {
                 if (cart[key].qty > 0) {
@@ -51,7 +53,7 @@ export default function Cart(props) {
     }
 
     const initializeForm = () => {
-        let data = localStorage.getItem('cart-user');
+        let data = getLocalStorageKey(localStorageKeys.customer);
         if (!data) data = { name: '', department: '', phone: '' };
         else data = JSON.parse(data);
         updateFormData(data);
@@ -60,13 +62,13 @@ export default function Cart(props) {
     const getMessaging = async () => {
         const { data } = await axios.get('/api/messaging');
         updateOutOfOfficeMessageEnabled(data.enabled);
-        if (!localStorage.getItem('seen-out-of-office-message')) {
+        if (!getLocalStorageKey(localStorageKeys.seenMessage)) {
             updateOutOfOfficeMessage(data.message);
         }
     }
 
     const editCartItem = (id, index) => {
-        localStorage.setItem('selectedIndex', index);
+        setLocalStorageKey('selectedIndex', index);
         props.history.push('/cart/' + id);
     }
 
@@ -100,7 +102,7 @@ export default function Cart(props) {
         data[prop] = value;
         await updateFormData(data);
         const formattedData = JSON.stringify(data);
-        localStorage.setItem('cart-user', formattedData);
+        setLocalStorageKey(localStorageKeys.customer, formattedData);
     }
 
     const handlePhoneUpdate = async (value) => {
@@ -120,7 +122,7 @@ export default function Cart(props) {
             await axios.post('/api/cart', data);
             await socket.emit('update orders');
             updateFormData({ name: '', department: '', phone: '' });
-            localStorage.removeItem('cart');
+            removeLocalStorageKey(localStorageKeys.cart);
             updateCartNum(0);
             props.history.push('/');
         } else {

@@ -137,7 +137,7 @@ const menuItemController = {
 
                     if (key.includes('FPO-')) {
                         let foundSelection = selections.find(sel => sel.id === key);
-                        let type = foundSelection.selectionType === 'radio' ? 1 : 2;
+                        let type = foundSelection.selectionType === 'radio' || foundSelection.selectionType === 1 ? 1 : 2;
                         let [exist] = await db.selections.check_selection({ name: foundSelection.name, menu_item_id: id });
                         if (!exist) {
                             let [newSelection] = await db.selections.add_selection({ name: foundSelection.name, menu_item_id: id, selection_type_id: type });
@@ -163,7 +163,7 @@ const menuItemController = {
             selections.forEach(async variant => {
                 if (typeof variantId === 'number') {
                     let variantId = variant.id;
-                    let type = variant.selectionType === 'radio' ? 1 : 2;
+                    let type = variant.selectionType === 'radio' || variant.selectionType === 1 ? 1 : 2;
                     await db.selections.update_selections_name_and_type({ id: variantId, selectionType: type, name: variant.name });
                 }
             });

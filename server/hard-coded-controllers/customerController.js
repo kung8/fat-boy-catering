@@ -25,18 +25,9 @@ module.exports = {
             item.range = range;
             delete item.rangeId;
 
-            const selectionsByMenuItem = hooks.getSelectionsByMenuItem(id);
-            let selectionsWithIngredients = selectionsByMenuItem.map(async group => {
-                const selectionsIngredients = hooks.getSelectionsIngredientsBySelection(group.id);
-                group.ingredients = selectionsIngredients.map(selectionIngredient => {
-                    const [ingredient] = hooks.getIngredient(selectionIngredient.ingredientId);
-                    return { ...ingredient, ...selectionIngredient };
-                })
-                return group;
-            });
+            const selectionsWithIngredients = await hooks.getSelectionsWithIngredients(id);
             Promise.all(selectionsWithIngredients).then((finalSelections) => {
-                item.selections = finalSelections;
-                return res.send({ item, delay });
+                return res.send({ item: { ...item, selections: finalSelections }, delay });
             });
         } else {
             return res.send({ item, delay });

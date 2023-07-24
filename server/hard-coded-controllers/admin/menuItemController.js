@@ -122,46 +122,54 @@ const menuItemController = {
         }
 
         if (selections) {
+            let newSelections = [...selections];
             for (let key in deleted) {
                 deleted[key].forEach(async element => {
                     const selectionId = Number(key);
-                    hooks.deleteSelectionsIngredients({ selectionId, ingredientId: element });
+                    await hooks.deleteSelectionsIngredients({ selectionId, ingredientId: element });
                     const [existing] = hooks.getSelectionsIngredientsBySelection(selectionId);
-                    if (!existing) hooks.deleteSelection(selectionId);
+                    if (!existing) await hooks.deleteSelection(selectionId);
                 })
             }
 
             for (let key in created) {
+                const foundIndex = newSelections.findIndex(sel => sel.id === Number(key));
+
                 created[key].forEach(async element => {
                     let selectionId = key;
                     let ingredientId = element.id;
 
                     if (key.includes('FPO-')) {
                         let foundSelection = selections.find(sel => sel.id === key);
-                        let type = foundSelection.selectionType === 'radio' ? 1 : 2;
+                        let type = foundSelection.selectionType === 'radio' || foundSelection.selectionType === 1 ? 1 : 2;
 
                         if (foundSelection) {
-                            const [existing] = hooks.getSelection(foundSelection.id);
+                            const [existing] = await hooks.getSelection(foundSelection.id);
                             if (!existing) {
-                                const newSelection = hooks.createSelection({ name: foundSelection.name, menuItemId: id, selectionTypeId: type });
+                                const newSelection = await hooks.createSelection({ name: foundSelection.name, menuItemId: id, selectionTypeId: type });
                                 selectionId = Number(newSelection.id);
+                                newSelections[foundIndex] = newSelection;
                             } else {
                                 selectionId = existing.id;
                             }
                         }
                     }
 
-                    const [ingExist] = hooks.getIngredientByName(element.name);
+                    const [ingExist] = await hooks.getIngredientByName(element.name);
                     if (!ingExist) {
-                        const newIngredient = hooks.createIngredient(element.name);
+                        const newIngredient = await hooks.createIngredient({ name: element.name });
                         ingredientId = newIngredient.id;
+                        const ingIndex = newSelections[foundIndex].ingredients.findIndex(ing => ing.name === element.name);
+                        if (ingIndex > -1) {
+                            newSelections[foundIndex].ingredients[ingIndex].id = ingredientId;
+                        }
                     } else {
                         ingredientId = ingExist.id;
                     }
 
-                    const existing = hooks.getSelectionsIngredients({ selectionId, ingredientId });
+                    const existing = await hooks.getSelectionsIngredients({ selectionId, ingredientId });
                     if (!existing) {
-                        hooks.createSelectionsIngredients({
+                        await hooks.createSelectionsIngredients({
                             selectionId,
                             ingredientId,
                             enabled: element.enabled,
@@ -172,18 +180,19 @@ const menuItemController = {
             }
 
             selections.forEach(async selection => {
-                if (typeof variantId === 'number') {
+                if (Number(selection.id)) {
                     let selectionId = selection.id;
-                    let selectionType = selection.selectionType === 'radio' ? 1 : 2;
-                    hooks.updateSelection({
+                    let selectionType = selection.selectionType === 'radio' || selection.selectionType === 1 ? 1 : 2;
+                    await hooks.updateSelection({
                         id: selectionId,
                         selectionType,
                         name: selection.name,
                     })
                 }
             });
-
-            res.send(menuItem);
+            await hooks.getSelectionsWithIngredients(id);
+            menuItem.selections = newSelections;
+            return res.send(menuItem);
         } else {
             menuItem.range = menuItem.rangeId;
             delete menuItem.rangeId;

@@ -3,6 +3,7 @@ import axios from 'axios';
 import Footer from '../../_Global/Footer';
 import Loading from '../../_Global/Loading';
 import socket from '../../_Global/Socket';
+import { getLocalStorageKey, localStorageKeys, setLocalStorageKey } from '../../../utils/local-storage';
 
 export default function EditMenuItem(props) {
     const { checkHeight, updateCartNum } = props;
@@ -30,8 +31,8 @@ export default function EditMenuItem(props) {
     }, [])
 
     const getLocalStorage = () => {
-        let cart = localStorage.getItem('cart');
-        let selectedIndex = localStorage.getItem('selectedIndex');
+        let cart = getLocalStorageKey(localStorageKeys.cart);
+        let selectedIndex = getLocalStorageKey(localStorageKeys.selectedIndex);
         if (cart) {
             cart = JSON.parse(cart);
             updateCartItems(cart);
@@ -105,7 +106,7 @@ export default function EditMenuItem(props) {
         cart[selectedIndex] = item;
         updateCartItems(cart);
         cart = JSON.stringify(cart);
-        localStorage.setItem('cart', cart);
+        setLocalStorageKey(localStorageKeys.cart, cart);
 
         props.history.push('/cart');
     }

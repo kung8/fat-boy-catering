@@ -6,6 +6,7 @@ import Category from './Category';
 import MenuItemModal from '../MenuItemModal/MenuItemModal';
 import socket from '../../_Global/Socket';
 import Login from './Login';
+import { getLocalStorageKey, localStorageKeys, removeLocalStorageKey, setLocalStorageKey } from '../../../utils/local-storage';
 
 export default function AdminMenu(props) {
     const { checkHeight, updateIsAdmin, history } = props;
@@ -24,28 +25,52 @@ export default function AdminMenu(props) {
     const [message, updateMessage] = useState('');
     const [user, updateUser] = useState(null);
 
-    useEffect(() => {
+    const setUpEverything = () => {
         getAdminMenuPageData();
         getUser();
         getScreenWidth();
         handleScreenResize();
+    }
+
+    useEffect(() => {
+        setUpEverything();
+        // eslint-disable-next-line
+    }, []);
+
+    useEffect(() => {
+        setUpEverything();
         // eslint-disable-next-line
     }, [screenSize]);
 
     const getAdminMenuPageData = async () => {
-        const { data } = await axios.get('/api/menu/admin');
-        const { hero, menu, time, message, messageEnabled } = data;
+        let menu = getLocalStorageKey(localStorageKeys.adminMenu);
+        let hero = getLocalStorageKey(localStorageKeys.hero);
+        let message = getLocalStorageKey(localStorageKeys.outOfOfficeMessage);
+        let delay = getLocalStorageKey(localStorageKeys.delay);
+
+        if (!menu) {
+            const { data } = await axios.get('/api/menu/admin');
+            hero = data.hero;
+            menu = data.menu;
+            delay = data.time;
+            message = data.message;
+            setLocalStorageKey(localStorageKeys.adminMenu, data.menu);
+            setLocalStorageKey(localStorageKeys.hero, data.hero);
+            setLocalStorageKey(localStorageKeys.outOfOfficeMessage, data.message);
+            setLocalStorageKey(localStorageKeys.delay, data.time);
+            socket.emit('update menu data', data.menu);
+        }
+
         updateHero(hero);
-        await updateMenu(menu);
-        updateDelay(time);
+        updateMenu(menu);
+        updateDelay(delay);
         updateMessage(message);
-        updateOutOfOfficeMessageEnabled(messageEnabled);
-        socket.emit('update menu data', menu);
+        updateOutOfOfficeMessageEnabled(message.messageEnabled);
         await updateIsLoaded(true);
     }
 
     const getUser = () => {
-        let user = localStorage.getItem('user');
+        const user = getLocalStorageKey(localStorageKeys.admin);
         if (user) {
             updateUser(user);
             updateIsAdmin(true);
@@ -53,7 +78,7 @@ export default function AdminMenu(props) {
     }
 
     const getScreenWidth = async () => {
-        let width = window.screen.width;
+        let width = window.innerWidth;
         await updateScreenSize(width);
     }
 
@@ -67,6 +92,7 @@ export default function AdminMenu(props) {
         const copy = [...menu];
         copy[index] = arr;
         await updateMenu(copy);
+        setLocalStorageKey(localStorageKeys.adminMenu, copy);
         await socket.emit('update menu data', copy);
     }
 
@@ -79,6 +105,7 @@ export default function AdminMenu(props) {
                 copy[data.index] = updatedCategory;
             }
             await updateMenu(copy);
+            setLocalStorageKey(localStorageKeys.adminMenu, copy);
             await socket.emit('update menu data', copy);
         } else {
             const copy = await menu.map(async cat => {
@@ -91,6 +118,7 @@ export default function AdminMenu(props) {
             });
             Promise.all(copy).then(async newMenu => {
                 await updateMenu(newMenu);
+                setLocalStorageKey(localStorageKeys.adminMenu, newMenu);
                 await socket.emit('update menu data', newMenu);
             })
         }
@@ -123,6 +151,7 @@ export default function AdminMenu(props) {
                             isLast={menu.length - 1 === index}
                             removeCategoryGroup={removeCategoryGroup}
                             updateMenuItemModal={updateMenuItemModal}
+                            menu={menu}
                         />
                     )
                 })}
@@ -141,6 +170,7 @@ export default function AdminMenu(props) {
         });
         updateCategoryNum(categoryNum + 1);
         await updateMenu(copy);
+        setLocalStorageKey(localStorageKeys.adminMenu, copy);
         await socket.emit('update menu data', copy);
         document.getElementById('x-cat-item-' + lastIndex)?.classList.remove('none');
     }
@@ -149,6 +179,7 @@ export default function AdminMenu(props) {
         const copy = [...menu];
         copy.splice(index, 1);
         await updateMenu(copy);
+        setLocalStorageKey(localStorageKeys.adminMenu, copy);
         await socket.emit('update menu data', copy);
     }
 
@@ -168,14 +199,17 @@ export default function AdminMenu(props) {
     const handleDelayUpdate = (value) => {
         updateDelay(value);
         axios.post('/api/delay', { delay: value });
+        setLocalStorageKey(localStorageKeys.delay, value);
         socket.emit('update delay', value);
     }
 
     const handleOutOfOfficeMessageEnabled = async (value) => {
         if (value && message !== '') {
+            setLocalStorageKey(localStorageKeys.outOfOfficeMessage, message);
             socket.emit('update out of office message', message);
             updateOutOfOfficeMessageEnabled(value);
         } else {
+            removeLocalStorageKey(localStorageKeys.outOfOfficeMessage);
             socket.emit('update out of office message', null);
             updateOutOfOfficeMessageEnabled(false);
         }
@@ -184,6 +218,7 @@ export default function AdminMenu(props) {
 
     const handleMessageUpdate = (value) => {
         updateOutOfOfficeMessageEnabled(false);
+        removeLocalStorageKey(localStorageKeys.outOfOfficeMessage);
         socket.emit('update out of office message', null);
         updateMessage(value);
     }

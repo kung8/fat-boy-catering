@@ -83,7 +83,7 @@ const hooks = {
                 const [ingredient] = hooks.getIngredient(selectionsIngredients.ingredientId);
                 return {
                     ...item,
-                    ingredientId: selectionsIngredients.id,
+                    ingredientId: ingredient.id,
                     ingredientName: ingredient.name,
                     ingredientEnabled: selectionsIngredients.enabled,
                     preset: selectionsIngredients.preset,
@@ -116,7 +116,7 @@ const hooks = {
         }
     },
     updateMenuItem: (updatedMenuItem) => {
-        const foundIndex = menuItems.findIndex(item => item.id === id);
+        const foundIndex = menuItems.findIndex(item => item.id === updatedMenuItem.id);
         if (foundIndex > -1) {
             const existingMenuItem = menuItems[foundIndex];
             menuItems[foundIndex] = { ...existingMenuItem, ...updatedMenuItem };
@@ -215,6 +215,20 @@ const hooks = {
         }
     },
 
+    getSelectionsWithIngredients: async (id) => {
+        const selectionsByMenuItem = await hooks.getSelectionsByMenuItem(id);
+        return await selectionsByMenuItem.map(async group => {
+            const selectionsIngredients = await hooks.getSelectionsIngredientsBySelection(group.id);
+            const combinedSelectionsIngredients = await selectionsIngredients.map(async selectionIngredient => {
+                const [ingredient] = await hooks.getIngredient(selectionIngredient.ingredientId);
+                return { ...ingredient, ...selectionIngredient };
+            })
+            return Promise.all(combinedSelectionsIngredients).then(final => {
+                group.ingredients = final;
+                return group;
+            })
+        });
+    },
 
     // ORDERS
     getOrders: () => {

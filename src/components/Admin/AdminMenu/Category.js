@@ -7,7 +7,7 @@ import Toast from '../../_Global/Toast';
 import { toast } from 'react-toastify';
 
 export default function Category(props) {
-    const { category, index, screenSize, mini, menuItemToggleFromAdmin, isLast, removeCategoryGroup, updateMenuItemModal, updateCategory } = props;
+    const { category, index, screenSize, mini, menuItemToggleFromAdmin, isLast, removeCategoryGroup, updateMenuItemModal, updateCategory, menu } = props;
     const [editedCategory, updateEditedCategory] = useState(clonedeep(category))
     const { id, name, image, menuItems } = editedCategory;
     const [collapsed, updateCollapsed] = useState(screenSize < mini);
@@ -99,6 +99,7 @@ export default function Category(props) {
                     mini={mini}
                     updateMenuItemModal={updateMenuItemModal}
                     catId={id}
+                    menu={menu}
                 />
             )
         })

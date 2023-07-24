@@ -19,7 +19,7 @@ export default function Selection(props) {
     }
 
     const updateSelectionType = async () => {
-        const type = selectionType === 'radio' ? 'check' : 'radio';
+        const type = selectionType === 'radio' || selectionType === 1 ? 'check' : 'radio';
         const copy = { ...editedItem };
         const selections = copy.selections;
         selections[selIndex].selectionType = type;
@@ -85,7 +85,7 @@ export default function Selection(props) {
                     </button>
                 </div>
             </div>
-            { displayIngredients()}
+            {displayIngredients()}
             <button onClick={() => addIngredientItem()} className="add-item-btn">+ Add Item</button>
         </div>
     )

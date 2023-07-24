@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Toast from '../../_Global/Toast';
 import { toast } from 'react-toastify';
+import { localStorageKeys, setLocalStorageKey } from '../../../utils/local-storage';
 
 export default function Login(props) {
     const { handleUserUpdate } = props;
@@ -44,7 +45,7 @@ export default function Login(props) {
             if (username !== '' && password !== '') {
                 const { data } = await axios.post('/api/user', { username, password });
                 await handleUserUpdate(data);
-                localStorage.setItem('user', data);
+                setLocalStorageKey(localStorageKeys.admin, data)
             }
         } catch {
             toast.dismiss();
